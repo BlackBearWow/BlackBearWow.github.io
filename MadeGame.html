@@ -16,7 +16,7 @@ var myObstacles = [];
 var myScore;
     document.addEventListener('keydown', function(event) {
     if(event.keyCode == 37) {
-        alert('Left was pressed');
+        accelerate(0.05);
     }
     else if(event.keyCode == 39) {
         alert('Right was pressed');
