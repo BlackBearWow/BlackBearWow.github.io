@@ -5,21 +5,14 @@
 자신의 모자색깔은 알 수 없다. 처형 집행자가 100번쨰 처형인부터 1번째 처형인까지 차례로 물어본다. "니 모자색깔은 뭐야." 처형인들은 빨 주 노 초 파 남 보 검 
 중에 1단어만 대답할 수 있으며, 다른 단어를 말하려 하거나 대답할때 빼고는 움직이면 죽는다.(100번째 처형인이 대답해도, 맨 앞사람까지 목소리가 정확히 들린다.)
 자신의 모자색깔을 맞춘 사람만이 살아남을 수 있는데, 오늘 처형인 100명이서 계획을 짠다면, 최대 몇명까지 살 수 있을까? 그 방법은 무엇일까?<p><p>
-결론: 최소 97명이 살 수 있다.
+<button onclick="openAns()">정답</button>
+<script>
+var myWindow;
 
-맨 뒤 3명이 희생하면 97명이 살 수 있다.<p>
-맨 뒤에 3명이 말하는 색깔은 다음을 의미한다고 해보자.
-<p><a style="color:Red;">빨</a>: 짝짝짝
-<p><a style="color:Orange;">주</a>: 짝짝홀
-<p><a style="color:Yellow;">노</a>: 짝홀짝
-<p><a style="color:Green;">초</a>: 짝홀홀
-<p><a style="color:Blue;">파</a>: 홀짝짝
-<p><a style="color:Indigo;">남</a>: 홀짝홀
-<p><a style="color:Purple;">보</a>: 홀홀짝
-<p><a style="color:Black;">검</a>: 홀홀홀<p>
-100번째 처형인은 앞 97명의 <a style="color:Red;">빨</a><a style="color:Orange;">주</a><a style="color:Yellow;">노</a> 색깔의 개수가 홀수개인지 짝수개인지 알려준다.<p>
-99번째 처형인은 앞 97명의 <a style="color:Green;">초</a><a style="color:Blue;">파</a><a style="color:Indigo;">남</a> 색깔의 개수가 홀수개인지 짝수개인지 알려준다.<p>
-98번쨰 처형인은 앞 97명의 <a style="color:Purple;">보</a>검 색깔의 개수가 홀수인지 짝수개인지 알려준다.<p>
-이렇게 3명이 희생한다면, 97번째 처형인은 나머지 96명의 모자색을 본 후, 자신이 알고있는 홀짝중에 다른것을 말하면 된다. 나머지도 그렇게 하면 된다.
+function openAns() {
+    myWindow = window.open("", "myWindow", "width=900,height=600");
+    myWindow.document.write("결론: 최소 97명이 살 수 있다.맨 뒤 3명이 희생하면 97명이 살 수 있다.<p>맨 뒤에 3명이 말하는 색깔은 다음을 의미한다고 해보자.<p><a style=\"color:Red;\">빨</a>: 짝짝짝<p><a style=\"color:Orange;\">주</a>: 짝짝홀<p><a style=\"color:Yellow;\">노</a>: 짝홀짝<p><a style=\"color:Green;\">초</a>: 짝홀홀<p><a style=\"color:Blue;\">파</a>: 홀짝짝<p><a style=\"color:Indigo;\">남</a>: 홀짝홀<p><a style=\"color:Purple;\">보</a>: 홀홀짝<p><a style=\"color:Black;\">검</a>: 홀홀홀<p>100번째 처형인은 앞 97명의 <a style=\"color:Red;\">빨</a><a style=\"color:Orange;\">주</a><a style=\"color:Yellow;\">노</a> 색깔의 개수가 홀수개인지 짝수개인지 알려준다.<p>99번째 처형인은 앞 97명의 <a style=\"color:Green;\">초</a><a style=\"color:Blue;\">파</a><a style=\"color:Indigo;\">남</a> 색깔의 개수가 홀수개인지 짝수개인지 알려준다.<p>98번쨰 처형인은 앞 97명의 <a style=\"color:Purple;\">보</a>검 색깔의 개수가 홀수인지 짝수개인지 알려준다.<p>이렇게 3명이 희생한다면, 97번째 처형인은 나머지 96명의 모자색을 본 후, 자신이 알고있는 홀짝중에 다른것을 말하면 된다. 나머지도 그렇게 하면 된다.");
+}
+</script>
 </head>
 </html>
