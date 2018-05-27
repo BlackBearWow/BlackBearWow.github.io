@@ -4,7 +4,7 @@
     function Login(){
       var user=document.login.user.value;
       var password=document.login.password.value;
-      var filename="User";
+      var filename="Users";
       var fileObject=new ActiveXObject("Scripting.FileSystemObject");
       if(!fileObject.FileExists(filename))
         alert("no file");
