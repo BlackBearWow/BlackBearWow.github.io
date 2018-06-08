@@ -5,6 +5,6 @@
 var id=request.getParameter("id");
 var pass=request.getParameter("password");
 document.write(id);
-document.write(pass
+document.write(pass);
 </body>
 </html>
