@@ -9,11 +9,14 @@
     var map={};
     var x,y;
     x=0; y=0;
+    var can=document.getElementById("can");
+        var ctx=can.getContext("2d");
     var image1=new Image();  image1.src="http://blogfiles5.naver.net/20111209_143/emor_1323415977175UmNL9_JPEG/charicter1.jpg";
     function start(){
-    	var can=document.getElementById("can");
-        var ctx=can.getContext("2d");
-        ctx.drawImage(image1,0,0,400,400);
+        setInterval(update,200);
+    }
+    function update(){
+    	ctx.drawImage(image1,0,0,400,400);
     }
     </script>
 	</body>
