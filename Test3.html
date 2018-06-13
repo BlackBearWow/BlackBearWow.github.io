@@ -29,9 +29,26 @@ if(map[37]) x-=1;<!--좌-->
 else if(map[39]) x+=1;<!--우-->
 if(map[38]) y-=1;<!--상-->
 else if(map[40]) y+=1;<!--하-->
-
+if(x>=0&&x<3600&&y>=0&&y<1600){
 ctx.drawImage(background1,-x,-y,4000,2000);
 ctx.drawImage(char1,180,180,30,30);
+}
+else if(x<0&&y>=0&&y<1600){
+ctx.drawImage(background1,0,-y,4000,2000);
+ctx.drawImage(char1,180+x,180,30,30);
+}
+else if(x>=3600&&y>=0&&y<1600){
+ctx.drawImage(background1,-3600,-y,4000,2000);
+ctx.drawImage(char1,180+x-3600,180,30,30);
+}
+else if(x>=0&&x<3600&&y<0){
+ctx.drawImage(background1,-x,0,4000,2000);
+ctx.drawImage(char1,180,180+y,30,30);
+}
+else if(x>=0&&x<3600&&y>=1600){
+ctx.drawImage(background1,-x,0,4000,2000);
+ctx.drawImage(char1,180,180+y-1600,30,30);
+}
 }
 
 </script>
