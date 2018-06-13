@@ -1,0 +1,20 @@
+<html>
+<head>
+
+</head>
+	<body onload="start">
+    <canvas id="can" width="400" height="400"
+    style="border:1px solid #d3d3d3;"/>
+	<script>
+    var map={};
+    var x,y;
+    x=0; y=0;
+    var image1=newImage;  image1.src="http://blogfiles5.naver.net/20111209_143/emor_1323415977175UmNL9_JPEG/charicter1.jpg";
+    function start(){
+    	var can=getElementById("can");
+        var ctx=can.getContext("2d");
+        ctx.drawImage(image1,0,0,400,400);
+    }
+    </script>
+	</body>
+</html>
