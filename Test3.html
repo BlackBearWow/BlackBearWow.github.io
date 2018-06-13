@@ -1,0 +1,37 @@
+<html>
+<head>
+</head>
+<body onload="start()">
+<center>
+<canvas id="can" width="400" height="400" style="border:1px solid #c3c3c3"/>
+</center>
+<script>
+var can=document.getElementById("can");
+var ctx=can.getContext("2d");
+var map={};
+var x,y;
+x=0; y=0;
+var background1=new Image();
+background1.src=("https://dbscthumb-phinf.pstatic.net/1592_000_3/20130808103855388_509ACO5N2.jpg/z1_fr_1925_i20.jpg?type=m4500_4500_fst");
+function start(){
+setInterval(update,0);
+window.addEventListener('keydown',function(e){ 
+map[e.keyCode]=true;
+})
+window.addEventListener('keyup',function(e){
+map[e.keyCode]=false;
+})
+}
+function update(){
+if(map[37]) x-=1;<!--좌-->
+else if(map[39]) x+=1;<!--우-->
+if(map[38]) y-=1;<!--상-->
+else if(map[40]) y+=1;<!--하-->
+ctx.fillStyle="red";
+ctx.fillRect(0,0,400,400);
+ctx.drawImage(background1,x,y,200,100);
+}
+
+</script>
+</body>
+</html>
