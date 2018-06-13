@@ -13,10 +13,21 @@
         var ctx=can.getContext("2d");
     var image1=new Image();  image1.src="http://blogfiles5.naver.net/20111209_143/emor_1323415977175UmNL9_JPEG/charicter1.jpg";
     function start(){
-        setInterval(update,200);
+        setInterval(update,20);
+         window.addEventListener('keydown', function (e) {
+            map[e.keyCode] = true;
+        })
+        window.addEventListener('keyup', function (e) {
+            map[e.keyCode] = false;            
+        })
     }
     function update(){
-    	ctx.drawImage(image1,0,0,400,400);
+    ctx.clearRect(0,0,400,400);
+    if (map[37]) x-=1;
+    if (map[39]) x+=1; 
+    if (map[38]) y-=1; 
+    if (map[40]) y+=1; 
+    	ctx.drawImage(image1,x,y,400,400);
     }
     </script>
 	</body>
