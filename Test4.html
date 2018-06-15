@@ -34,31 +34,13 @@ else if(map[39]) x+=1;<!--우-->
 if(map[38]) y-=1;<!--상-->
 else if(map[40]) y+=1;<!--하-->
 
-if(x<=580){
-backgroundx=0;
-charx=x;
-}
-else if(x>580&&x<=mw-620){
-backgroundx=-x+580;
-charx=580;
-}
-else if(x>mw-620){
-backgroundx=-mw+1200;
-charx=x-mw+1200;
-}
+if(x<=580){ backgroundx=0; charx=x; }
+else if(x>580&&x<=mw-620){ backgroundx=-x+580; charx=580; }
+else if(x>mw-620){ backgroundx=-mw+1200; charx=x-mw+1200; }
 
-if(y<=380){
-backgroundy=0;
-chary=y;
-}
-else if(y>380&&y<=mh-420){
-backgroundy=-y+380;
-chary=380;
-}
-else if(y>mh-420){
-backgroundy=-mh+800;
-chary=y-mh+800;
-}
+if(y<=380){ backgroundy=0; chary=y; }
+else if(y>380&&y<=mh-420){ backgroundy=-y+380; chary=380; }
+else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
 
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
 ctx.drawImage(char1,charx,chary,40,40);
