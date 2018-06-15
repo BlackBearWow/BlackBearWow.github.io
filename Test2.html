@@ -1,34 +1,75 @@
 <html>
 <head>
-
 </head>
-	<body onload="start()">
-    <canvas id="can" width="400" height="400"
-    style="border:1px solid #d3d3d3;"/>
-	<script>
-    var map={};
-    var x,y;
-    x=0; y=0;
-    var can=document.getElementById("can");
-        var ctx=can.getContext("2d");
-    var image1=new Image();  image1.src="http://blogfiles5.naver.net/20111209_143/emor_1323415977175UmNL9_JPEG/charicter1.jpg";
-    function start(){
-        setInterval(update,20);
-         window.addEventListener('keydown', function (e) {
-            map[e.keyCode] = true;
-        })
-        window.addEventListener('keyup', function (e) {
-            map[e.keyCode] = false;            
-        })
-    }
-    function update(){
-    ctx.clearRect(0,0,400,400);
-    if (map[37]) x-=1;
-    if (map[39]) x+=1; 
-    if (map[38]) y-=1; 
-    if (map[40]) y+=1; 
-    	ctx.drawImage(image1,x,y,400,400);
-    }
-    </script>
-	</body>
+<body onload="start()">
+<center>
+<canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3"/>
+</center>
+<script>
+var can=document.getElementById("can");
+var ctx=can.getContext("2d");
+var map={};
+var x,y;
+x=580; y=380;
+var mw,mh;<!--mapwidth mapheight-->
+mw=4000;
+mh=2000;
+var background1=new Image();
+background1.src=("https://diotheworld.github.io/image/background1.png");
+var char1=new Image();
+char1.src=("https://diotheworld.github.io/image/a.jpg");
+function start(){
+setInterval(update,0);
+window.addEventListener('keydown',function(e){ 
+map[e.keyCode]=true;
+})
+window.addEventListener('keyup',function(e){
+map[e.keyCode]=false;
+})
+}
+function update(){
+if(map[37]) x-=1;<!--좌-->
+else if(map[39]) x+=1;<!--우-->
+if(map[38]) y-=1;<!--상-->
+else if(map[40]) y+=1;<!--하-->
+if(x<=580&&y<=380){
+ctx.drawImage(background1,0,0,mw,mh);
+ctx.drawImage(char1,x,y,40,40);
+}
+else if(x<=580&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x<=580&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>580&&x<=mw-620&&y<=380){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>580&&x<=mw-620&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>580&&x<=mw-620&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>mw-620&&y<=380){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>mw-620&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+else if(x>mw-620&&){
+ctx.drawImage(background1,,,mw,mh);
+ctx.drawImage(char1,,,40,40);
+}
+}
+
+</script>
+</body>
 </html>
