@@ -13,7 +13,7 @@ var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
 var x,y;
-x=580; y=380;
+x=120; y=80;
 var backgroundx,backgroundy,charx,chary;
 var mw,mh;<!--mapwidth mapheight-->
 mw=4000;
@@ -74,6 +74,7 @@ var block=[
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
+block[3][3]=1;
 var background1=new Image();
 background1.src=("https://diotheworld.github.io/image/background1.png");
 var char1=new Image();
@@ -94,10 +95,11 @@ if(map[37]&&x>0){
   if(y%40==0){
     if((x%40==0)&&(block[y/40+1][x/40]==0)) x-=1;
     else if((block[y/40+1][Math.floor(x/40)+1]==0)) x-=1;
-}
+	}
   else{
     if((x%40==0)&&(block[Math.floor(y/40)+1][x/40]==0)&&(block[Math.floor(y/40)+2][x/40]==0)) x-=1;
-    else if((block[Math.floor(y/40)+1][x/40+1]==0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+1]==0)) x-=1;
+    else if((block[Math.floor(y/40)+1][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+1]==0)) x-=1;
+    }
 }<!--좌-->
 else if(map[39]&&x<mw-40){
   if((y%40==0)&&(block[y/40+1][Math.floor(x/40)+2]==0)) x+=1;
@@ -108,10 +110,11 @@ if(map[38]&&y>0){
   if(y%40==0){
   if((x%40==0)&&(block[y/40][x/40+1]==0)) y-=1;
   else if((block[y/40][Math.floor(x/40)+1]==0)&&(block[y/40][Math.floor(x/40)+2]==0)) y-=1;
-}
+	}
   else{
   if((x%40==0)&&(block[Math.floor(y/40)+1][x/40+1]==0)) y-=1;
-  else if(&&(block[Math.floor(y/40)+1][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+1][Math.floor(x/40)+2]==0)) y-=1;
+  else if((block[Math.floor(y/40)+1][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+1][Math.floor(x/40)+2]==0)) y-=1;
+  }
 }<!--상-->
 else if(map[40]&&y<mh-40){
   if((x%40==0)&&(block[Math.floor(y/40)+2][x/40+1]==0)) y+=1;
