@@ -101,7 +101,7 @@ function makeObstacle(name,x,y,source){
 function drawObstacles(){
 var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
-ctx.drawImage(obstacleMap[a].image,(backgroundx+obstacleMap[a].x-1)*40,(backgroundy+obstacleMap[a].y-1)*40,40,40);
+ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,40,40);
 }
 
 function start(){
