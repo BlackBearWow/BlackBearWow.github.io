@@ -85,7 +85,8 @@ tong.src=("https://diotheworld.github.io/image/tong.png");
 var obstacleMap = new Array(
   new makeObstacle("fadf",3,4,"https://diotheworld.github.io/image/tong.png"), 
   new makeObstacle("fadf",3,5,"https://diotheworld.github.io/image/tong.png"), 
-  new makeObstacle("ffffff",3,6,"https://diotheworld.github.io/image/tong.png")
+  new makeObstacle("ffffff",3,6,"https://diotheworld.github.io/image/tong.png"),
+  new makeObstacle("ffffff",4,6,"https://diotheworld.github.io/image/tong.png")
 );
 
 function makeObstacle(name,x,y,source){
@@ -98,7 +99,7 @@ function makeObstacle(name,x,y,source){
 }
 
 function drawObstacles(){
-var a,b=3;
+var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
 ctx.drawImage(obstacleMap[a].image,(backgroundx+obstacleMap[a].x-1)*40,(backgroundy+obstacleMap[a].y-1)*40,40,40);
 }
