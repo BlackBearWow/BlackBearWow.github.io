@@ -134,6 +134,9 @@ var a,b=npcMap.length;
 for(a=0;a<b;a++)
 ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*40,backgroundy+(npcMap[a].y-1)*40,40,40);
 }
+function npcTalk(){
+	
+}
 
 function start(){
 setNpcBlock();
@@ -180,10 +183,10 @@ sight=3;
   else if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+2]==0)) {y+=1;}
 }<!--하-->
 if(map[32]){
-	if(sight==0){ if(x%40==0) { if(block[Math.floor(y/40)+1][x/40]==2) x=0; else if(block[Math.floor(y/40)+2][x/40]==2) x=0;}}
-	else if(sight==1){ if(y%40==0) { if(block[y/40][Math.floor(x/40)+1]==2) x=0; else if(block[y/40][Math.floor(x/40)+2]==2) x=0;}}
-	else if(sight==2){ if(x%40==0) { if(block[Math.floor(y/40)+1][x/40+2]==2) x=0; else if(block[Math.floor(y/40)+2][x/40+2]==2) x=0;}}
-	else{ if(y%40==0) { if(block[y/40+2][Math.floor(x/40)+1]==2) x=0; else if(block[y/40+2][Math.floor(x/40)+2]==2) x=0;}}
+	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) x=0; else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) x=0;}}
+	else if(sight==1){ if(y%40==0) { if(parseInt(block[y/40][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
+	else if(sight==2){ if(x%40==0) { if(parseInt(block[Math.floor(y/40)+1][x/40+2]/ 1000)==1) x=0; else if(parseInt(block[Math.floor(y/40)+2][x/40+2]/ 1000)==1) x=0;}}
+	else{ if(y%40==0) { if(parseInt(block[y/40+2][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40+2][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
 }<!--spacebar-->
 if(x<=580){ backgroundx=0; charx=x; }
 else if(x>580&&x<=mw-620){ backgroundx=-x+580; charx=580; }
