@@ -166,6 +166,7 @@ function npcTalk(n){
 	for(a=0;a<dialogue[n][situation].length;a++){
 		alert(dialogue[n][situation][a]);
 	}
+	map[32]=0;
 }
 
 function start(){
@@ -214,9 +215,9 @@ sight=3;
 }<!--하-->
 if(map[32]){
 	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40]%1000);}}
-	else if(sight==1){ if(y%40==0) { if(parseInt(block[y/40][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
-	else if(sight==2){ if(x%40==0) { if(parseInt(block[Math.floor(y/40)+1][x/40+2]/ 1000)==1) x=0; else if(parseInt(block[Math.floor(y/40)+2][x/40+2]/ 1000)==1) x=0;}}
-	else{ if(y%40==0) { if(parseInt(block[y/40+2][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40+2][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
+	else if(sight==1){ if(y%40==0) { if(parseInt(block[y/40][Math.floor(x/40)+1]/ 1000)==1) npcTalk(block[y/40][Math.floor(x/40)+1]%1000); else if(parseInt(block[y/40][Math.floor(x/40)+2]/ 1000)==1) npcTalk(block[y/40][Math.floor(x/40)+2]%1000)}}
+	else if(sight==2){ if(x%40==0) { if(parseInt(block[Math.floor(y/40)+1][x/40+2]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40+2]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40+2]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40+2]%1000)}}
+	else{ if(y%40==0) { if(parseInt(block[y/40+2][Math.floor(x/40)+1]/ 1000)==1) npcTalk(block[y/40+2][Math.floor(x/40)+1]%1000); else if(parseInt(block[y/40+2][Math.floor(x/40)+2]/ 1000)==1) npcTalk(block[y/40+2][Math.floor(x/40)+2]%1000)}}
 }<!--spacebar-->
 if(x<=580){ backgroundx=0; charx=x; }
 else if(x>580&&x<=mw-620){ backgroundx=-x+580; charx=580; }
