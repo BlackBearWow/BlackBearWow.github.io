@@ -94,7 +94,7 @@ var obstacleMap = new Array(
   new makeObstacle("fadf",3,4,"https://diotheworld.github.io/image/tong.png"), 
   new makeObstacle("fadf",3,5,"https://diotheworld.github.io/image/tong.png"), 
   new makeObstacle("ffffff",3,6,"https://diotheworld.github.io/image/tong.png"),
-  new makeObstacle("ffffff",4,7,"https://diotheworld.github.io/image/tong.png")
+  new makeObstacle("ffffff",3,7,"https://diotheworld.github.io/image/tong.png")
 );
 function makeObstacle(name,x,y,source){
 	this.name=name;
@@ -113,8 +113,8 @@ ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroun
 var npcMap = new Array(
   new makeNpc("김 상병",4,4,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"), 
   new makeNpc("이 일병",4,5,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"), 
-  new makeNpc("최 병장",4,6,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
-  new makeNpc("금 일병",4,7,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg")
+  <!--new makeNpc("최 병장",4,6,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),-->
+  <!--new makeNpc("금 일병",4,7,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg")-->
 );
 function makeNpc(name,x,y,source){
 	this.name=name;
@@ -134,8 +134,38 @@ var a,b=npcMap.length;
 for(a=0;a<b;a++)
 ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*40,backgroundy+(npcMap[a].y-1)*40,40,40);
 }
-function npcTalk(){
-	
+var dialogue = [  <!--
+  [
+    ["ㄴ",
+    "이병 ㄴ",
+    "뭐하냐",
+    "죄송합니다"
+    ],<!--첫번째캐릭터 situation==0일때 대사
+    ["하",
+    "히",
+    "후",
+    "헤",
+    "호"
+    ],
+  ], <!--dialogue[npcMap==0]-->
+  [
+    ["사",
+    "시 ㄴ",
+    "수",
+    "세다"
+    ],<!--두번째캐릭터 situation==0일때 대사
+    ["타",
+    "치",
+    "추",
+    "테",
+    "토"
+    ],
+  ] <!--dialogue[1]-->
+];
+function npcTalk(n){
+	for(a=0;a<dialogue[n][situation].length;a++){
+		alert(dialogue[n][situation][a]);
+	}
 }
 
 function start(){
@@ -183,7 +213,7 @@ sight=3;
   else if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+2]==0)) {y+=1;}
 }<!--하-->
 if(map[32]){
-	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) x=0; else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) x=0;}}
+	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40]%1000);}}
 	else if(sight==1){ if(y%40==0) { if(parseInt(block[y/40][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
 	else if(sight==2){ if(x%40==0) { if(parseInt(block[Math.floor(y/40)+1][x/40+2]/ 1000)==1) x=0; else if(parseInt(block[Math.floor(y/40)+2][x/40+2]/ 1000)==1) x=0;}}
 	else{ if(y%40==0) { if(parseInt(block[y/40+2][Math.floor(x/40)+1]/ 1000)==1) x=0; else if(parseInt(block[y/40+2][Math.floor(x/40)+2]/ 1000)==1) x=0;}}
