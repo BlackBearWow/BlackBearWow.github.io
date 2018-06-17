@@ -4,12 +4,42 @@
 
 
 <script>
-var fruits = [
-["1", "2", "3", "4"],
-["5", "6", "7", "8"],
-];
-document.write(fruits[1][1]);
-
+var situation=0;
+var char=0;
+var dialogue = [
+  [
+    ["ㄴ",
+    "이병 ㄴ",
+    "뭐하냐",
+    "죄송합니다"
+    ],
+    ["하",
+    "히",
+    "후",
+    "헤",
+    "호"
+    ],
+  ], <!--dialogue[0]-->
+  [
+    ["사",
+    "시 ㄴ",
+    "수",
+    "세다"
+    ],
+    ["타",
+    "치",
+    "추",
+    "테",
+    "토"
+    ],
+  ] <!--dialogue[1]-->
+]
+for(a=0;a<dialogue[char][situation].length;a++){
+document.write(dialogue[char][situation][a]);
+document.write("<br>");
+document.write(dialogue[char][situation].length);
+document.write("<br>");
+}
 </script>
 
 </body>
