@@ -193,7 +193,7 @@ function npcTalk(n){
 
 function start(){
 setNpcBlock();
-setInterval(update,1);
+setInterval(update,0);
 window.addEventListener('keydown',function(e){ 
 map[e.keyCode]=true;
 })
@@ -253,8 +253,13 @@ ctx.font="50px Comic Sans MS";
 ctx.fillStyle = "red";
 ctx.fillText("x="+x+" y="+y+" sight="+sight,10,50);
 if(dialogueSet==0) {
-	ctx.font = "30px Arial";
-	ctx.strokeText(dialogue[dialogueNpc][situation][dialogueCount],100,700);
+	ctx.globalAlpha = 0.4;
+	ctx.fillStyle = "black";
+	ctx.fillRect(0,600,1200,200);
+	ctx.globalAlpha = 1;
+	ctx.font = "50px Arial";
+	ctx.fillStyle = "yellow";
+	ctx.fillText(dialogue[dialogueNpc][situation][dialogueCount],100,700);
 }<!--drawdialogue
 if(map[32]){
 	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40]%1000);}}
