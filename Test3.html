@@ -14,7 +14,7 @@ var x,y;
 x=80; y=40;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=1;<!--1이라면 대화중이 아님.-->
-var dialogueCount=-1;<!--대화중 필요한 변수-->
+var dialogueCount=-2;<!--대화중 필요한 변수-->
 var dialogueNpc=0;<!--대화중인 npc-->
 var sight=3;<!--좌:0 상:1 우:2 하: 3-->
 var backgroundx,backgroundy,charx,chary;
@@ -81,10 +81,10 @@ var background1=new Image();
 background1.src=("https://diotheworld.github.io/image/background1.png");
 
 var mainChar=new Array(
-	new makechar("https://diotheworld.github.io/image/tong.png"),
-	new makechar("https://diotheworld.github.io/image/a.jpg"),
-	new makechar("https://diotheworld.github.io/image/tong.png"),
-	new makechar("https://diotheworld.github.io/image/a.jpg")
+	new makechar("https://diotheworld.github.io/image/left.png"),
+	new makechar("https://diotheworld.github.io/image/back.png"),
+	new makechar("https://diotheworld.github.io/image/right.png"),
+	new makechar("https://diotheworld.github.io/image/front.png")
 );
 function makechar(source){
 	this.image=new Image();
@@ -149,24 +149,25 @@ ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*40,backgroundy+(npcMap
 }
 var dialogue = [  <!--
   [
-    [username,
-    "이병 "+username,
-    "뭐하냐",
-    "죄송합니다"
-    ],<!--0001캐릭터 situation==0일때 대사
-    ["하",
-    "히",
-    "후",
-    "헤",
-    "호"
+    [0,username,
+    1,"이병 "+username,
+    0,"뭐하냐",
+    1,"죄송합니다"
+    ],<!--0000캐릭터 situation==0일때 대사
+    [0,"야",
+    1,"이병 "+username,
+    0,"뭐하냐?",
+    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
+    1,"저도 주십시오"
     ],
   ], <!--dialogue[npcMap==0]-->
   [
-    ["사",
-    "시 ㄴ",
-    "수",
-    "세다"
-    ],<!--0002캐릭터 situation==0일때 대사
+    [0,"야",
+    1,"이병 "+username,
+    0,"뭐하냐?",
+    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
+    1,"저도 주십시오"
+    ],<!--0001캐릭터 situation==0일때 대사
     ["타",
     "치",
     "추",
@@ -187,8 +188,8 @@ function npcTalk2(n){
 function npcTalk(n){
 	dialogueNpc=n;
 	map[32]=0;
-	if((dialogueCount+1)==dialogue[dialogueNpc][situation].length){ dialogueSet=1; dialogueCount=-1; }
-	else { dialogueSet=0; dialogueCount++; }
+	if((dialogueCount+2)>=dialogue[dialogueNpc][situation].length){ dialogueSet=1; dialogueCount=-2; }
+	else { dialogueSet=0; dialogueCount+=2; }
 }
 
 function start(){
@@ -259,7 +260,10 @@ if(dialogueSet==0) {
 	ctx.globalAlpha = 1;
 	ctx.font = "50px Arial";
 	ctx.fillStyle = "yellow";
-	ctx.fillText(dialogue[dialogueNpc][situation][dialogueCount],100,700);
+	if(dialogue[dialogueNpc][situation][dialogueCount]==0)
+		ctx.fillText(npcMap[dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
+	else
+		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
 }<!--drawdialogue
 if(map[32]){
 	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40]%1000);}}
