@@ -92,12 +92,12 @@ function makechar(source){
 }
 
 var obstacleMap = new Array(
-  new makeObstacle("fadf",3,4,"https://diotheworld.github.io/image/tong.png"), 
-  new makeObstacle("fadf",3,5,"https://diotheworld.github.io/image/tong.png"), 
-  new makeObstacle("ffffff",3,6,"https://diotheworld.github.io/image/tong.png"),
-  new makeObstacle("ffffff",3,7,"https://diotheworld.github.io/image/tong.png")
+  new makeObstacle("fadf",3,4,1,1,"https://diotheworld.github.io/image/tong.png"), 
+  new makeObstacle("fadf",3,5,1,1,"https://diotheworld.github.io/image/tong.png"), 
+  new makeObstacle("ffffff",3,6,1,1,"https://diotheworld.github.io/image/tong.png"),
+  new makeObstacle("ffffff",3,8,2,2,"https://diotheworld.github.io/image/tong.png")
 );
-function makeObstacle(name,x,y,source){
+function makeObstacle2(name,x,y,source){
 	this.name=name;
 	this.x=x;
     this.y=y;
@@ -105,10 +105,22 @@ function makeObstacle(name,x,y,source){
     this.image=new Image();
     this.image.src=source;
 }
+function makeObstacle(name,x,y,sizex,sizey,source){
+	this.name=name;
+	this.x=x;
+    this.y=y;
+	this.sizex=sizex;
+	this.sizey=sizey;
+	for(a=0;a<sizey;a++)
+		for(b=0;b<sizex;b++)
+			block[y+a][x+b]=1;
+    this.image=new Image();
+    this.image.src=source;
+}
 function drawObstacles(){
 var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
-ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,40,40);
+ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
 }
 
 var npcMap = new Array(
