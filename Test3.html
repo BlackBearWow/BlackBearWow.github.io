@@ -280,8 +280,8 @@ ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroun
 var npcMap = new Array(<!--x는 최대 100, y는 최대 50
   new makeNpc("김 상병",4,4,"https://diotheworld.github.io/image/Npc/김상병.png"), 
   new makeNpc("이 일병",17,5,"https://diotheworld.github.io/image/a.jpg"), 
-  new makeNpc("최 병장",40,45,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
-  new makeNpc("금 일병",100,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg")
+  new makeNpc("최 병장",20,25,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
+  new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg")
 );
 function makeNpc(name,x,y,source){
 	this.name=name;
@@ -306,36 +306,35 @@ var dialogue = [  <!--
     [0,username,
     1,"이병 "+username,
     0,"뭐하냐",
-    1,"죄송합니다",
-	2
-    ],<!--0000캐릭터 situation==0일때 대사
-    [0,"야",
-    1,"이병 "+username,
-    0,"뭐하냐?",
-    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
-    1,"저도 주십시오"
+    1,"죄송합니다"
+    ],<!--김 상병 situation==0일때 대사
+    [1,"김 상병님?",
+	0,"왜 ",
+    1,"삽 있으십니까? 작업하려하는데 필요합니다.",
+    0,"어 저기 창고에 있다",
+    0,"감사합니다",
+    1,"이상한짓 하지 말고"
     ],
-  ], <!--dialogue[npcMap==0]-->
+  ], <!--김 상병 situation 1
   [
     [0,"야",
     1,"이병 "+username,
     0,"뭐하냐?",
-    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
-    1,"저도 주십시오"
-    ],<!--0001캐릭터 situation==0일때 대사
-    [0,"타",
-    0,"치",
-    0,"추",
-    0,"테",
-    0,"토"
+    0,"지금 작업하는거 안보이냐? 빨리 안도와줘?",
+    1,"죄송합니다 바로 돕겠습니다",
+	0,"김 상병님이 삽 가지고 있으니까 빨리 가지고와",
+	1,"알겠습니다.",
+	2
+    ],<!--이 일병 situation==0일때 대사
+    [0,"삽 가져오라니깐"
     ],
-  ], <!--dialogue[1]-->
+  ], <!--이 일병 situation 1
   [
 	[0,"야 짬찌",
     1,"이병 "+username,
     0,"눈감아봐",
     1,"감았습니다",
-	0,"니 미래야",
+	0,"니 미래야"
     ],<!--최 병장situation 0
     [0,"야",
     1,"이병 "+username,
