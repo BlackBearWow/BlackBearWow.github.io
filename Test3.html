@@ -306,7 +306,8 @@ var dialogue = [  <!--
     [0,username,
     1,"이병 "+username,
     0,"뭐하냐",
-    1,"죄송합니다"
+    1,"죄송합니다",
+	2
     ],<!--0000캐릭터 situation==0일때 대사
     [0,"야",
     1,"이병 "+username,
@@ -322,13 +323,41 @@ var dialogue = [  <!--
     0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
     1,"저도 주십시오"
     ],<!--0001캐릭터 situation==0일때 대사
-    ["타",
-    "치",
-    "추",
-    "테",
-    "토"
+    [0,"타",
+    0,"치",
+    0,"추",
+    0,"테",
+    0,"토"
     ],
-  ] <!--dialogue[1]-->
+  ], <!--dialogue[1]-->
+  [
+	[0,"야 짬찌",
+    1,"이병 "+username,
+    0,"눈감아봐",
+    1,"감았습니다",
+	0,"니 미래야",
+    ],<!--최 병장situation 0
+    [0,"야",
+    1,"이병 "+username,
+    0,"뭐하냐?",
+    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
+    1,"저도 주십시오"
+    ],
+  ], <!--최 병장situation 1
+  [
+	[0,"야 짬찌",
+    1,"이병 "+username,
+    0,"너 잘못했지?",
+    1,"아닙니다",
+	0,"여기가 밖이지 안이야?"
+    ],<!--금 일병situation 0
+    [0,"야",
+    1,"이병 "+username,
+    0,"뭐하냐?",
+    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
+    1,"저도 주십시오"
+    ],
+  ] <!--금 일병situation 1
 ];
 function npcTalk2(n){
 	ctx.font = "30px Arial";
@@ -342,8 +371,9 @@ function npcTalk2(n){
 function npcTalk(n){
 	dialogueNpc=n;
 	map[32]=0;
-	if((dialogueCount+2)>=dialogue[dialogueNpc][situation].length){ dialogueSet=1; dialogueCount=-2; }
-	else { dialogueSet=0; dialogueCount+=2; }
+	if((dialogueCount+2)>=dialogue[dialogueNpc][situation].length){ dialogueSet=1; dialogueCount=-2; }<!--대화가 끝이라면 대화중이 아님으로 설정
+	else { dialogueSet=0; dialogueCount+=2; }<!--대화중이라면 대화 카운트를 2씩 높임
+	if(dialogue[dialogueNpc][situation][dialogueCount]==2){ situation+=1; dialogueSet=1; dialogueCount=-2; }<!--다음 상황으로 넘어감
 }
 
 function start(){
