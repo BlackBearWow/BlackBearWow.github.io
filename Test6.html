@@ -17,7 +17,8 @@ var dialogueSet=1;<!--1이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
 var dialogueNpc=0;<!--대화중인 npc-->
 var sight=3;<!--좌:0 상:1 우:2 하: 3-->
-var gravity=0.1;
+var gravity=0.01;
+var gravitySpeed=0;
 var backgroundx,backgroundy,charx,chary;
 var mw,mh;<!--mapwidth mapheight-->
 mw=4000;
@@ -423,11 +424,12 @@ if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	}<!--하-->
 }
 
-if((block[y/40+2][Math.floor(x/40)+1]==1)||(block[y/40+2][Math.floor(x/40)+2]==1)){
-
+if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==1)||((x%40!=0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+2]==1))){
+	gravitySpeed=0;
 }
 else {
-
+	gravitySpeed+=gravity;
+	y+=gravitySpeed;
 }
 
 if(x<=580){ backgroundx=0; charx=x; }
