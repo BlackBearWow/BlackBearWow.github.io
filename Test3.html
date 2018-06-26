@@ -293,7 +293,8 @@ var npcMap = new Array(<!--x는 최대 100, y는 최대 50
   new makeNpc("김 상병",4,4,"https://diotheworld.github.io/image/Npc/김상병.png"), 
   new makeNpc("이 일병",17,5,"https://diotheworld.github.io/image/a.jpg"), 
   new makeNpc("최 병장",20,25,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
-  new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg")
+  new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
+  new makeNpc("이성우 일병",40,40,"https://diotheworld.github.io/image/Npc/김상병.png")
 );
 function makeNpc(name,x,y,source){
 	this.name=name;
@@ -368,7 +369,25 @@ var dialogue = [  <!--
     0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
     1,"저도 주십시오"
     ],
-  ] <!--금 일병situation 1
+  ], <!--금 일병situation 1
+  [
+	[1,"이성우 일병님",
+	0,"왜",
+    1,"심심해 보이십니다",
+    0,"빨리 생활관 가서 TV보고싶다 "+username+"야",
+    1,"...",
+	0,"응?",
+	0,"심심하다니깐?",
+	1,"..."
+    ],<!--이성우 일병situation 0
+    [0,"야",
+    1,"이병 "+username,
+    0,"아직도 여기있냐?",
+    0,"가서 탁구나 연습해",
+	0,"너 나한테 지잖아",
+    1,"알겠습니다"
+    ],
+  ]
 ];
 function npcTalk2(n){
 	ctx.font = "30px Arial";
