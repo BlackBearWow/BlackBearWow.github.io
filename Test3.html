@@ -5,6 +5,8 @@
 <center>
 <canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3"/>
 </center>
+<audio id="Sugar" src="https://diotheworld.github.io/Music/DanceOfTheSugarplumFairy.mp3"/>
+<audio id="Fade" src="https://diotheworld.github.io/Music/Fade.mp3"/>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -21,6 +23,16 @@ var backgroundx,backgroundy,charx,chary;
 var mw,mh;<!--mapwidth mapheight-->
 mw=4000;
 mh=2000;
+
+function playMusic(id){
+	var myAudio = document.getElementById(id); 
+	if(myAudio.currentTime==0||myAudio.currentTime==myAudio.duration) { myAudio.play(); } 
+}
+function aud_play_pause(id) { 
+	var myAudio = document.getElementById(id); 
+	if (myAudio.paused) { myAudio.play(); } 
+	else { myAudio.pause(); } 
+}
 
 var block=[
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -387,6 +399,7 @@ map[e.keyCode]=false;
 }
 
 function update(){
+playMusic("Sugar");
 if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	if(map[37]){
 		sight=0;
