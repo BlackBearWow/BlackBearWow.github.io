@@ -1,4 +1,4 @@
-<html>
+	<html>
 <head>
 </head>
 <body onload="start()" style="background-color:black">
@@ -426,6 +426,7 @@ if(dialogueSet){<!--대화중이라면 움직일 수 없음
 
 if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==1)||((x%40!=0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+2]==1))){
 	gravitySpeed=0;
+	if(y%40!=0) y=Math.floor(y/40)*40;
 }
 else {
 	gravitySpeed+=gravity;
