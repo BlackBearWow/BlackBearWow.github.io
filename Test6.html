@@ -1,4 +1,4 @@
-	<html>
+<html>
 <head>
 </head>
 <body onload="start()" style="background-color:black">
@@ -11,7 +11,7 @@ var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
 var x,y;
-x=40; y=1960;
+x=2840; y=40;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=1;<!--1이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -81,7 +81,7 @@ var block=[
 ];
 
 var background1=new Image();
-background1.src=("https://diotheworld.github.io/image/background1.png");
+background1.src=("http://informationcommunicationtechnology.com/wp-content/uploads/2018/06/Sky-222.jpg");
 
 var mainChar=new Array(
 	new makechar("https://diotheworld.github.io/image/left.png"),
@@ -248,16 +248,33 @@ var obstacleMap = new Array(
 	new makeObstacle("세로철조망",50,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"),
 	new makeObstacle("세로철조망",51,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"),
 	
-	new makeObstacle("통",3,4,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",10,15,1,1,"https://diotheworld.github.io/image/tong.png"), 
-	new makeObstacle("통",30,26,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("큰통",3,8,2,2,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png"),
 	new makeObstacle("통",3,49,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",5,49,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("통",8,49,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",5,47,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("통",6,47,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",9,45,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",12,43,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",15,41,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",18,39,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",21,37,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",24,35,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",27,33,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",30,31,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",33,29,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",36,27,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",39,25,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",42,23,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",45,21,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",48,19,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",51,17,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",54,15,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",57,13,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",60,11,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",63,9,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",66,7,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",69,5,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",72,3,1,1,"https://diotheworld.github.io/image/tong.png"),
 );
 function makeObstacle2(name,x,y,source){
 	this.name=name;
@@ -435,7 +452,11 @@ if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==1)||((x%40!=0)&&(block[Math.f
 	gravitySpeed=0;
 	if(y%40!=0) y=Math.floor(y/40)*40;
 }
-else {
+else {<!--떨어질때랑 올라갈때랑 구분해야됨. 올라갈때: gravitySpeed가 음수일떄
+	if(gravitySpeed<0){
+		<!-- 현재 있는 블록이 장애물이면 x를 정수로 만들고, gravitySpeed를 0으로 만듦.
+		
+	}
 	gravitySpeed+=gravity;
 	y+=gravitySpeed;
 	jumpSet=1;
