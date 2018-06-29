@@ -11,7 +11,7 @@ var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
 var x,y;
-x=80; y=40;
+x=40; y=1960;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=1;<!--1이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -252,7 +252,12 @@ var obstacleMap = new Array(
 	new makeObstacle("통",10,15,1,1,"https://diotheworld.github.io/image/tong.png"), 
 	new makeObstacle("통",30,26,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("큰통",3,8,2,2,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png")
+	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png"),
+	new makeObstacle("통",3,49,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",5,49,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",8,49,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",5,47,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,47,1,1,"https://diotheworld.github.io/image/tong.png"),
 );
 function makeObstacle2(name,x,y,source){
 	this.name=name;
@@ -410,11 +415,11 @@ if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	if(map[38]&&jumpSet==0){
 	sight=1;
 	  if(y%40==0){
-	  if((x%40==0)&&(block[y/40][x/40+1]==0)) {y-=1;}
+	  if((x%40==0)&&(block[y/40][x/40+1]==0)) {gravitySpeed-=2;y-=1;}
 	  else if((block[y/40][Math.floor(x/40)+1]==0)&&(block[y/40][Math.floor(x/40)+2]==0)) {gravitySpeed-=2;y-=1;}
 		}
 	  else{
-	  if((x%40==0)&&(block[Math.floor(y/40)+1][x/40+1]==0)) {y-=1;}
+	  if((x%40==0)&&(block[Math.floor(y/40)+1][x/40+1]==0)) {gravitySpeed-=2;y-=1;}
 	  else if((block[Math.floor(y/40)+1][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+1][Math.floor(x/40)+2]==0)) {gravitySpeed-=2;y-=1;}
 	  }
 	}<!--상-->
