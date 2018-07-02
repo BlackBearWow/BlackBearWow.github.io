@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -91,6 +92,9 @@ var block=[
 
 var background1=new Image();
 background1.src=("https://diotheworld.github.io/image/background1.png");
+
+var ff=new Image();
+ff.src=("https://diotheworld.github.io/image/fire.png");
 
 var mainChar=new Array(
 	new makechar("https://diotheworld.github.io/image/left.png"),
@@ -465,6 +469,7 @@ ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
 drawObstacles();
 drawNpcs();
 ctx.drawImage(mainChar[sight].image,charx,chary,40,40);
+ctx.drawImage(ff,charx-120,chary,120,40);
 ctx.font="50px Comic Sans MS";
 ctx.fillStyle = "red";
 ctx.fillText("x="+x+" y="+y+" sight="+sight,10,50);
