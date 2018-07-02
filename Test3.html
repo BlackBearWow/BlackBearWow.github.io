@@ -423,6 +423,14 @@ map[e.keyCode]=false;
 
 function update(){
 playMusic("Sugar");
+if(x<=580){ backgroundx=0; charx=x; }
+else if(x>580&&x<=mw-620){ backgroundx=-x+580; charx=580; }
+else if(x>mw-620){ backgroundx=-mw+1200; charx=x-mw+1200; }
+
+if(y<=380){ backgroundy=0; chary=y; }
+else if(y>380&&y<=mh-420){ backgroundy=-y+380; chary=380; }
+else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
+
 if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	if(map[37]){
 		sight=0;
@@ -445,7 +453,7 @@ if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	  if(y%40==0){
 	  if((x%40==0)&&(block[y/40][x/40+1]==0)) {y-=1;}
 	  else if((block[y/40][Math.floor(x/40)+1]==0)&&(block[y/40][Math.floor(x/40)+2]==0)) {y-=1;}
-		}
+	}
 	  else{
 	  if((x%40==0)&&(block[Math.floor(y/40)+1][x/40+1]==0)) {y-=1;}
 	  else if((block[Math.floor(y/40)+1][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+1][Math.floor(x/40)+2]==0)) {y-=1;}
@@ -457,19 +465,15 @@ if(dialogueSet){<!--대화중이라면 움직일 수 없음
 	  else if((block[Math.floor(y/40)+2][Math.floor(x/40)+1]==0)&&(block[Math.floor(y/40)+2][Math.floor(x/40)+2]==0)) {y+=1;}
 	}<!--하-->
 }
-if(x<=580){ backgroundx=0; charx=x; }
-else if(x>580&&x<=mw-620){ backgroundx=-x+580; charx=580; }
-else if(x>mw-620){ backgroundx=-mw+1200; charx=x-mw+1200; }
-
-if(y<=380){ backgroundy=0; chary=y; }
-else if(y>380&&y<=mh-420){ backgroundy=-y+380; chary=380; }
-else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
-
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
 drawObstacles();
 drawNpcs();
 ctx.drawImage(mainChar[sight].image,charx,chary,40,40);
-ctx.drawImage(ff,charx-120,chary,120,40);
+if(dialogueSet){
+	if(map[65]){
+			ctx.drawImage(ff,charx-120,chary,120,40);
+	}<!--a-->
+}
 ctx.font="50px Comic Sans MS";
 ctx.fillStyle = "red";
 ctx.fillText("x="+x+" y="+y+" sight="+sight,10,50);
