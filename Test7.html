@@ -8,16 +8,16 @@ body{
 </head>
 <body onload="start()">
 <center>
-<canvas id="myCanvas" width="600" height="600"
+<canvas id="myCanvas" width="560" height="560"
 style="border:1px solid #d3d3d3;">
 </canvas>
 </center>
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-var ori=600;
+var ori=560;
 var half=ori/2;
-var i=0;
+var i=50;
 // Create gradient
 var grd = ctx.createRadialGradient(half,half,half/10,half,half,half/2*3);
 grd.addColorStop(0,"black");
@@ -26,34 +26,39 @@ grd.addColorStop(1,"white");
 // Fill with gradient
 ctx.fillStyle = grd;
 ctx.fillRect(0,0,ori,ori);
-
 ctx.moveTo(0,0);
 ctx.lineTo(ori,ori);
 ctx.stroke();
 ctx.moveTo(ori,0);
 ctx.lineTo(0,ori);
 ctx.stroke();
+for(var k=0;k<256;k++){
+	ctx.fillStyle = 'rgb('+(255-k)+','+(255-k)+','+(255-k)+')';
+	ctx.fillRect(k,k,ori-2*k,ori-2*k);
+	}
+	
+
 
 function start(){
-	setInterval(update,100);
+	setInterval(update,20);
 }
 function update(){
-	grd = ctx.createRadialGradient(half,half,half/10,half,half,half/2*3);
-	grd.addColorStop(0,"black");
-	grd.addColorStop(1,"white");
-	ctx.fillStyle = grd;
-	ctx.fillRect(0,0,ori,ori);
-
-	ctx.moveTo(0,0);
-	ctx.lineTo(ori,ori);
-	ctx.stroke();
-	ctx.moveTo(ori,0);
-	ctx.lineTo(0,ori);
-	ctx.stroke();
+	for(var k=0;k<256;k++){
+	ctx.fillStyle = 'rgb('+(255-k)+','+(255-k)+','+(255-k)+')';
+	ctx.fillRect(k,k,ori-2*k,ori-2*k);
+	}
 	i+=1;
-	ctx.moveTo(half-i,half-i);
-	ctx.lineTo(half-i,half+i);
-	ctx.stroke();
+	ctx.fillStyle="black";
+	ctx.fillRect(half-i,half-i,1,2*i);
+	ctx.fillRect(half+i,half-i,1,2*i);
+	ctx.fillRect(half-i,half-i,2*i,1);
+	ctx.fillRect(half-i,half+i,2*i,1);
+	//ctx.moveTo(half-i,half-i);
+	//ctx.lineTo(half-i,half+i);
+	//ctx.stroke();
+	//ctx.moveTo(half-i-1,half-i-1);
+	//ctx.lineTo(half-i-1,half+i+1);
+	//ctx.stroke();
 	if(i>=half) i=0;
 }
 </script>
