@@ -33,7 +33,10 @@
 	</script>
 	<style>
 		body{
-			margin: 0;
+			position: relative;
+			margin:10px;
+			top:10px;
+			left:10px;
 			background-image: url("https://diotheworld.github.io/image/paper.gif");
 			font-family:Aldrich;
 			font-size: 1.7vw;
@@ -57,6 +60,9 @@
 			display: none;
 		}
 		div{
+			position: fixed;
+			top:0;
+			left:0;
 			width: 17%;
 			background-color:yellow;
 			padding-left: 1%;
@@ -83,7 +89,7 @@
 </head>
 <body style="background-color:lightgoldenrodyellow" onload="start()">
 	<div onclick="location.href='https://diotheworld.github.io'">
-	<iframe id='iframe' height="300px" width="300px" src="https://diotheworld.github.io" name='iframe_a'></iframe>
+	<iframe id='iframe' height="300px" width="300px" src="https://www.daum.net/" name='iframe_a'></iframe>
     <a class="main">SITES</a>
 	<br>
     <a class="main">BY JH</a>
@@ -156,7 +162,7 @@
     <script src="script.js"></script>
     <a data-clk="top.ann" href="http://blog.naver.com/PostView.nhn?blogId=nitl2000&logNo=152869012"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
 	<a data-clk="top.ann" href="https://pixlr.com/editor/"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
-    <img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" width="70%" title="js 키보드 값">
+    <img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" style="width:100%" title="js 키보드 값">
 <?php
 $myfile = fopen("/Problem1.html", "r") or die("Unable to open file!");
 echo fread($myfile,filesize("webdictionary.txt"));
@@ -164,3 +170,4 @@ fclose($myfile);
 ?>
     </body>
 </html>
+
