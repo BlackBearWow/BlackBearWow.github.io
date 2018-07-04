@@ -4,6 +4,23 @@
     <title>What is this site??</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script>
+	var map={};
+	window.addEventListener('keydown',function(e){map[e.keyCode]=true;})
+	window.addEventListener('keyup',function(e){map[e.keyCode]=false;})
+	function start(){
+	setInterval(update,300);
+	}
+	function update(){
+		if(map[87]){ 
+			document.getElementById('iframe').style.display="none";
+		}
+		if(map[68]&&map[73]&&map[79]){
+			document.getElementById('iframe').style.display="block";<!-- block visible
+		}
+		if(map[66]&&map[78]&&map[77]&&map[188]){
+			location.href="https://marumaru.in/";
+		}
+	}
 	function notset(){
 		alert("아직 안만들었음");
 	}
@@ -36,6 +53,9 @@
 		.test:hover{
 			border-style: inset;
 		}
+		iframe{
+			display: none;
+		}
 		div{
 			width: 17%;
 			background-color:yellow;
@@ -61,8 +81,9 @@
 		}
 	</style>
 </head>
-<body style="background-color:lightgoldenrodyellow">
+<body style="background-color:lightgoldenrodyellow" onload="start()">
 	<div onclick="location.href='https://diotheworld.github.io'">
+	<iframe id='iframe' height="300px" width="300px" src="https://diotheworld.github.io" name='iframe_a'></iframe>
     <a class="main">SITES</a>
 	<br>
     <a class="main">BY JH</a>
@@ -135,7 +156,7 @@
     <script src="script.js"></script>
     <a data-clk="top.ann" href="http://blog.naver.com/PostView.nhn?blogId=nitl2000&logNo=152869012"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
 	<a data-clk="top.ann" href="https://pixlr.com/editor/"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
-    <img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" width="700" title="게임들 모음">
+    <img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" width="70%" title="js 키보드 값">
 <?php
 $myfile = fopen("/Problem1.html", "r") or die("Unable to open file!");
 echo fread($myfile,filesize("webdictionary.txt"));
@@ -143,4 +164,3 @@ fclose($myfile);
 ?>
     </body>
 </html>
-
