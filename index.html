@@ -41,6 +41,29 @@
 			font-family:Aldrich;
 			font-size: 1.7vw;
 		}
+		ul{
+			position: fixed;
+			top:0;
+			left:0;
+			list-style-type:none;
+			margin:0;
+			padding:0;
+			overflow:hidden;
+			background-color:#333;
+		}
+		li{
+			float:left;
+		}
+		li a{
+			display: inline-block;
+			color:white;
+			text-align:center;
+			padding:14px 16px;
+			text-decoration:none;
+		}
+		li a:hover{
+			background-color:#111;
+		}
 		.main{
 			font-size: 5vw;
 			color: rgb(21,36,103);
@@ -85,15 +108,24 @@
 		a#ii{
 			background-color:black;
 		}
+		img{
+			clear:both;
+		}
 	</style>
 </head>
 <body style="background-color:lightgoldenrodyellow" onload="start()">
-	<div onclick="location.href='https://diotheworld.github.io'">
 	<iframe id='iframe' height="300px" width="300px" src="https://www.daum.net/" name='iframe_a'></iframe>
-    <a class="main">SITES</a>
-	<br>
-    <a class="main">BY JH</a>
-	</div>
+	<ul>
+		<li><a href='https://diotheworld.github.io' style="background-color:green">SITES BY JH</a></li>
+		<li><a href='GameList.html'>Games</a></li>
+		<li><a href=''>Sites</a></li>
+		<li><a href=''>Problems</a></li>
+	</ul>
+	<!--<div onclick="location.href='https://diotheworld.github.io'">
+		<a class="main">SITES</a>
+		<br>
+		<a class="main">BY JH</a>
+	</div>-->
 	<a class="ia" id="ii" onclick="removeii()"> afd </a><button onclick="removeii()">sf</button>
 	<a class="ia" onclick="removeii()"> afd </a><button onclick="removeii()">sf</button>
     <center>
@@ -160,7 +192,7 @@
     <p id="dio"></p>
     <button type="button" onclick="f()">감옥학교에서 문지기를</button>
     <script src="script.js"></script>
-    <a data-clk="top.ann" href="http://blog.naver.com/PostView.nhn?blogId=nitl2000&logNo=152869012"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
+    <a style='clear:both;'data-clk="top.ann" href="http://blog.naver.com/PostView.nhn?blogId=nitl2000&logNo=152869012"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
 	<a data-clk="top.ann" href="https://pixlr.com/editor/"><img src="http://imgnews.naver.com/image/018/2017/04/27/0003811379_001_20170427181403364.jpg" width="50"></a>
     <img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" style="width:100%" title="js 키보드 값">
 <?php
@@ -170,4 +202,3 @@ fclose($myfile);
 ?>
     </body>
 </html>
-
