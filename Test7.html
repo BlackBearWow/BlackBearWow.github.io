@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <style>
@@ -17,7 +18,9 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 var ori=560;
 var half=ori/2;
-var i=50;
+var i=0;
+var ii=1;
+var speed=100;
 // Create gradient
 var grd = ctx.createRadialGradient(half,half,half/10,half,half,half/2*3);
 grd.addColorStop(0,"black");
@@ -47,7 +50,8 @@ function update(){
 	ctx.fillStyle = 'rgb('+(255-k)+','+(255-k)+','+(255-k)+')';
 	ctx.fillRect(k,k,ori-2*k,ori-2*k);
 	}
-	i+=1;
+	ii*=Math.pow(2,1/speed);
+	i+=ii;
 	ctx.fillStyle="black";
 	ctx.fillRect(half-i,half-i,1,2*i);
 	ctx.fillRect(half+i,half-i,1,2*i);
@@ -59,7 +63,7 @@ function update(){
 	//ctx.moveTo(half-i-1,half-i-1);
 	//ctx.lineTo(half-i-1,half+i+1);
 	//ctx.stroke();
-	if(i>=half) i=0;
+	if(i>=half) {i=0; ii=1; speed-=1;}
 }
 </script>
 
