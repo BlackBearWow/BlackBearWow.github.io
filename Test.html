@@ -321,8 +321,14 @@ if(dialogueSet==0){
 	if(map[37]&&(block[y/40][x/40]==0))<!--좌상이 빈칸일경우
 		if(map[37]){ifLeftKeyDown();}<!--좌-->
 		else if(map[39]){ifRightKeyDown();}<!--우-->
-		if(map[38]){if(map[37]&&(block[y/40][x/40]==0)) ifUpKeyDown();}<!--상-->
-		else if(map[40]){if(map[37]&&(block[y/40][x/40]==0)) ifDownKeyDown();}<!--하-->
+		if(map[38]){
+			if((map[37]==0)&&(map[39]==0)) ifUpKeyDown();
+			else if(map[37]&&(block[y/40][x/40]==0)) ifUpKeyDown();
+			else if(map[39]&&(block[y/40][x/40+2]==0)) ifUpKeyDown();
+		}<!--상-->
+		else if(map[40]){
+		if(map[37]&&(block[y/40][x/40]==0)) ifDownKeyDown();
+		}<!--하-->
 	}
 }
 if(leftSet){
