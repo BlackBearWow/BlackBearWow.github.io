@@ -286,7 +286,7 @@ function ifUpKeyDown(){
 function ifDownKeyDown(){
 	sight=3;
 	if(downSet==0){
-		if(block[y/40+2][x/40+2]==0){
+		if(block[y/40+2][x/40+1]==0){
 			downSet=1;
 		}
 	}
@@ -317,10 +317,13 @@ else if(y>380&&y<=mh-420){ backgroundy=-y+380; chary=380; }
 else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
-	if(map[37]){ifLeftKeyDown();}<!--좌-->
-	else if(map[39]){ifRightKeyDown();}<!--우-->
-	if(map[38]){ifUpKeyDown();}<!--상-->
-	else if(map[40]){ifDownKeyDown();}<!--하-->
+	if((x%40==0)&&(y%40)==0){
+	if(map[37]&&(block[y/40][x/40]==0))<!--좌상이 빈칸일경우
+		if(map[37]){ifLeftKeyDown();}<!--좌-->
+		else if(map[39]){ifRightKeyDown();}<!--우-->
+		if(map[38]){if(map[37]&&(block[y/40][x/40]==0)) ifUpKeyDown();}<!--상-->
+		else if(map[40]){if(map[37]&&(block[y/40][x/40]==0)) ifDownKeyDown();}<!--하-->
+	}
 }
 if(leftSet){
 	x-=1;
@@ -335,7 +338,7 @@ else if(rightSet){
 if(upSet){
 	y-=1;
 	uuuu+=1;
-	if(uuuu>=40) { uuuu=0; UpSet=0; }
+	if(uuuu>=40) { uuuu=0; upSet=0; }
 }
 else if(downSet){
 	y+=1;
