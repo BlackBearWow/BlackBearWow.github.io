@@ -13,7 +13,7 @@ var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
 var x,y;
-x=800; y=40;
+x=80; y=40;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -318,7 +318,6 @@ else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x%40==0)&&(y%40)==0){
-	if(map[37]&&(block[y/40][x/40]==0))<!--좌상이 빈칸일경우
 		if(map[37]){ifLeftKeyDown();}<!--좌-->
 		else if(map[39]){ifRightKeyDown();}<!--우-->
 		if(map[38]){
@@ -327,7 +326,9 @@ if(dialogueSet==0){
 			else if(map[39]&&(block[y/40][x/40+2]==0)) ifUpKeyDown();
 		}<!--상-->
 		else if(map[40]){
-		if(map[37]&&(block[y/40][x/40]==0)) ifDownKeyDown();
+			if((map[37]==0)&&(map[39]==0)) ifDownKeyDown();
+			else if(map[37]&&(block[y/40+2][x/40]==0)) ifDownKeyDown();
+			else if(map[39]&&(block[y/40+2][x/40+2]==0)) ifDownKeyDown();
 		}<!--하-->
 	}
 }
