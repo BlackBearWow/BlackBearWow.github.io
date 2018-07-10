@@ -38,7 +38,7 @@ var block = new Array(52);
 for(var i=0;i<52;i++) block[i] = new Array(102);
 for(var i=0;i<52;i++)
 	for(var n=0;n<102;n++)
-		block[i][n]=1;
+		block[i][n]=-1;
 for(var i=1;i<51;i++)
 	for(var n=1;n<101;n++)
 		block[i][n]=0;
@@ -244,6 +244,9 @@ var n=0;
 var w={
 x:0,
 y:0,
+count:1,<!--물풍선 갯수
+len:1,<!--물줄기
+speed:[1,40,2,20,2.5,16,4,10,5,8,8,5,10,4],<!--롤러스테이트
 image:1
 };
 w.image=new Image();
@@ -251,8 +254,8 @@ w.image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 
 function waterBallon(x,y){
 	if(waterBallonSet==0){
-		w.x=Math.floor(x/40)+1;
-		w.y=Math.floor(y/40)+1;
+		w.x=Math.round(x/40)+1;
+		w.y=Math.round(y/40)+1;
 		block[w.y][w.x]=1;
 		waterBallonSet=1;
 	}
@@ -261,35 +264,19 @@ var leftSet=0,rightSet=0,upSet=0,downSet=0;
 var llll=0,rrrr=0,uuuu=0,dddd=0;
 function ifLeftKeyDown(){
 	sight=0;
-	if(leftSet==0){
-		if(block[y/40+1][x/40]==0){
-			leftSet=1;
-		}
-	}
+	if(leftSet==0){	leftSet=1; }
 }
 function ifRightKeyDown(){
 	sight=2;
-	if(rightSet==0){
-		if(block[y/40+1][x/40+2]==0){
-			rightSet=1;
-		}
-	}
+	if(rightSet==0){ rightSet=1; }
 }
 function ifUpKeyDown(){
 	sight=1;
-	if(upSet==0){
-		if(block[y/40][x/40+1]==0){
-			upSet=1;
-		}
-	}
+	if(upSet==0){ upSet=1; }
 }
 function ifDownKeyDown(){
 	sight=3;
-	if(downSet==0){
-		if(block[y/40+2][x/40+1]==0){
-			downSet=1;
-		}
-	}
+	if(downSet==0){	downSet=1; }
 }
 
 function drawInformation(){
@@ -318,18 +305,34 @@ else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x%40==0)&&(y%40)==0){
-		if(map[37]){ifLeftKeyDown();}<!--좌-->
-		else if(map[39]){ifRightKeyDown();}<!--우-->
-		if(map[38]){
-			if((map[37]==0)&&(map[39]==0)) ifUpKeyDown();
-			else if(map[37]&&(block[y/40][x/40]==0)) ifUpKeyDown();
-			else if(map[39]&&(block[y/40][x/40+2]==0)) ifUpKeyDown();
-		}<!--상-->
-		else if(map[40]){
-			if((map[37]==0)&&(map[39]==0)) ifDownKeyDown();
-			else if(map[37]&&(block[y/40+2][x/40]==0)) ifDownKeyDown();
-			else if(map[39]&&(block[y/40+2][x/40+2]==0)) ifDownKeyDown();
-		}<!--하-->
+		if((sight==1)||(sight==3)){
+			if(map[37]){
+				if(map[38]) { if(block[y/40][x/40]==0){ ifLeftKeyDown(); ifUpKeyDown(); }}
+				else if(map[40]) { if(block[y/40+2][x/40]==0){ ifLeftKeyDown(); ifDownKeyDown(); }}
+				else if(block[y/40+1][x/40]==0) ifLeftKeyDown();
+			}
+			else if(map[39]){
+				if(map[38]) { if(block[y/40][x/40+2]==0){ ifRightKeyDown(); ifUpKeyDown(); }}
+				else if(map[40]) { if(block[y/40+2][x/40+2]==0){ ifRightKeyDown(); ifDownKeyDown(); }}
+				else if(block[y/40+1][x/40+2]==0) ifRightKeyDown();
+			}
+			else if(map[38]) { if(block[y/40][x/40+1]==0) ifUpKeyDown(); }
+			else if(map[40]) { if(block[y/40+2][x/40+1]==0) ifDownKeyDown(); }
+		}
+		else if((sight==0)||(sight==2)){
+			if(map[38]){
+				if(map[37]) { if(block[y/40][x/40]==0){ ifUpKeyDown(); ifLeftKeyDown(); }}
+				else if(map[39]) { if(block[y/40][x/40+2]==0){ ifUpKeyDown(); ifRightKeyDown(); }}
+				else if(block[y/40][x/40+1]==0) ifUpKeyDown();
+			}
+			else if(map[40]){
+				if(map[37]) { if(block[y/40+2][x/40]==0){ ifDownKeyDown(); ifLeftKeyDown(); }}
+				else if(map[39]) { if(block[y/40+2][x/40+2]==0){ ifDownKeyDown(); ifRightKeyDown(); }}
+				else if(block[y/40+2][x/40+1]==0) ifDownKeyDown();
+			}
+			else if(map[37]) { if(block[y/40+1][x/40]==0) ifLeftKeyDown(); }
+			else if(map[39]) { if(block[y/40+1][x/40+2]==0) ifRightKeyDown(); }
+		}
 	}
 }
 if(leftSet){
