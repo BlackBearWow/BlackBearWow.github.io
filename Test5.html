@@ -251,7 +251,7 @@ var w={
 	countTime:[0,0,0,0,0,0,0],
 	len:3,<!--물줄기
 	order:0,<!--
-	possibleCount:1,<!--물풍선 쓸 수 있는 개수
+	possibleCount:2,<!--물풍선 쓸 수 있는 개수
 	speed:[1,40,2,20,2.5,16,4,10,5,8,8,5,10,4],<!--롤러스테이트
 	image:1
 };
@@ -325,7 +325,7 @@ function ifDownKeyDown(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(""+w.leftLen[w.order]+" "+w.leftBlock[w.order]+" sight="+sight,10,50);
+	ctx.fillText(""+w.leftLen[w.order]+" "+w.leftBlock[w.order]+" "+w.order,10,50);
 }
 
 function start(){
@@ -441,7 +441,7 @@ if(dialogueSet==0){
 	if(map[83]){
 		if(w.count[w.order]==0){
 			waterBallon(w.order,x,y);
-		//	w.order=(w.order+1)%w.possibleCount;
+			w.order+=1;
 		}
 	}<!--s-->
 }
