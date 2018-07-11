@@ -262,6 +262,7 @@ function charBlock(Y,X){ return block[y/40+1+Y][x/40+1+X]; }
 function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k]+X]; }
 
 function waterBallon(k,x,y){
+	w.order=(w.order+1)%w.possibleCount;
 	w.count[k]=1;
 	w.x[k]=Math.round(x/40)+1;
 	w.y[k]=Math.round(y/40)+1;
@@ -441,7 +442,6 @@ if(dialogueSet==0){
 	if(map[83]){
 		if(w.count[w.order]==0){
 			waterBallon(w.order,x,y);
-			w.order+=1;
 		}
 	}<!--s-->
 }
