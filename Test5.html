@@ -345,6 +345,37 @@ if(dialogueSet==0){
 		}
 		else if((sight==0)||(sight==2)){
 			if(map[38]){
+				if(map[37]) {
+					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifUpKeyDown(); ifLeftKeyDown(); }
+					else if(charBlock(-1,0)==0) ifUpKeyDown();
+					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+				}
+				else if(map[39]) {
+					if((charBlock(-1,0)==0)&&(charBlock(-1,+1)==0)&&(charBlock(0,+1)==0)){ ifUpKeyDown(); ifRightKeyDown(); }
+					else if(charBlock(-1,0)==0) ifUpKeyDown();
+					else if(charBlock(0,+1)==0) ifRightKeyDown();
+				}
+				else if(charBlock(-1,0)==0) ifUpKeyDown();
+			}
+			else if(map[40]){
+				if(map[37]) { 
+					if((charBlock(0,-1)==0)&&(charBlock(+1,-1)==0)&&(charBlock(+1,0)==0)){ ifDownKeyDown(); ifLeftKeyDown(); }
+					else if(charBlock(+1,0)==0) ifDownKeyDown();
+					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+				}
+				else if(map[39]) { 
+					if((charBlock(0,+1)==0)&&(charBlock(+1,0)==0)&&(charBlock(+1,+1)==0)){ ifDownKeyDown(); ifRightKeyDown(); }
+					else if(charBlock(+1,0)==0) ifDownKeyDown();
+					else if(charBlock(0,+1)==0) ifRightKeyDown();
+				}
+				else if(charBlock(+1,0)==0) ifDownKeyDown();
+			}
+			else if(map[37]) { if(charBlock(0,-1)==0) ifLeftKeyDown(); }
+			else if(map[39]) { if(charBlock(0,+1)==0) ifRightKeyDown(); }
+		}
+		
+		/*else if((sight==0)||(sight==2)){
+			if(map[38]){
 				if(map[37]) { if(block[y/40][x/40]==0){ ifUpKeyDown(); ifLeftKeyDown(); }}
 				else if(map[39]) { if(block[y/40][x/40+2]==0){ ifUpKeyDown(); ifRightKeyDown(); }}
 				else if(block[y/40][x/40+1]==0) ifUpKeyDown();
@@ -356,7 +387,7 @@ if(dialogueSet==0){
 			}
 			else if(map[37]) { if(block[y/40+1][x/40]==0) ifLeftKeyDown(); }
 			else if(map[39]) { if(block[y/40+1][x/40+2]==0) ifRightKeyDown(); }
-		}
+		}*/
 	}
 }
 if(leftSet){
