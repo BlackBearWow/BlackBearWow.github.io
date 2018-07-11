@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -248,7 +249,7 @@ var w={
 	y:[0,0,0,0,0,0,0],
 	count:[0,0,0,0,0,0,0],<!--물풍선 갯수
 	countTime:[0,0,0,0,0,0,0],
-	len:1,<!--물줄기
+	len:3,<!--물줄기
 	order:0,<!--
 	possibleCount:1,<!--물풍선 쓸 수 있는 개수
 	speed:[1,40,2,20,2.5,16,4,10,5,8,8,5,10,4],<!--롤러스테이트
@@ -260,12 +261,46 @@ w.image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 function charBlock(Y,X){ return block[y/40+1+Y][x/40+1+X]; }
 function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k]+X]; }
 
-function waterBallon(x,y){
-	if(waterBallonSet==0){
-		w.x=Math.round(x/40)+1;
-		w.y=Math.round(y/40)+1;
-		block[w.y][w.x]=1;
-		waterBallonSet=1;
+function waterBallon(k,x,y){
+	w.count[k]=1;
+	w.x[k]=Math.round(x/40)+1;
+	w.y[k]=Math.round(y/40)+1;
+	block[w.y[k]][w.x[k]]=1;
+	w.leftBlock[k]=0;
+	w.RightBlock[k]=0;
+	w.UpBlock[k]=0;
+	w.DownBlock[k]=0;
+	for(w.leftLen[k]=1;w.leftLen[k]<w.len;w.leftLen[k]++){
+		if(balloonBlock(0,-w.leftLen[k],k)==3){
+			w.leftBlock[k]=3; break;
+		}
+		else if(balloonBlock(0,-w.leftLen[k],k)==1){
+			w.leftBlock[k]=1; break;
+		}
+	}
+	for(w.rightLen[k]=1;w.rightLen[k]<w.len;w.rightLen[k]++){
+		if(balloonBlock(0,w.rightLen[k],k)==-1){
+			w.rightBlock[k]=-1; break;
+		}
+		else if(balloonBlock(0,w.rightLen[k],k)==1){
+			w.rightBlock[k]=1; break;
+		}
+	}
+	for(w.UpLen[k]=1;w.UpLen[k]<w.len;w.UpLen[k]++){
+		if(balloonBlock(-w.UpLen[k],0,k)==-1){
+			w.UpBlock[k]=-1; break;
+		}
+		else if(balloonBlock(-w.UpLen[k],0,k)==1){
+			w.UpBlock[k]=1; break;
+		}
+	}
+	for(w.DownLen[k]=1;w.DownLen[k]<w.len;w.DownLen[k]++){
+		if(balloonBlock(-w.DownLen[k],0,k)==-1){
+			w.DownBlock[k]=-1; break;
+		}
+		else if(balloonBlock(-w.DownLen[k],0,k)==1){
+			w.DownBlock[k]=1; break;
+		}
 	}
 }
 var leftSet=0,rightSet=0,upSet=0,downSet=0;
@@ -290,7 +325,7 @@ function ifDownKeyDown(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText("x="+x+" y="+y+" sight="+sight,10,50);
+	ctx.fillText(""+w.leftLen[w.order]+" "+w.leftBlock[w.order]+" sight="+sight,10,50);
 }
 
 function start(){
@@ -373,21 +408,6 @@ if(dialogueSet==0){
 			else if(map[37]) { if(charBlock(0,-1)==0) ifLeftKeyDown(); }
 			else if(map[39]) { if(charBlock(0,+1)==0) ifRightKeyDown(); }
 		}
-		
-		/*else if((sight==0)||(sight==2)){
-			if(map[38]){
-				if(map[37]) { if(block[y/40][x/40]==0){ ifUpKeyDown(); ifLeftKeyDown(); }}
-				else if(map[39]) { if(block[y/40][x/40+2]==0){ ifUpKeyDown(); ifRightKeyDown(); }}
-				else if(block[y/40][x/40+1]==0) ifUpKeyDown();
-			}
-			else if(map[40]){
-				if(map[37]) { if(block[y/40+2][x/40]==0){ ifDownKeyDown(); ifLeftKeyDown(); }}
-				else if(map[39]) { if(block[y/40+2][x/40+2]==0){ ifDownKeyDown(); ifRightKeyDown(); }}
-				else if(block[y/40+2][x/40+1]==0) ifDownKeyDown();
-			}
-			else if(map[37]) { if(block[y/40+1][x/40]==0) ifLeftKeyDown(); }
-			else if(map[39]) { if(block[y/40+1][x/40+2]==0) ifRightKeyDown(); }
-		}*/
 	}
 }
 if(leftSet){
@@ -419,9 +439,34 @@ if(dialogueSet==0){
 		ctx.drawImage(ff,charx-120,chary,120,40);
 	}<!--a-->
 	if(map[83]){
-		waterBallon(x,y);
+		if(w.count[w.order]==0){
+			waterBallon(w.order,x,y);
+		//	w.order=(w.order+1)%w.possibleCount;
+		}
 	}<!--s-->
 }
+for(var i=0;i<w.count.length;i++){
+	if(w.count[i]){
+		w.countTime[i]+=10;
+		if(w.countTime[i]<3000) ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
+		else if((w.countTime[i]>=3000)&&(w.countTime[i]<=3500)){
+			if(w.leftBlock[i]==0){
+				for(var n=1;n<=w.leftLen[i];n++){
+					ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
+				//	block[w.y[i]][w.x[i]-i]=2;
+				}
+			}
+			else{
+				for(var n=1;n<w.leftLen[i];n++){
+					ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
+				//	block[w.y[i]][w.x[i]-i]=2;
+				}
+			}
+		}
+		else{ w.count[i]=0; w.countTime[i]=0; }
+	}
+}
+/*
 if(waterBallonSet) {
 	ctx.drawImage(w.image,backgroundx+(w.x-1)*40-27,backgroundy+(w.y-1)*40-36,90,90);
 	n+=10;
@@ -429,6 +474,7 @@ if(waterBallonSet) {
 		if(n>=3500){ waterBallonSet=0; n=0; block[w.y][w.x]=0;}
 	}
 }
+*/
 if(1){ drawInformation(); }
 if(dialogueSet) { Talking(); }<!--drawdialogue
 if(map[32]){
