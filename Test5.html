@@ -42,7 +42,7 @@ for(var i=0;i<52;i++)
 for(var i=1;i<51;i++)
 	for(var n=1;n<101;n++)
 		block[i][n]=0;
-		
+
 var background1=new Image();
 background1.src=("https://diotheworld.github.io/image/background1.png");
 
@@ -258,16 +258,16 @@ w.image=new Image();
 w.image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 
 function charBlock(Y,X){ return block[y/40+1+Y][x/40+1+X]; }
-function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k].+X]; }
+function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k]+X]; }
 
-/*function waterBallon(x,y){
+function waterBallon(x,y){
 	if(waterBallonSet==0){
 		w.x=Math.round(x/40)+1;
 		w.y=Math.round(y/40)+1;
 		block[w.y][w.x]=1;
 		waterBallonSet=1;
 	}
-}*/
+}
 var leftSet=0,rightSet=0,upSet=0,downSet=0;
 var llll=0,rrrr=0,uuuu=0,dddd=0;
 function ifLeftKeyDown(){
@@ -314,14 +314,16 @@ else if(y>mh-420){ backgroundy=-mh+800; chary=y-mh+800; }
 if(dialogueSet==0){
 	if((x%40==0)&&(y%40)==0){
 		if((sight==1)||(sight==3)){
-		/*	if(map[37]){
+			if(map[37]){
 				if(map[38]) {
 					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifLeftKeyDown(); ifUpKeyDown(); }
 					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+					else if(charBlock(-1,0)==0) ifUpKeyDown();
 				}
 				else if(map[40]) {
 					if((charBlock(0,-1)==0)&&(charBlock(+1,-1)==0)&&(charBlock(+1,0)==0)){ ifLeftKeyDown(); ifDownKeyDown(); }
 					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+					else if(charBlock(+1,0)==0) ifDownKeyDown();
 				}
 				else if(charBlock(0,-1)==0) ifLeftKeyDown();
 			}
@@ -329,17 +331,18 @@ if(dialogueSet==0){
 				if(map[38]) { 
 					if((charBlock(-1,0)==0)&&(charBlock(-1,+1)==0)&&(charBlock(0,+1)==0)){ ifRightKeyDown(); ifUpKeyDown(); }
 					else if(charBlock(0,+1)==0) ifRightKeyDown();
+					else if(charBlock(-1,0)==0) ifUpKeyDown();
 				}
 				else if(map[40]) { 
 					if((charBlock(0,+1)==0)&&(charBlock(+1,0)==0)&&(charBlock(+1,+1)==0)){ ifRightKeyDown(); ifDownKeyDown(); }
 					else if(charBlock(0,+1)==0) ifRightKeyDown();
+					else if(charBlock(+1,0)==0) ifDownKeyDown();
 				}
 				else if(charBlock(0,+1)==0) ifRightKeyDown();
 			}
 			else if(map[38]) { if(charBlock(-1,0)==0) ifUpKeyDown(); }
-			else if(map[40]) { if(charBlock(+1,0)==0) ifDownKeyDown(); }*/
+			else if(map[40]) { if(charBlock(+1,0)==0) ifDownKeyDown(); }
 		}
-		
 		else if((sight==0)||(sight==2)){
 			if(map[38]){
 				if(map[37]) { if(block[y/40][x/40]==0){ ifUpKeyDown(); ifLeftKeyDown(); }}
@@ -384,15 +387,17 @@ if(dialogueSet==0){
 	if(map[65]){
 		ctx.drawImage(ff,charx-120,chary,120,40);
 	}<!--a-->
-//	if(map[83]){ waterBallon(x,y); }<!--s-->
+	if(map[83]){
+		waterBallon(x,y);
+	}<!--s-->
 }
-/*if(waterBallonSet) {
+if(waterBallonSet) {
 	ctx.drawImage(w.image,backgroundx+(w.x-1)*40-27,backgroundy+(w.y-1)*40-36,90,90);
 	n+=10;
 	if(n>=3000){
 		if(n>=3500){ waterBallonSet=0; n=0; block[w.y][w.x]=0;}
 	}
-}*/
+}
 if(1){ drawInformation(); }
 if(dialogueSet) { Talking(); }<!--drawdialogue
 if(map[32]){
