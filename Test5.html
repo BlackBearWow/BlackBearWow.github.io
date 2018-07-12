@@ -1,4 +1,5 @@
 
+
 <html>
 <head>
 </head>
@@ -351,6 +352,7 @@ if(dialogueSet==0){
 	if((x%40==0)&&(y%40)==0){
 		if((sight==1)||(sight==3)){
 			if(map[37]){
+				sight=0;
 				if(map[38]) {
 					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifLeftKeyDown(); ifUpKeyDown(); }
 					else if(charBlock(0,-1)==0) ifLeftKeyDown();
@@ -364,6 +366,7 @@ if(dialogueSet==0){
 				else if(charBlock(0,-1)==0) ifLeftKeyDown();
 			}
 			else if(map[39]){
+				sight=2;
 				if(map[38]) { 
 					if((charBlock(-1,0)==0)&&(charBlock(-1,+1)==0)&&(charBlock(0,+1)==0)){ ifRightKeyDown(); ifUpKeyDown(); }
 					else if(charBlock(0,+1)==0) ifRightKeyDown();
@@ -376,11 +379,12 @@ if(dialogueSet==0){
 				}
 				else if(charBlock(0,+1)==0) ifRightKeyDown();
 			}
-			else if(map[38]) { if(charBlock(-1,0)==0) ifUpKeyDown(); }
-			else if(map[40]) { if(charBlock(+1,0)==0) ifDownKeyDown(); }
+			else if(map[38]) { sight=1; if(charBlock(-1,0)==0) ifUpKeyDown(); }
+			else if(map[40]) { sight=3; if(charBlock(+1,0)==0) ifDownKeyDown(); }
 		}
 		else if((sight==0)||(sight==2)){
 			if(map[38]){
+				sight=1;
 				if(map[37]) {
 					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifUpKeyDown(); ifLeftKeyDown(); }
 					else if(charBlock(-1,0)==0) ifUpKeyDown();
@@ -394,6 +398,7 @@ if(dialogueSet==0){
 				else if(charBlock(-1,0)==0) ifUpKeyDown();
 			}
 			else if(map[40]){
+				sight=3;
 				if(map[37]) { 
 					if((charBlock(0,-1)==0)&&(charBlock(+1,-1)==0)&&(charBlock(+1,0)==0)){ ifDownKeyDown(); ifLeftKeyDown(); }
 					else if(charBlock(+1,0)==0) ifDownKeyDown();
@@ -406,8 +411,8 @@ if(dialogueSet==0){
 				}
 				else if(charBlock(+1,0)==0) ifDownKeyDown();
 			}
-			else if(map[37]) { if(charBlock(0,-1)==0) ifLeftKeyDown(); }
-			else if(map[39]) { if(charBlock(0,+1)==0) ifRightKeyDown(); }
+			else if(map[37]) { sight=0; if(charBlock(0,-1)==0) ifLeftKeyDown(); }
+			else if(map[39]) { sight=2; if(charBlock(0,+1)==0) ifRightKeyDown(); }
 		}
 	}
 }
