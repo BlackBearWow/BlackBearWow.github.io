@@ -481,7 +481,22 @@ for(var i=0;i<w.possibleCount;i++){
 		else{ 
 			if(w.leftBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) obstacleMap[a].existence=0;
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+				}
+			}
+			if(w.rightBlock[i]){
+				for(var a=0;a<obstacleMap.length;a++){
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+				}
+			}
+			if(w.upBlock[i]){
+				for(var a=0;a<obstacleMap.length;a++){
+					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+				}
+			}
+			if(w.downBlock[i]){
+				for(var a=0;a<obstacleMap.length;a++){
+					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
 				}
 			}
 			w.count[i]=0; w.countTime[i]=0; block[w.y[i]][w.x[i]]=0;
@@ -497,7 +512,7 @@ if(waterBallonSet) {
 	}
 }
 */
-if(1){ drawInformation(); }
+if(0){ drawInformation(); }
 if(dialogueSet) { Talking(); }<!--drawdialogue
 if(map[32]){
 	if(sight==0){ if(x%40==0) { if(parseInt( block[Math.floor(y/40)+1][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+1][x/40]%1000); else if(parseInt(block[Math.floor(y/40)+2][x/40]/ 1000)==1) npcTalk(block[Math.floor(y/40)+2][x/40]%1000);}}
