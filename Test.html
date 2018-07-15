@@ -35,7 +35,9 @@ function aud_play_pause(id) {
 	else { myAudio.pause(); } 
 }
 <!-- 벽들 생성. 가로 102칸 세로 52칸.
-var block = new Array(52); // -1:벽 0:공중 10000:부술 수 있는장애물 2:아이템 1000대:npc들
+var block = new Array(52); 
+// -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물
+// 0~999: 지나다닐 수 있는 공간 
 for(var i=0;i<52;i++) block[i] = new Array(102);
 for(var i=0;i<52;i++)
 	for(var n=0;n<102;n++)
@@ -102,7 +104,7 @@ function makeObstacle(name,x,y,sizex,sizey,source){
 	this.itemExistence=(this.item>=5);
 	for(a=0;a<sizey;a++)
 		for(b=0;b<sizex;b++)
-			block[y+a][x+b]=1;
+			block[y+a][x+b]=10000;
 	this.image=new Array(2);
     this.image[0]=new Image();
     this.image[0].src=source;
@@ -117,9 +119,10 @@ var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
 if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image[obstacleMap[a].state],backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
 }
+<!--장애물, 아이템 물풍선에 맞았을 때
 function obstacleBoom(a){
 	if((obstacleMap[a].itemExistence==0)||(obstacleMap[a].state)){ obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
-	else{ obstacleMap[a].state=1; block[obstacleMap[a].y][obstacleMap[a].x]=0;}
+	else{ obstacleMap[a].state=1; block[obstacleMap[a].y][obstacleMap[a].x]=100+obstacleMap[a].item; }
 }
 
 <!--npc들
@@ -311,7 +314,7 @@ function waterBallon(k,x,y){
 	w.count[k]=1;
 	w.x[k]=Math.round(x/40)+1;
 	w.y[k]=Math.round(y/40)+1;
-	block[w.y[k]][w.x[k]]=1;
+	block[w.y[k]][w.x[k]]=10000;
 	w.leftBlock[k]=0;
 	w.rightBlock[k]=0;
 	w.upBlock[k]=0;
@@ -320,8 +323,8 @@ function waterBallon(k,x,y){
 		if(balloonBlock(0,-w.leftLen[k],k)==3){
 			w.leftBlock[k]=3; break;
 		}
-		else if(balloonBlock(0,-w.leftLen[k],k)==1){
-			w.leftBlock[k]=1; break;
+		else if(balloonBlock(0,-w.leftLen[k],k)==10000){
+			w.leftBlock[k]=10000; break;
 		}
 	}
 	for(w.rightLen[k]=1;w.rightLen[k]<=w.len;w.rightLen[k]++){
@@ -329,23 +332,23 @@ function waterBallon(k,x,y){
 			w.rightBlock[k]=-1; break;
 		}
 		else if(balloonBlock(0,w.rightLen[k],k)==1){
-			w.rightBlock[k]=1; break;
+			w.rightBlock[k]=10000; break;
 		}
 	}
 	for(w.upLen[k]=1;w.upLen[k]<=w.len;w.upLen[k]++){
 		if(balloonBlock(-w.upLen[k],0,k)==-1){
 			w.upBlock[k]=-1; break;
 		}
-		else if(balloonBlock(-w.upLen[k],0,k)==1){
-			w.upBlock[k]=1; break;
+		else if(balloonBlock(-w.upLen[k],0,k)==10000){
+			w.upBlock[k]=10000; break;
 		}
 	}
 	for(w.downLen[k]=1;w.downLen[k]<=w.len;w.downLen[k]++){
 		if(balloonBlock(w.downLen[k],0,k)==-1){
 			w.downBlock[k]=-1; break;
 		}
-		else if(balloonBlock(w.downLen[k],0,k)==1){
-			w.downBlock[k]=1; break;
+		else if(balloonBlock(w.downLen[k],0,k)==10000){
+			w.downBlock[k]=10000; break;
 		}
 	}
 }
@@ -398,65 +401,65 @@ if(dialogueSet==0){
 			if(map[37]){
 				sight=0;
 				if(map[38]) {
-					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifLeftKeyDown(); ifUpKeyDown(); }
-					else if(charBlock(0,-1)==0) ifLeftKeyDown();
-					else if(charBlock(-1,0)==0) ifUpKeyDown();
+					if((charBlock(-1,-1)%200==0)&&(charBlock(-1,0)%200==0)&&(charBlock(0,-1)%200==0)){ ifLeftKeyDown(); ifUpKeyDown(); }
+					else if(charBlock(0,-1)%200==0) ifLeftKeyDown();
+					else if(charBlock(-1,0)%200==0) ifUpKeyDown();
 				}
 				else if(map[40]) {
-					if((charBlock(0,-1)==0)&&(charBlock(+1,-1)==0)&&(charBlock(+1,0)==0)){ ifLeftKeyDown(); ifDownKeyDown(); }
-					else if(charBlock(0,-1)==0) ifLeftKeyDown();
-					else if(charBlock(+1,0)==0) ifDownKeyDown();
+					if((charBlock(0,-1)%200==0)&&(charBlock(+1,-1)%200==0)&&(charBlock(+1,0)%200==0)){ ifLeftKeyDown(); ifDownKeyDown(); }
+					else if(charBlock(0,-1)%200==0) ifLeftKeyDown();
+					else if(charBlock(+1,0)%200==0) ifDownKeyDown();
 				}
-				else if(charBlock(0,-1)==0) ifLeftKeyDown();
+				else if(charBlock(0,-1)%200==0) ifLeftKeyDown();
 			}
 			else if(map[39]){
 				sight=2;
 				if(map[38]) { 
-					if((charBlock(-1,0)==0)&&(charBlock(-1,+1)==0)&&(charBlock(0,+1)==0)){ ifRightKeyDown(); ifUpKeyDown(); }
-					else if(charBlock(0,+1)==0) ifRightKeyDown();
-					else if(charBlock(-1,0)==0) ifUpKeyDown();
+					if((charBlock(-1,0)%200==0)&&(charBlock(-1,+1)%200==0)&&(charBlock(0,+1)%200==0)){ ifRightKeyDown(); ifUpKeyDown(); }
+					else if(charBlock(0,+1)%200==0) ifRightKeyDown();
+					else if(charBlock(-1,0)%200==0) ifUpKeyDown();
 				}
 				else if(map[40]) { 
-					if((charBlock(0,+1)==0)&&(charBlock(+1,0)==0)&&(charBlock(+1,+1)==0)){ ifRightKeyDown(); ifDownKeyDown(); }
-					else if(charBlock(0,+1)==0) ifRightKeyDown();
-					else if(charBlock(+1,0)==0) ifDownKeyDown();
+					if((charBlock(0,+1)%200==0)&&(charBlock(+1,0)%200==0)&&(charBlock(+1,+1)%200==0)){ ifRightKeyDown(); ifDownKeyDown(); }
+					else if(charBlock(0,+1)%200==0) ifRightKeyDown();
+					else if(charBlock(+1,0)%200==0) ifDownKeyDown();
 				}
-				else if(charBlock(0,+1)==0) ifRightKeyDown();
+				else if(charBlock(0,+1)%200==0) ifRightKeyDown();
 			}
-			else if(map[38]) { sight=1; if(charBlock(-1,0)==0) ifUpKeyDown(); }
-			else if(map[40]) { sight=3; if(charBlock(+1,0)==0) ifDownKeyDown(); }
+			else if(map[38]) { sight=1; if(charBlock(-1,0)%200==0) ifUpKeyDown(); }
+			else if(map[40]) { sight=3; if(charBlock(+1,0)%200==0) ifDownKeyDown(); }
 		}
 		else if((sight==0)||(sight==2)){
 			if(map[38]){
 				sight=1;
 				if(map[37]) {
-					if((charBlock(-1,-1)==0)&&(charBlock(-1,0)==0)&&(charBlock(0,-1)==0)){ ifUpKeyDown(); ifLeftKeyDown(); }
-					else if(charBlock(-1,0)==0) ifUpKeyDown();
-					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+					if((charBlock(-1,-1)%200==0)&&(charBlock(-1,0)%200==0)&&(charBlock(0,-1)%200==0)){ ifUpKeyDown(); ifLeftKeyDown(); }
+					else if((charBlock(-1,0)%200)==0) ifUpKeyDown();
+					else if((charBlock(0,-1)%200)==0) ifLeftKeyDown();
 				}
 				else if(map[39]) {
-					if((charBlock(-1,0)==0)&&(charBlock(-1,+1)==0)&&(charBlock(0,+1)==0)){ ifUpKeyDown(); ifRightKeyDown(); }
-					else if(charBlock(-1,0)==0) ifUpKeyDown();
-					else if(charBlock(0,+1)==0) ifRightKeyDown();
+					if(((charBlock(-1,0)%200)==0)&&((charBlock(-1,+1)%200)==0)&&((charBlock(0,+1)%200)==0)){ ifUpKeyDown(); ifRightKeyDown(); }
+					else if((charBlock(-1,0)%200)==0) ifUpKeyDown();
+					else if((charBlock(0,+1)%200)==0) ifRightKeyDown();
 				}
-				else if(charBlock(-1,0)==0) ifUpKeyDown();
+				else if((charBlock(-1,0)%200)==0) ifUpKeyDown();
 			}
 			else if(map[40]){
 				sight=3;
 				if(map[37]) { 
-					if((charBlock(0,-1)==0)&&(charBlock(+1,-1)==0)&&(charBlock(+1,0)==0)){ ifDownKeyDown(); ifLeftKeyDown(); }
-					else if(charBlock(+1,0)==0) ifDownKeyDown();
-					else if(charBlock(0,-1)==0) ifLeftKeyDown();
+					if(((charBlock(0,-1)%200)==0)&&((charBlock(+1,-1)%200)==0)&&((charBlock(+1,0)%200)==0)){ ifDownKeyDown(); ifLeftKeyDown(); }
+					else if((charBlock(+1,0)%200)==0) ifDownKeyDown();
+					else if((charBlock(0,-1)%200)==0) ifLeftKeyDown();
 				}
 				else if(map[39]) { 
-					if((charBlock(0,+1)==0)&&(charBlock(+1,0)==0)&&(charBlock(+1,+1)==0)){ ifDownKeyDown(); ifRightKeyDown(); }
-					else if(charBlock(+1,0)==0) ifDownKeyDown();
-					else if(charBlock(0,+1)==0) ifRightKeyDown();
+					if(((charBlock(0,+1)%200)==0)&&((charBlock(+1,0)%200)==0)&&((charBlock(+1,+1)%200)==0)){ ifDownKeyDown(); ifRightKeyDown(); }
+					else if((charBlock(+1,0)%200==0)) ifDownKeyDown();
+					else if((charBlock(0,+1)%200==0)) ifRightKeyDown();
 				}
-				else if(charBlock(+1,0)==0) ifDownKeyDown();
+				else if((charBlock(+1,0)%200)==0) ifDownKeyDown();
 			}
-			else if(map[37]) { sight=0; if(charBlock(0,-1)==0) ifLeftKeyDown(); }
-			else if(map[39]) { sight=2; if(charBlock(0,+1)==0) ifRightKeyDown(); }
+			else if(map[37]) { sight=0; if((charBlock(0,-1)%200)==0) ifLeftKeyDown(); }
+			else if(map[39]) { sight=2; if((charBlock(0,+1)%200)==0) ifRightKeyDown(); }
 		}
 	}
 }
@@ -518,7 +521,7 @@ for(var i=0;i<w.possibleCount;i++){<!--물풍선 터지는것
 			}
 		}
 		else{ 
-			if(w.leftBlock[i]){
+			if((w.leftBlock[i]==10000)){
 				for(var a=0;a<obstacleMap.length;a++){
 					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleBoom(a)}
 				}
