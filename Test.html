@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -34,7 +35,7 @@ function aud_play_pause(id) {
 	else { myAudio.pause(); } 
 }
 <!-- 벽들 생성. 가로 102칸 세로 52칸.
-var block = new Array(52);
+var block = new Array(52); // -1:벽 0:공중 10000:부술 수 있는장애물 2:아이템 1000대:npc들
 for(var i=0;i<52;i++) block[i] = new Array(102);
 for(var i=0;i<52;i++)
 	for(var n=0;n<102;n++)
@@ -96,17 +97,29 @@ function makeObstacle(name,x,y,sizex,sizey,source){
     this.y=y;
 	this.sizex=sizex;
 	this.sizey=sizey;
+	this.state=0;
+	this.item=Math.floor(Math.random() * 8);
+	this.itemExistence=(this.item>=5);
 	for(a=0;a<sizey;a++)
 		for(b=0;b<sizex;b++)
 			block[y+a][x+b]=1;
-    this.image=new Image();
-    this.image.src=source;
+	this.image=new Array(2);
+    this.image[0]=new Image();
+    this.image[0].src=source;
+	this.image[1]=new Image();
+	if(this.item==5){ this.image[1].src="https://diotheworld.github.io/image/Item/rollerskate.png"; }
+	if(this.item==6){ this.image[1].src="https://diotheworld.github.io/image/Item/rollerskate.png"; }
+	if(this.item==7){ this.image[1].src="https://diotheworld.github.io/image/Item/rollerskate.png"; }
 }
 <!--장애물 그리기
 function drawObstacles(){
 var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
-if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
+if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image[obstacleMap[a].state],backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
+}
+function obstacleBoom(a){
+	if((obstacleMap[a].itemExistence==0)||(obstacleMap[a].state)){ obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+	else{ obstacleMap[a].state=1; block[obstacleMap[a].y][obstacleMap[a].x]=0;}
 }
 
 <!--npc들
@@ -288,6 +301,7 @@ w.image=new Image();
 w.image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 w.image2=new Image();
 w.image2.src=("https://diotheworld.github.io/image/water.jpg");
+
 function charBlock(Y,X){ return block[y/40+1+Y][x/40+1+X]; }
 function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k]+X]; }
 
@@ -480,7 +494,7 @@ if(dialogueSet==0){
 		}
 	}<!--s-->
 }
-for(var i=0;i<w.possibleCount;i++){
+for(var i=0;i<w.possibleCount;i++){<!--물풍선 터지는것
 	if(w.count[i]){
 		w.countTime[i]+=10;
 		if(w.countTime[i]<3000) ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
@@ -506,22 +520,22 @@ for(var i=0;i<w.possibleCount;i++){
 		else{ 
 			if(w.leftBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleBoom(a)}
 				}
 			}
 			if(w.rightBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleBoom(a)}
 				}
 			}
 			if(w.upBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a)}
 				}
 			}
 			if(w.downBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleMap[a].existence=0; block[obstacleMap[a].y][obstacleMap[a].x]=0; }
+					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a)}
 				}
 			}
 			w.count[i]=0; w.countTime[i]=0; block[w.y[i]][w.x[i]]=0;
