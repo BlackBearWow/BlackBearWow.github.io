@@ -1,3 +1,6 @@
+
+
+
 <html>
 <head>
 </head>
@@ -91,6 +94,7 @@ for(var i=0;i<17;i++){
 <!--장애물 만들기
 function makeObstacle(name,x,y,sizex,sizey,source){
 	this.name=name;
+	this.existence=1;
 	this.x=x;
     this.y=y;
 	this.sizex=sizex;
@@ -105,7 +109,7 @@ function makeObstacle(name,x,y,sizex,sizey,source){
 function drawObstacles(){
 var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
-ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
+if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image,backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
 }
 
 <!--npc들
@@ -474,7 +478,14 @@ for(var i=0;i<w.possibleCount;i++){
 			//	block[w.y[i]][w.x[i]-i]=2;
 			}
 		}
-		else{ w.count[i]=0; w.countTime[i]=0; block[w.y[i]][w.x[i]]=0;}
+		else{ 
+			if(w.leftBlock[i]){
+				for(var a=0;a<obstacleMap.length;a++){
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) obstacleMap[a].existence=0;
+				}
+			}
+			w.count[i]=0; w.countTime[i]=0; block[w.y[i]][w.x[i]]=0;
+		}
 	}
 }
 /*
