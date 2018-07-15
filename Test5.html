@@ -1,5 +1,6 @@
 
 
+
 <html>
 <head>
 </head>
@@ -244,8 +245,8 @@ var waterBallonSet=0;
 var waterBallonBoom=0;
 var n=0;
 var w={
-	leftLen:[0,0,0,0,0,0,0],RightLen:[0,0,0,0,0,0,0],UpLen:[0,0,0,0,0,0,0],DownLen:[0,0,0,0,0,0,0],
-	leftBlock:[0,0,0,0,0,0,0],RightBlock:[0,0,0,0,0,0,0],UpBlock:[0,0,0,0,0,0,0],DownBlock:[0,0,0,0,0,0,0],
+	leftLen:[0,0,0,0,0,0,0],rightLen:[0,0,0,0,0,0,0],upLen:[0,0,0,0,0,0,0],downLen:[0,0,0,0,0,0,0],
+	leftBlock:[0,0,0,0,0,0,0],rightBlock:[0,0,0,0,0,0,0],upBlock:[0,0,0,0,0,0,0],downBlock:[0,0,0,0,0,0,0],
 	x:[0,0,0,0,0,0,0],
 	y:[0,0,0,0,0,0,0],
 	count:[0,0,0,0,0,0,0],<!--물풍선 갯수
@@ -269,10 +270,10 @@ function waterBallon(k,x,y){
 	w.y[k]=Math.round(y/40)+1;
 	block[w.y[k]][w.x[k]]=1;
 	w.leftBlock[k]=0;
-	w.RightBlock[k]=0;
-	w.UpBlock[k]=0;
-	w.DownBlock[k]=0;
-	for(w.leftLen[k]=1;w.leftLen[k]<w.len;w.leftLen[k]++){
+	w.rightBlock[k]=0;
+	w.upBlock[k]=0;
+	w.downBlock[k]=0;
+	for(w.leftLen[k]=1;w.leftLen[k]<=w.len;w.leftLen[k]++){
 		if(balloonBlock(0,-w.leftLen[k],k)==3){
 			w.leftBlock[k]=3; break;
 		}
@@ -280,7 +281,7 @@ function waterBallon(k,x,y){
 			w.leftBlock[k]=1; break;
 		}
 	}
-	for(w.rightLen[k]=1;w.rightLen[k]<w.len;w.rightLen[k]++){
+	for(w.rightLen[k]=1;w.rightLen[k]<=w.len;w.rightLen[k]++){
 		if(balloonBlock(0,w.rightLen[k],k)==-1){
 			w.rightBlock[k]=-1; break;
 		}
@@ -288,20 +289,20 @@ function waterBallon(k,x,y){
 			w.rightBlock[k]=1; break;
 		}
 	}
-	for(w.UpLen[k]=1;w.UpLen[k]<w.len;w.UpLen[k]++){
-		if(balloonBlock(-w.UpLen[k],0,k)==-1){
-			w.UpBlock[k]=-1; break;
+	for(w.upLen[k]=1;w.upLen[k]<=w.len;w.upLen[k]++){
+		if(balloonBlock(-w.upLen[k],0,k)==-1){
+			w.upBlock[k]=-1; break;
 		}
-		else if(balloonBlock(-w.UpLen[k],0,k)==1){
-			w.UpBlock[k]=1; break;
+		else if(balloonBlock(-w.upLen[k],0,k)==1){
+			w.upBlock[k]=1; break;
 		}
 	}
-	for(w.DownLen[k]=1;w.DownLen[k]<w.len;w.DownLen[k]++){
-		if(balloonBlock(-w.DownLen[k],0,k)==-1){
-			w.DownBlock[k]=-1; break;
+	for(w.downLen[k]=1;w.downLen[k]<=w.len;w.downLen[k]++){
+		if(balloonBlock(w.downLen[k],0,k)==-1){
+			w.downBlock[k]=-1; break;
 		}
-		else if(balloonBlock(-w.DownLen[k],0,k)==1){
-			w.DownBlock[k]=1; break;
+		else if(balloonBlock(w.downLen[k],0,k)==1){
+			w.downBlock[k]=1; break;
 		}
 	}
 }
@@ -456,17 +457,21 @@ for(var i=0;i<w.possibleCount;i++){
 		w.countTime[i]+=10;
 		if(w.countTime[i]<3000) ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
 		else if((w.countTime[i]>=3000)&&(w.countTime[i]<=4000)){
-			if(w.leftBlock[i]==0){
-				for(var n=1;n<=w.leftLen[i];n++){
-					ctx.drawImage(w.image,backgroundx+(w.x[i]-1-n)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
-				//	block[w.y[i]][w.x[i]-i]=2;
-				}
+			for(var n=1;n<w.leftLen[i];n++){
+				ctx.drawImage(w.image,backgroundx+(w.x[i]-1-n)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
+			//	block[w.y[i]][w.x[i]-i]=2;
 			}
-			else{
-				for(var n=1;n<w.leftLen[i];n++){
-					ctx.drawImage(w.image,backgroundx+(w.x[i]-1-n)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
-				//	block[w.y[i]][w.x[i]-i]=2;
-				}
+			for(var n=1;n<w.rightLen[i];n++){
+				ctx.drawImage(w.image,backgroundx+(w.x[i]-1+n)*40-27,backgroundy+(w.y[i]-1)*40-36,90,90);
+			//	block[w.y[i]][w.x[i]-i]=2;
+			}
+			for(var n=1;n<w.upLen[i];n++){
+				ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1-n)*40-36,90,90);
+			//	block[w.y[i]][w.x[i]-i]=2;
+			}
+			for(var n=1;n<w.downLen[i];n++){
+				ctx.drawImage(w.image,backgroundx+(w.x[i]-1)*40-27,backgroundy+(w.y[i]-1+n)*40-36,90,90);
+			//	block[w.y[i]][w.x[i]-i]=2;
 			}
 		}
 		else{ w.count[i]=0; w.countTime[i]=0; }
