@@ -1,6 +1,7 @@
 
 
 
+
 <html>
 <head>
 </head>
@@ -254,7 +255,7 @@ var w={
 	countTime:[0,0,0,0,0,0,0],
 	len:10,<!--물줄기
 	order:0,<!--
-	possibleCount:1,<!--물풍선 쓸 수 있는 개수
+	possibleCount:7,<!--물풍선 쓸 수 있는 개수
 	speed:[1,40,2,20,2.5,16,4,10,5,8,8,5,10,4],<!--롤러스테이트
 	image:1,
 	image2:1
@@ -267,7 +268,8 @@ function charBlock(Y,X){ return block[y/40+1+Y][x/40+1+X]; }
 function balloonBlock(Y,X,k){ return block[w.y[k]+Y][w.x[k]+X]; }
 
 function waterBallon(k,x,y){
-	w.order=(w.order+1)%w.possibleCount;
+	w.order=w.order+1;
+	if(w.order==w.possibleCount) w.order=0;
 	w.count[k]=1;
 	w.x[k]=Math.round(x/40)+1;
 	w.y[k]=Math.round(y/40)+1;
@@ -331,7 +333,7 @@ function ifDownKeyDown(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(""+w.leftLen[w.order]+" "+w.leftBlock[w.order]+" "+w.order+" "+w.count[w.order]+" "+w.countTime[w.order],10,50);
+	ctx.fillText(" "+w.order+" "+w.count[w.order]+" "+w.countTime[w.order]+" "+w.possibleCount,10,50);
 }
 
 function start(){
@@ -449,8 +451,8 @@ if(dialogueSet==0){
 		ctx.drawImage(ff,charx-120,chary,120,40);
 	}<!--a-->
 	if(map[83]){
-		if(w.count[w.order]==0){
-			w.order=(w.order+1)%w.possibleCount;
+		map[83]=0;
+		if((w.count[w.order]==0)&&(block[Math.round(y/40)+1][Math.round(x/40)+1]==0)){
 			waterBallon(w.order,x,y);
 		}
 	}<!--s-->
