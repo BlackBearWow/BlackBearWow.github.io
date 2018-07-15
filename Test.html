@@ -1,7 +1,3 @@
-
-
-
-
 <html>
 <head>
 </head>
@@ -255,11 +251,39 @@ var w={
 	countTime:[0,0,0,0,0,0,0],
 	len:10,<!--물줄기
 	order:0,<!--
-	possibleCount:7,<!--물풍선 쓸 수 있는 개수
-	speed:[1,40,2,20,2.5,16,4,10,5,8,8,5,10,4],<!--롤러스테이트
+	possibleCount:20,<!--물풍선 쓸 수 있는 개수
+	speed:[1,2,2.5,4,5,8,10],<!--롤러스테이트
+	speedCount:2,
 	image:1,
 	image2:1
 };
+w.leftLen=new Array(w.possibleCount);
+w.rightLen=new Array(w.possibleCount);
+w.upLen=new Array(w.possibleCount);
+w.downLen=new Array(w.possibleCount);
+w.leftBlock=new Array(w.possibleCount);
+w.rightBlock=new Array(w.possibleCount);
+w.upBlock=new Array(w.possibleCount);
+w.downBlock=new Array(w.possibleCount);
+w.x=new Array(w.possibleCount);
+w.y=new Array(w.possibleCount);
+w.count=new Array(w.possibleCount);
+w.countTime=new Array(w.possibleCount);
+for(var a=0;a<w.possibleCount;a++){
+	w.leftLen[a]=0;
+	w.rightLen[a]=0;
+	w.upLen[a]=0;
+	w.downLen[a]=0;
+	w.leftBlock[a]=0;
+	w.rightBlock[a]=0;
+	w.upBlock[a]=0;
+	w.downBlock[a]=0;
+	w.x[a]=0;
+	w.y[a]=0;
+	w.count[a]=0;
+	w.countTime[a]=0;
+}
+
 w.image=new Image();
 w.image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 w.image2=new Image();
@@ -423,23 +447,23 @@ if(dialogueSet==0){
 	}
 }
 if(leftSet){
-	x-=1;
-	llll+=1;
+	x-=w.speed[w.speedCount];
+	llll+=w.speed[w.speedCount];
 	if(llll>=40) { llll=0; leftSet=0; }
 }
 else if(rightSet){
-	x+=1;
-	rrrr+=1;
+	x+=w.speed[w.speedCount];
+	rrrr+=w.speed[w.speedCount];
 	if(rrrr>=40) { rrrr=0; rightSet=0; }
 }
 if(upSet){
-	y-=1;
-	uuuu+=1;
+	y-=w.speed[w.speedCount];
+	uuuu+=w.speed[w.speedCount];
 	if(uuuu>=40) { uuuu=0; upSet=0; }
 }
 else if(downSet){
-	y+=1;
-	dddd+=1;
+	y+=w.speed[w.speedCount];
+	dddd+=w.speed[w.speedCount];
 	if(dddd>=40) { dddd=0; downSet=0; }
 }
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
@@ -451,7 +475,6 @@ if(dialogueSet==0){
 		ctx.drawImage(ff,charx-120,chary,120,40);
 	}<!--a-->
 	if(map[83]){
-		map[83]=0;
 		if((w.count[w.order]==0)&&(block[Math.round(y/40)+1][Math.round(x/40)+1]==0)){
 			waterBallon(w.order,x,y);
 		}
