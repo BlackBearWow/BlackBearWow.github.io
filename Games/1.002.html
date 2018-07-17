@@ -36,7 +36,7 @@ function aud_play_pause(id) {
 }
 <!-- 벽들 생성. 가로 102칸 세로 52칸.
 var block = new Array(52); 
-// -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물
+// -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선
 // 0~999: 지나다닐 수 있는 공간 
 for(var i=0;i<52;i++) block[i] = new Array(102);
 for(var i=0;i<52;i++)
@@ -73,11 +73,9 @@ var obstacleMap = [
 	new makeObstacle("통",7,6,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("통",6,7,1,1,"https://diotheworld.github.io/image/tong.png"),
 	
-	new makeObstacle("통",3,4,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",10,15,1,1,"https://diotheworld.github.io/image/tong.png"), 
-	new makeObstacle("통",30,26,1,1,"https://diotheworld.github.io/image/tong.png"),
 	new makeObstacle("큰통",3,7,2,2,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png")
+	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png"),
+	new makeObstacle("통",8,8,1,1,"https://diotheworld.github.io/image/tong.png"),
 ];
 for(var i=1;i<=50;i++){
 	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",1,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
@@ -87,12 +85,12 @@ for(var i=2;i<=99;i++){
 	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,50,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 }
-for(var i=0;i<17;i++){
-	for(var n=0;n<18;n++)
-	obstacleMap[obstacleMap.length]=new makeObstacle("통",2*i+16,2*n+12,1,1,"https://diotheworld.github.io/image/tong.png");
+for(var i=0;i<40;i++){
+	for(var n=0;n<23;n++)
+	obstacleMap[obstacleMap.length]=new makeObstacle("통",2*i+18,2*n+2,1,1,"https://diotheworld.github.io/image/tong.png");
 }
 <!--장애물 만들기
-function makeObstacle(name,x,y,sizex,sizey,source){
+function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
 	this.name=name;
 	this.existence=1;
 	this.x=x;
@@ -259,9 +257,9 @@ var waterBallonSet=0;
 var waterBallonBoom=0;
 var n=0;
 var w={
-	maxPossibleCount:50, possibleCount:1,<!--물풍선 쓸 수 있는 개수
-	maxLen:20, len:1,<!--물줄기
-	speedCount:6, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
+	maxPossibleCount:50, possibleCount:30,<!--물풍선 쓸 수 있는 개수
+	maxLen:20, len:15,<!--물줄기
+	speedCount:20, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
 	leftLen:[0,0,0,0,0,0,0],rightLen:[0,0,0,0,0,0,0],upLen:[0,0,0,0,0,0,0],downLen:[0,0,0,0,0,0,0],
 	leftBlock:[0,0,0,0,0,0,0],rightBlock:[0,0,0,0,0,0,0],upBlock:[0,0,0,0,0,0,0],downBlock:[0,0,0,0,0,0,0],
 	x:[0,0,0,0,0,0,0],
@@ -492,24 +490,33 @@ for(var i=0;i<w.possibleCount;i++){<!--물풍선 터지는것
 			for(var n=1;n<w.upLen[i];n++){ ctx.drawImage(w.image2,backgroundx+(w.x[i]-1)*40,backgroundy+(w.y[i]-1-n)*40,40,40); }
 			for(var n=1;n<w.downLen[i];n++){ ctx.drawImage(w.image2,backgroundx+(w.x[i]-1)*40,backgroundy+(w.y[i]-1+n)*40,40,40); }
 			for(w.leftLen[i]=1;w.leftLen[i]<=w.len;w.leftLen[i]++){
+			//	if(balloonBlock(0,-w.leftLen[i],i)==10001){ 1; }//물풍선일때 해야될 것
 				if(balloonBlock(0,-w.leftLen[i],i)==3){ w.leftBlock[i]=3; break; }
+				else if((balloonBlock(0,-w.leftLen[i],i)>=100)&&(balloonBlock(0,-w.leftLen[i],i)<110)){	
+					for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				}
 				else if(balloonBlock(0,-w.leftLen[i],i)==10000){ w.leftBlock[i]=10000; break; }
-				else if((balloonBlock(0,-w.leftLen[i],i)>=100)&&(balloonBlock(0,-w.leftLen[i],i)<200)){	w.leftBlock[i]=10000; break; }
 			}
 			for(w.rightLen[i]=1;w.rightLen[i]<=w.len;w.rightLen[i]++){
 				if(balloonBlock(0,w.rightLen[i],i)==-1){ w.rightBlock[i]=-1; break; }
+				else if((balloonBlock(0,w.rightLen[i],i)>=100)&&(balloonBlock(0,w.rightLen[i],i)<110)){	
+					for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				}
 				else if(balloonBlock(0,w.rightLen[i],i)==10000){ w.rightBlock[i]=10000; break; }
-				else if((balloonBlock(0,w.rightLen[i],i)>=100)&&(balloonBlock(0,w.rightLen[i],i)<200)){	w.rightBlock[i]=10000; break; }
 			}
 			for(w.upLen[i]=1;w.upLen[i]<=w.len;w.upLen[i]++){
 				if(balloonBlock(-w.upLen[i],0,i)==-1){ w.upBlock[i]=-1; break; }
+				else if((balloonBlock(-w.upLen[i],0,i)>=100)&&(balloonBlock(-w.upLen[i],0,i)<110)){	
+					for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				}
 				else if(balloonBlock(-w.upLen[i],0,i)==10000){ w.upBlock[i]=10000; break; }
-				else if((balloonBlock(-w.upLen[i],0,i)>=100)&&(balloonBlock(-w.upLen[i],0,i<200))){	w.upBlock[i]=10000; break; }
 			}
 			for(w.downLen[i]=1;w.downLen[i]<=w.len;w.downLen[i]++){
 				if(balloonBlock(w.downLen[i],0,i)==-1){ w.downBlock[i]=-1; break; }
+				else if((balloonBlock(w.downLen[i],0,i)>=100)&&(balloonBlock(w.downLen[i],0,i)<110)){ 
+					for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+					}
 				else if(balloonBlock(w.downLen[i],0,i)==10000){ w.downBlock[i]=10000; break; }
-				else if((balloonBlock(w.downLen[i],0,i)>=100)&&(balloonBlock(w.downLen[i],0,i)<200)){ w.downBlock[i]=10000; break; }
 			}
 		}
 		else if((w.countTime[i]>=3000)&&(w.countTime[i]<=4000)){
@@ -521,24 +528,16 @@ for(var i=0;i<w.possibleCount;i++){<!--물풍선 터지는것
 		}
 		else{ 
 			if((w.leftBlock[i]==10000)){
-				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
-				}
+				for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 			}
 			if(w.rightBlock[i]){
-				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
-				}
+				for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 			}
 			if(w.upBlock[i]){
-				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
-				}
+				for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 			}
 			if(w.downBlock[i]){
-				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
-				}
+				for(var a=0;a<obstacleMap.length;a++){ if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 			}
 			w.count[i]=0; w.countTime[i]=0;
 		}
