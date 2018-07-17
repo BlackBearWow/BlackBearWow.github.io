@@ -261,7 +261,7 @@ var n=0;
 var w={
 	maxPossibleCount:50, possibleCount:1,<!--물풍선 쓸 수 있는 개수
 	maxLen:20, len:1,<!--물줄기
-	speed:[1,1.6,2,2.5,3.2,4,5,8,10],<!--롤러스테이트
+	speed:[1,2,2.5,4,5,8,10,20,40],<!--롤러스테이트
 	leftLen:[0,0,0,0,0,0,0],rightLen:[0,0,0,0,0,0,0],upLen:[0,0,0,0,0,0,0],downLen:[0,0,0,0,0,0,0],
 	leftBlock:[0,0,0,0,0,0,0],rightBlock:[0,0,0,0,0,0,0],upBlock:[0,0,0,0,0,0,0],downBlock:[0,0,0,0,0,0,0],
 	x:[0,0,0,0,0,0,0],
@@ -497,9 +497,18 @@ else if(downSet){
 }
 if((x%40==0)&&(y%40)==0){
 	if((block[y/40+1][x/40+1]>=100)&&(block[y/40+1][x/40+1]<=102)){
-		if(block[y/40+1][x/40+1]==100) { if(w.speedCount<(w.speed.length-1)) w.speedCount+=1; }
-		else if(block[y/40+1][x/40+1]==101) { if(w.possibleCount<w.maxPossibleCount) w.possibleCount+=1; }
-		else if(block[y/40+1][x/40+1]==102) { if(w.len<w.maxLen) w.len+=1; }
+		if(block[y/40+1][x/40+1]==100) { 
+			for(var a=0;a<obstacleMap.length;a++) { if(((y/40+1)==obstacleMap[a].y)&&((x/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+			if(w.speedCount<(w.speed.length-1)) w.speedCount+=1; 
+		}
+		else if(block[y/40+1][x/40+1]==101) { 
+			for(var a=0;a<obstacleMap.length;a++) { if(((y/40+1)==obstacleMap[a].y)&&((x/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+			if(w.possibleCount<w.maxPossibleCount) w.possibleCount+=1; 
+		}
+		else if(block[y/40+1][x/40+1]==102) { 
+			for(var a=0;a<obstacleMap.length;a++) { if(((y/40+1)==obstacleMap[a].y)&&((x/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+			if(w.len<w.maxLen) w.len+=1; 
+		}
 	}
 }
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
