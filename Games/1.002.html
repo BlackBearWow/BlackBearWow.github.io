@@ -83,9 +83,9 @@ for(var i=1;i<=50;i++){
 	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",1,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
 	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",100,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
 }
-for(var i=1;i<=100;i++){
-	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",i,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
-	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",i,50,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+for(var i=2;i<=99;i++){
+	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,50,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 }
 for(var i=0;i<17;i++){
 	for(var n=0;n<18;n++)
@@ -100,7 +100,7 @@ function makeObstacle(name,x,y,sizex,sizey,source){
 	this.sizex=sizex;
 	this.sizey=sizey;
 	this.state=0;
-	this.item=Math.floor(Math.random() * 3);
+	this.item=Math.floor(Math.random() * 4);
 	for(a=0;a<sizey;a++)
 		for(b=0;b<sizex;b++)
 			block[y+a][x+b]=10000;
