@@ -522,22 +522,22 @@ for(var i=0;i<w.possibleCount;i++){<!--물풍선 터지는것
 		else{ 
 			if((w.leftBlock[i]==10000)){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleBoom(a)}
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]-w.leftLen[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
 				}
 			}
 			if(w.rightBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleBoom(a)}
+					if((w.y[i]==obstacleMap[a].y)&&(w.x[i]+w.rightLen[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
 				}
 			}
 			if(w.upBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a)}
+					if((w.y[i]-w.upLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
 				}
 			}
 			if(w.downBlock[i]){
 				for(var a=0;a<obstacleMap.length;a++){
-					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a)}
+					if((w.y[i]+w.downLen[i]==obstacleMap[a].y)&&(w.x[i]==obstacleMap[a].x)) {obstacleBoom(a); break;}
 				}
 			}
 			w.count[i]=0; w.countTime[i]=0;
