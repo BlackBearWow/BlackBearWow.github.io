@@ -120,8 +120,8 @@ if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image[obstacleMap[a].s
 <!--장애물, 아이템 물풍선에 맞았을 때
 function obstacleBoom(a){
 	if((obstacleMap[a].itemExistence==0)||(obstacleMap[a].state)){ obstacleMap[a].existence=0; 
-		for(var k=0;k<obstacleMap[a].y;k++)
-			for(var b=0;b<obstacleMap[a].x;b++)
+		for(var k=0;k<obstacleMap[a].sizey;k++)
+			for(var b=0;b<obstacleMap[a].sizex;b++)
 				block[obstacleMap[a].y+k][obstacleMap[a].x+b]=0; 
 	}
 	else{ obstacleMap[a].state=1; block[obstacleMap[a].y][obstacleMap[a].x]=100+obstacleMap[a].item; }
@@ -343,7 +343,7 @@ function ifDownKeyDown(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(x+" "+y+" "+w.order+" "+w.count[w.order]+" "+w.countTime[w.order]+" "+w.speedCount,10,50);
+	ctx.fillText(w.rightLen[w.order]+" "+w.rightBlock[w.order]+" "+w.countTime[w.order]+" "+w.speedCount,10,50);
 }
 
 function start(){
