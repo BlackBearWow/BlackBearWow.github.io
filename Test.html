@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -12,6 +13,8 @@ var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
+var oneBlock=40;
+var halfBlock=oneBlock/2;
 var x = [80, 120];
 var y = [40, 40];
 var situation=0;<!--대화의 상황 순서-->
@@ -23,6 +26,7 @@ var backgroundx,backgroundy,charx,chary;
 var mw,mh;<!--mapwidth mapheight-->
 mw=4000;
 mh=2000;
+var mwBlock=mw/oneBlock, mhBlock=mh/oneBlock;
 
 function playMusic(id){
 	var myAudio = document.getElementById(id); 
@@ -37,12 +41,12 @@ function aud_play_pause(id) {
 var block = new Array(52); 
 // -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선
 // 0~999: 지나다닐 수 있는 공간 
-for(var i=0;i<52;i++) block[i] = new Array(102);
-for(var i=0;i<52;i++)
-	for(var n=0;n<102;n++)
+for(var i=0;i<mhBlock+2;i++) block[i] = new Array(mwBlock+2);
+for(var i=0;i<mhBlock+2;i++)
+	for(var n=0;n<mwBlock+2;n++)
 		block[i][n]=2147483647;
-for(var i=1;i<51;i++)
-	for(var n=1;n<101;n++)
+for(var i=1;i<mhBlock+1;i++)
+	for(var n=1;n<mwBlock+1;n++)
 		block[i][n]=0;
 
 var background1=new Image();
@@ -124,7 +128,7 @@ function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 function drawObstacles(){
 var a,b=obstacleMap.length;
 for(a=0;a<b;a++)
-if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image[obstacleMap[a].state],backgroundx+(obstacleMap[a].x-1)*40,backgroundy+(obstacleMap[a].y-1)*40,obstacleMap[a].sizex*40,obstacleMap[a].sizey*40);
+if(obstacleMap[a].existence) ctx.drawImage(obstacleMap[a].image[obstacleMap[a].state],backgroundx+(obstacleMap[a].x-1)*oneBlock,backgroundy+(obstacleMap[a].y-1)*oneBlock,obstacleMap[a].sizex*oneBlock,obstacleMap[a].sizey*oneBlock);
 }
 <!--장애물, 아이템 물풍선에 맞았을 때
 function obstacleBoom(a){
@@ -156,7 +160,7 @@ function setNpcBlock(){
 function drawNpcs(){
 var a,b=npcMap.length;
 for(a=0;a<b;a++)
-ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*40,backgroundy+(npcMap[a].y-1)*40,40,40);
+ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*oneBlock,backgroundy+(npcMap[a].y-1)*oneBlock,oneBlock,oneBlock);
 }
 var dialogue = [  <!--
   [
@@ -316,14 +320,14 @@ for(k=0;k<2;k++){
 	w[k].image2.src=("https://diotheworld.github.io/image/water.jpg");
 }
 
-function charBlock(Y,X,k){ return block[y[k]/40+1+Y][x[k]/40+1+X]; }
+function charBlock(Y,X,k){ return block[y[k]/oneBlock+1+Y][x[k]/oneBlock+1+X]; }
 function balloonBlock(Y,X,k,j){ return block[w[j].y[k]+Y][w[j].x[k]+X]; }
 
 function waterBallon(k,x,y,j){
 	w[j].count[k]=1;
-	w[j].x[k]=Math.round(x/40)+1;
-	w[j].y[k]=Math.round(y/40)+1;
-	block[w[j].y[k]][w[j].x[k]]=10001+w[j].order;
+	w[j].x[k]=Math.round(x/oneBlock)+1;
+	w[j].y[k]=Math.round(y/oneBlock)+1;
+	block[w[j].y[k]][w[j].x[k]]=(10000*(j+1)+1+w[j].order);
 	w[j].leftBlock[k]=0;
 	w[j].rightBlock[k]=0;
 	w[j].upBlock[k]=0;
@@ -383,15 +387,15 @@ function update(){
 <!--배경음악 설정.
 playMusic("Sugar");
 <!--배경이미지 좌표 설정
-if(x[0]<=580){ backgroundx=0; charx=x[0]; }
-else if(x[0]>580&&x[0]<=mw-620){ backgroundx=-x[0]+580; charx=580; }
-else if(x[0]>mw-620){ backgroundx=-mw+1200; charx=x[0]-mw+1200; }
-if(y[0]<=380){ backgroundy=0; chary=y[0]; }
-else if(y[0]>380&&y[0]<=mh-420){ backgroundy=-y[0]+380; chary=380; }
-else if(y[0]>mh-420){ backgroundy=-mh+800; chary=y[0]-mh+800; }
+if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
+else if(x[0]>600-halfBlock&&x[0]<=mw-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
+else if(x[0]>mw-(600+halfBlock)){ backgroundx=-mw+1200; charx=x[0]-mw+1200; }
+if(y[0]<=400-halfBlock){ backgroundy=0; chary=y[0]; }
+else if(y[0]>400-halfBlock&&y[0]<=mh-(400+halfBlock)){ backgroundy=-y[0]+400-halfBlock; chary=400-halfBlock; }
+else if(y[0]>mh-(400+halfBlock)){ backgroundy=-mh+800; chary=y[0]-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
-	if((x[0]%40==0)&&(y[0]%40)==0){
+	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
 		if((sight[0]==1)||(sight[0]==3)){
 			if(map[37]){
 				sight[0]=0;
@@ -457,7 +461,7 @@ if(dialogueSet==0){
 			else if(map[39]) { sight[0]=2; if((charBlock(0,+1,0)/200)<1) ifRightKeyDown(); }
 		}
 	}
-	if((x[1]%40==0)&&(y[1]%40)==0){
+	if((x[1]%oneBlock==0)&&(y[1]%oneBlock)==0){
 		if((sight[1]==1)||(sight[1]==3)){
 			if(map[83]){
 				sight[1]=0;
@@ -534,7 +538,7 @@ for(kk=0;kk<2;kk++){//상하좌우 움직이기
 			x[kk]-=w[kk].speed[w[kk].speedCount];
 			llll[kk]+=w[kk].speed[w[kk].speedCount];
 		}
-		if(llll[kk]>=40) { x[kk]=Math.round(x[kk]/40)*40; llll[kk]=0; leftSet[kk]=0; }
+		if(llll[kk]>=oneBlock) { x[kk]=Math.round(x[kk]/oneBlock)*oneBlock; llll[kk]=0; leftSet[kk]=0; }
 	}
 	else if(rightSet[kk]){
 		if(w[kk].inBalloon){
@@ -545,7 +549,7 @@ for(kk=0;kk<2;kk++){//상하좌우 움직이기
 			x[kk]+=w[kk].speed[w[kk].speedCount];
 			rrrr[kk]+=w[kk].speed[w[kk].speedCount];
 		}
-		if(rrrr[kk]>=40) { x[kk]=Math.round(x[kk]/40)*40; rrrr[kk]=0; rightSet[kk]=0; }
+		if(rrrr[kk]>=oneBlock) { x[kk]=Math.round(x[kk]/oneBlock)*oneBlock; rrrr[kk]=0; rightSet[kk]=0; }
 	}
 	if(upSet[kk]){
 		if(w[kk].inBalloon){
@@ -556,7 +560,7 @@ for(kk=0;kk<2;kk++){//상하좌우 움직이기
 			y[kk]-=w[kk].speed[w[kk].speedCount];
 			uuuu[kk]+=w[kk].speed[w[kk].speedCount];
 		}
-		if(uuuu[kk]>=40) { y[kk]=Math.round(y[kk]/40)*40; uuuu[kk]=0; upSet[kk]=0; }
+		if(uuuu[kk]>=oneBlock) { y[kk]=Math.round(y[kk]/oneBlock)*oneBlock; uuuu[kk]=0; upSet[kk]=0; }
 	}
 	else if(downSet[kk]){
 		if(w[kk].inBalloon){
@@ -567,23 +571,24 @@ for(kk=0;kk<2;kk++){//상하좌우 움직이기
 			y[kk]+=w[kk].speed[w[kk].speedCount];
 			dddd[kk]+=w[kk].speed[w[kk].speedCount];
 		}
-		if(dddd[kk]>=40) { y[kk]=Math.round(y[kk]/40)*40; dddd[kk]=0; downSet[kk]=0; }
+		if(dddd[kk]>=oneBlock) { y[kk]=Math.round(y[kk]/oneBlock)*oneBlock; dddd[kk]=0; downSet[kk]=0; }
 	}
 }
-if(block[Math.round(y[0]/40)+1][Math.round(x[0]/40)+1]==1)w[0].inBalloon=1;
+if(block[Math.round(y[0]/oneBlock)+1][Math.round(x[0]/oneBlock)+1]==1)w[0].inBalloon=1;
+if(block[Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==1)w[1].inBalloon=1;
 for(kk=0;kk<2;kk++){//아이템 먹는다면?
-	if((x[kk]%40==0)&&(y[kk]%40==0)&&(w[kk].inBalloon==0)){ 
-		if((block[y[kk]/40+1][x[kk]/40+1]>=100)&&(block[y[kk]/40+1][x[kk]/40+1]<=102)){
-			if(block[y[kk]/40+1][x[kk]/40+1]==100) { 
-				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/40+1)==obstacleMap[a].y)&&((x[kk]/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+	if((x[kk]%oneBlock==0)&&(y[kk]%oneBlock==0)&&(w[kk].inBalloon==0)){ 
+		if((block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]>=100)&&(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]<=102)){
+			if(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]==100) { 
+				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[a].y)&&((x[kk]/oneBlock+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
 				if(w[kk].speedCount<(w[kk].speed.length-1)) w[kk].speedCount+=1; 
 			}
-			else if(block[y[kk]/40+1][x[kk]/40+1]==101) { 
-				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/40+1)==obstacleMap[a].y)&&((x[kk]/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+			else if(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]==101) { 
+				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[a].y)&&((x[kk]/oneBlock+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
 				if(w[kk].possibleCount<w[kk].maxPossibleCount) w[kk].possibleCount+=1; 
 			}
-			else if(block[y[kk]/40+1][x[kk]/40+1]==102) { 
-				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/40+1)==obstacleMap[a].y)&&((x[kk]/40+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
+			else if(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]==102) { 
+				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[a].y)&&((x[kk]/oneBlock+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
 				if(w[kk].len<w[kk].maxLen) w[kk].len+=1; 
 			}
 		}
@@ -592,16 +597,16 @@ for(kk=0;kk<2;kk++){//아이템 먹는다면?
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
 drawObstacles();
 drawNpcs();
-if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary,40,40);
-else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary,40,40);
-if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1]*40,backgroundy+y[1]*40,40,40);
-else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1],40,40);
+if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary,oneBlock,oneBlock);
+else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary,oneBlock,oneBlock);
+if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1],oneBlock,oneBlock);
+else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1],oneBlock,oneBlock);
 if(dialogueSet==0){
 	if(map[188]){
-		ctx.drawImage(ff,charx-120,chary,120,40);
+		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
 	}<!--<-->
 	if(map[190]&&(w[0].inBalloon==0)){
-		if((w[0].count[w[0].order]==0)&&(block[Math.round(y[0]/40)+1][Math.round(x[0]/40)+1]==0)){
+		if((w[0].count[w[0].order]==0)&&(block[Math.round(y[0]/oneBlock)+1][Math.round(x[0]/oneBlock)+1]==0)){
 			waterBallon(w[0].order,x[0],y[0],0);
 		}
 	}<!-->-->
@@ -609,10 +614,13 @@ if(dialogueSet==0){
 		w[0].inBalloon=0;
 	}<!--?-->
 	if(map[65]&&(w[1].inBalloon==0)){
-		if((w[1].count[w[1].order]==0)&&(block[Math.round(y[1]/40)+1][Math.round(x[1]/40)+1]==0)){
+		if((w[1].count[w[1].order]==0)&&(block[Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==0)){
 			waterBallon(w[1].order,x[1],y[1],1);
 		}
 	}<!--a-->
+	if(map[81]){
+		w[1].inBalloon=0;
+	}<!--q-->
 }
 for(kk=0;kk<2;kk++){
 	for(var i=0;i<w[kk].possibleCount;i++){<!--물풍선 각각 시간초 증가
@@ -633,6 +641,10 @@ for(kk=0;kk<2;kk++){
 					w[0].countTime[block[w[0].y[i]][w[0].x[i]-aa]-10001]=3000;  preB=1; block[w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
+				else if((balloonBlock(0,-aa,i,0)>=20001)&&(balloonBlock(0,-aa,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[0].y[i]][w[0].x[i]-aa]-20001]=3000;  preB=1; block[w[0].y[i]][w[0].x[i]-aa]=1; 
+					break;
+				}//물풍선일때 해야될 것
 			}
 			for(bb=1;bb<=w[0].len;bb++){
 				if(balloonBlock(0,bb,i,0)==1){ break; }
@@ -640,6 +652,10 @@ for(kk=0;kk<2;kk++){
 				else if(balloonBlock(0,bb,i,0)==10000){ break; }
 				else if((balloonBlock(0,bb,i,0)>=10001)&&(balloonBlock(0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
 					w[0].countTime[block[w[0].y[i]][w[0].x[i]+bb]-10001]=3000;  preB=1; block[w[0].y[i]][w[0].x[i]+bb]=1; 
+					break;
+				}//물풍선일때 해야될 것
+				else if((balloonBlock(0,bb,i,0)>=20001)&&(balloonBlock(0,bb,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[0].y[i]][w[0].x[i]+bb]-20001]=3000;  preB=1; block[w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -651,6 +667,10 @@ for(kk=0;kk<2;kk++){
 					w[0].countTime[block[w[0].y[i]-cc][w[0].x[i]]-10001]=3000;  preB=1; block[w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
+				else if((balloonBlock(-cc,0,i,0)>=20001)&&(balloonBlock(-cc,0,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[0].y[i]-cc][w[0].x[i]]-20001]=3000;  preB=1; block[w[0].y[i]-cc][w[0].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
 			}
 			for(dd=1;dd<=w[0].len;dd++){
 				if(balloonBlock(dd,0,i,0)==1){ break; }
@@ -660,79 +680,140 @@ for(kk=0;kk<2;kk++){
 					w[0].countTime[block[w[0].y[i]+dd][w[0].x[i]]-10001]=3000;  preB=1; block[w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
+				else if((balloonBlock(dd,0,i,0)>=20001)&&(balloonBlock(dd,0,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[0].y[i]+dd][w[0].x[i]]-20001]=3000;  preB=1; block[w[0].y[i]+dd][w[0].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
+			}
+		}
+	}
+	for(var i=0;i<w[1].possibleCount;i++){
+		if(w[1].count[i])if(w[1].countTime[i]==3000){
+			block[w[1].y[i]][w[1].x[i]]=1;
+			for(aa=1;aa<=w[1].len;aa++){
+				if(balloonBlock(0,-aa,i,1)==1){ break; }
+				else if(balloonBlock(0,-aa,i,1)==2147483647){ break; }
+				else if(balloonBlock(0,-aa,i,1)==10000){ break; }
+				else if((balloonBlock(0,-aa,i,1)>=20001)&&(balloonBlock(0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[1].y[i]][w[1].x[i]-aa]-20001]=3000;  preB=1; block[w[1].y[i]][w[1].x[i]-aa]=1; 
+					break;
+				}//물풍선일때 해야될 것
+				else if((balloonBlock(0,-aa,i,1)>=10001)&&(balloonBlock(0,-aa,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[block[w[1].y[i]][w[1].x[i]-aa]-10001]=3000;  preB=1; block[w[1].y[i]][w[1].x[i]-aa]=1; 
+					break;
+				}//물풍선일때 해야될 것
+			}
+			for(bb=1;bb<=w[1].len;bb++){
+				if(balloonBlock(0,bb,i,1)==1){ break; }
+				else if(balloonBlock(0,bb,i,1)==2147483647){ break; }
+				else if(balloonBlock(0,bb,i,1)==10000){ break; }
+				else if((balloonBlock(0,bb,i,1)>=20001)&&(balloonBlock(0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[1].y[i]][w[1].x[i]+bb]-20001]=3000;  preB=1; block[w[1].y[i]][w[1].x[i]+bb]=1; 
+					break;
+				}//물풍선일때 해야될 것
+				else if((balloonBlock(0,bb,i,1)>=10001)&&(balloonBlock(0,bb,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[block[w[1].y[i]][w[1].x[i]+bb]-10001]=3000;  preB=1; block[w[1].y[i]][w[1].x[i]+bb]=1; 
+					break;
+				}//물풍선일때 해야될 것
+			}
+			for(cc=1;cc<=w[1].len;cc++){
+				if(balloonBlock(-cc,0,i,1)==1){ break; }
+				else if(balloonBlock(-cc,0,i,1)==2147483647){ break; }
+				else if(balloonBlock(-cc,0,i,1)==10000){ break; }
+				else if((balloonBlock(-cc,0,i,1)>=20001)&&(balloonBlock(-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[1].y[i]-cc][w[1].x[i]]-20001]=3000;  preB=1; block[w[1].y[i]-cc][w[1].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
+				else if((balloonBlock(-cc,0,i,1)>=10001)&&(balloonBlock(-cc,0,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[block[w[1].y[i]-cc][w[1].x[i]]-10001]=3000;  preB=1; block[w[1].y[i]-cc][w[1].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
+			}
+			for(dd=1;dd<=w[1].len;dd++){
+				if(balloonBlock(dd,0,i,1)==1){ break; }
+				else if(balloonBlock(dd,0,i,1)==2147483647){ break; }
+				else if(balloonBlock(dd,0,i,1)==10000){ break; }
+				else if((balloonBlock(dd,0,i,1)>=20001)&&(balloonBlock(dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[block[w[1].y[i]+dd][w[1].x[i]]-20001]=3000;  preB=1; block[w[1].y[i]+dd][w[1].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
+				else if((balloonBlock(dd,0,i,1)>=10001)&&(balloonBlock(dd,0,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[block[w[1].y[i]+dd][w[1].x[i]]-10001]=3000;  preB=1; block[w[1].y[i]+dd][w[1].x[i]]=1; 
+					break;
+				}//물풍선일때 해야될 것
 			}
 		}
 	}
 }
-for(kk=0;kk<1;kk++){
-	for(var i=0;i<w[0].possibleCount;i++){<!--물풍선 터지는것
-		if(w[0].count[i]){
-			if(w[0].countTime[i]<3000) ctx.drawImage(w[0].image,backgroundx+(w[0].x[i]-1)*40-27,backgroundy+(w[0].y[i]-1)*40-36,90,90);
-			else if(w[0].countTime[i]==3000){
-				block[w[0].y[i]][w[0].x[i]]=1;
-				for(w[0].leftLen[i]=1;w[0].leftLen[i]<=w[0].len;w[0].leftLen[i]++){
-					if(balloonBlock(0,-w[0].leftLen[i],i,0)==2147483647){ w[0].leftBlock[i]=2147483647; break; }
-					else if(balloonBlock(0,-w[0].leftLen[i],i,0)==1){ w[0].leftBlock[i]=1; break; }
-					else if((balloonBlock(0,-w[0].leftLen[i],i,0)>=100)&&(balloonBlock(0,-w[0].leftLen[i],i,0)<110)){	
-						for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]==obstacleMap[a].y)&&(w[0].x[i]-w[0].leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+for(kk=0;kk<2;kk++){<!--물풍선 터지는것
+	for(var i=0;i<w[kk].possibleCount;i++){
+		if(w[kk].count[i]){
+			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i]-1)*oneBlock-27,backgroundy+(w[kk].y[i]-1)*oneBlock-36,90,90);
+			else if(w[kk].countTime[i]==3000){
+				block[w[kk].y[i]][w[kk].x[i]]=1;
+				for(w[kk].leftLen[i]=1;w[kk].leftLen[i]<=w[kk].len;w[kk].leftLen[i]++){
+					if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
+					else if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==1){ w[kk].leftBlock[i]=1; break; }
+					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=100)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<110)){	
+						for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]==obstacleMap[a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(0,-w[0].leftLen[i],i,0)==10000){ w[0].leftBlock[i]=10000; break; }
+					else if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==10000){ w[kk].leftBlock[i]=10000; break; }
 				}
-				for(w[0].rightLen[i]=1;w[0].rightLen[i]<=w[0].len;w[0].rightLen[i]++){
-					if(balloonBlock(0,w[0].rightLen[i],i,0)==2147483647){ w[0].rightBlock[i]=2147483647; break; }
-					else if(balloonBlock(0,w[0].rightLen[i],i,0)==1){ w[0].rightBlock[i]=1; break; }
-					else if((balloonBlock(0,w[0].rightLen[i],i,0)>=100)&&(balloonBlock(0,w[0].rightLen[i],i,0)<110)){	
-						for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]==obstacleMap[a].y)&&(w[0].x[i]+w[0].rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				for(w[kk].rightLen[i]=1;w[kk].rightLen[i]<=w[kk].len;w[kk].rightLen[i]++){
+					if(balloonBlock(0,w[kk].rightLen[i],i,kk)==2147483647){ w[kk].rightBlock[i]=2147483647; break; }
+					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==1){ w[kk].rightBlock[i]=1; break; }
+					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=100)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<110)){	
+						for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]==obstacleMap[a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(0,w[0].rightLen[i],i,0)==10000){ w[0].rightBlock[i]=10000; break; }
+					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==10000){ w[kk].rightBlock[i]=10000; break; }
 				}
-				for(w[0].upLen[i]=1;w[0].upLen[i]<=w[0].len;w[0].upLen[i]++){
-					if(balloonBlock(-w[0].upLen[i],0,i,0)==2147483647){ w[0].upBlock[i]=2147483647; break; }
-					else if(balloonBlock(-w[0].upLen[i],0,i,0)==1){ w[0].upBlock[i]=1; break; }
-					else if((balloonBlock(-w[0].upLen[i],0,i,0)>=100)&&(balloonBlock(-w[0].upLen[i],0,i,0)<110)){
-						for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]-w[0].upLen[i]==obstacleMap[a].y)&&(w[0].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				for(w[kk].upLen[i]=1;w[kk].upLen[i]<=w[kk].len;w[kk].upLen[i]++){
+					if(balloonBlock(-w[kk].upLen[i],0,i,kk)==2147483647){ w[kk].upBlock[i]=2147483647; break; }
+					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==1){ w[kk].upBlock[i]=1; break; }
+					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=100)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<110)){
+						for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[a].y)&&(w[kk].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(-w[0].upLen[i],0,i,0)==10000){ w[0].upBlock[i]=10000; break; }
+					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==10000){ w[kk].upBlock[i]=10000; break; }
 				}
-				for(w[0].downLen[i]=1;w[0].downLen[i]<=w[0].len;w[0].downLen[i]++){
-					if(balloonBlock(w[0].downLen[i],0,i,0)==2147483647){ w[0].downBlock[i]=2147483647; break; }
-					else if(balloonBlock(w[0].downLen[i],0,i,0)==1){ w[0].downBlock[i]=1; break; }
-					else if((balloonBlock(w[0].downLen[i],0,i,0)>=100)&&(balloonBlock(w[0].downLen[i],0,i,0)<110)){
-						for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]+w[0].downLen[i]==obstacleMap[a].y)&&(w[0].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				for(w[kk].downLen[i]=1;w[kk].downLen[i]<=w[kk].len;w[kk].downLen[i]++){
+					if(balloonBlock(w[kk].downLen[i],0,i,kk)==2147483647){ w[kk].downBlock[i]=2147483647; break; }
+					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==1){ w[kk].downBlock[i]=1; break; }
+					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<110)){
+						for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[a].y)&&(w[kk].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[0].downLen[i],0,i,0)==10000){ w[0].downBlock[i]=10000; break; }
+					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
 				}
-				ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1)*40,40,40);
-				for(var n=1;n<w[0].leftLen[i];n++){ block[w[0].y[i]][w[0].x[i]-n]=1; ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1-n)*40,backgroundy+(w[0].y[i]-1)*40,40,40); }
-				for(var n=1;n<w[0].rightLen[i];n++){ block[w[0].y[i]][w[0].x[i]+n]=1; ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1+n)*40,backgroundy+(w[0].y[i]-1)*40,40,40); }
-				for(var n=1;n<w[0].upLen[i];n++){ block[w[0].y[i]-n][w[0].x[i]]=1; ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1-n)*40,40,40); }
-				for(var n=1;n<w[0].downLen[i];n++){ block[w[0].y[i]+n][w[0].x[i]]=1; ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1+n)*40,40,40); }
+				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock);
+				for(var n=1;n<w[kk].leftLen[i];n++){ block[w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1-n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].rightLen[i];n++){ block[w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1+n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].upLen[i];n++){ block[w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].downLen[i];n++){ block[w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1+n)*oneBlock,oneBlock,oneBlock); }
 			}
-			else if((w[0].countTime[i]>3000)&&(w[0].countTime[i]<=4000)){
-				ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1)*40,40,40);
-				for(var n=1;n<w[0].leftLen[i];n++){ ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1-n)*40,backgroundy+(w[0].y[i]-1)*40,40,40); }
-				for(var n=1;n<w[0].rightLen[i];n++){ ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1+n)*40,backgroundy+(w[0].y[i]-1)*40,40,40); }
-				for(var n=1;n<w[0].upLen[i];n++){ ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1-n)*40,40,40); }
-				for(var n=1;n<w[0].downLen[i];n++){ ctx.drawImage(w[0].image2,backgroundx+(w[0].x[i]-1)*40,backgroundy+(w[0].y[i]-1+n)*40,40,40); }
+			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=4000)){
+				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock);
+				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1-n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1+n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].upLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1+n)*oneBlock,oneBlock,oneBlock); }
 			}
 			else{ 
-				for(var n=1;n<w[0].leftLen[i];n++){ block[w[0].y[i]][w[0].x[i]-n]=0; }
-				for(var n=1;n<w[0].rightLen[i];n++){ block[w[0].y[i]][w[0].x[i]+n]=0; }
-				for(var n=1;n<w[0].upLen[i];n++){ block[w[0].y[i]-n][w[0].x[i]]=0; }
-				for(var n=1;n<w[0].downLen[i];n++){ block[w[0].y[i]+n][w[0].x[i]]=0; }
-				if(w[0].leftBlock[i]==10000)if(balloonBlock(0,-w[0].leftLen[i],i,0)==10000){
-					for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]==obstacleMap[a].y)&&(w[0].x[i]-w[0].leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				for(var n=1;n<w[kk].leftLen[i];n++){ block[w[kk].y[i]][w[kk].x[i]-n]=0; }
+				for(var n=1;n<w[kk].rightLen[i];n++){ block[w[kk].y[i]][w[kk].x[i]+n]=0; }
+				for(var n=1;n<w[kk].upLen[i];n++){ block[w[kk].y[i]-n][w[kk].x[i]]=0; }
+				for(var n=1;n<w[kk].downLen[i];n++){ block[w[kk].y[i]+n][w[kk].x[i]]=0; }
+				if(w[kk].leftBlock[i]==10000)if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==10000){
+					for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]==obstacleMap[a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[0].rightBlock[i]==10000)if(balloonBlock(0,w[0].rightLen[i],i,0)==10000){
-					for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]==obstacleMap[a].y)&&(w[0].x[i]+w[0].rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				if(w[kk].rightBlock[i]==10000)if(balloonBlock(0,w[kk].rightLen[i],i,kk)==10000){
+					for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]==obstacleMap[a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[0].upBlock[i]==10000)if(balloonBlock(-w[0].upLen[i],0,i,0)==10000){
-					for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]-w[0].upLen[i]==obstacleMap[a].y)&&(w[0].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				if(w[kk].upBlock[i]==10000)if(balloonBlock(-w[kk].upLen[i],0,i,kk)==10000){
+					for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[a].y)&&(w[kk].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[0].downBlock[i]==10000)if(balloonBlock(w[0].downLen[i],0,i,0)==10000){
-					for(var a=0;a<obstacleMap.length;a++){ if((w[0].y[i]+w[0].downLen[i]==obstacleMap[a].y)&&(w[0].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
+				if(w[kk].downBlock[i]==10000)if(balloonBlock(w[kk].downLen[i],0,i,kk)==10000){
+					for(var a=0;a<obstacleMap.length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[a].y)&&(w[kk].x[i]==obstacleMap[a].x)&&(obstacleMap[a].existence)) {obstacleBoom(a); break;} }
 				}
-				w[0].count[i]=0; w[0].countTime[i]=0; block[w[0].y[i]][w[0].x[i]]=0;
+				w[kk].count[i]=0; w[kk].countTime[i]=0; block[w[kk].y[i]][w[kk].x[i]]=0;
 			}
 		}
 	}
@@ -742,14 +823,14 @@ if(0){//block정보 화면에 표시
 	ctx.font = "15px Arial";
 	for(var i=0;i<52;i++)
 		for(var n=0;n<102;n++)
-			ctx.fillText(block[i][n],backgroundx+(n-1)*40,backgroundy+(i-1)*40+15);
+			ctx.fillText(block[i][n],backgroundx+(n-1)*oneBlock,backgroundy+(i-1)*oneBlock+15);
 }
 if(dialogueSet) { Talking(); }<!--drawdialogue
 if(map[32]){
-	if(sight[0]==0){ if(x[0]%40==0) { if(parseInt( block[Math.floor(y[0]/40)+1][x[0]/40]/ 1000)==1) npcTalk(block[Math.floor(y[0]/40)+1][x[0]/40]%1000); else if(parseInt(block[Math.floor(y[0]/40)+2][x[0]/40]/ 1000)==1) npcTalk(block[Math.floor(y[0]/40)+2][x[0]/40]%1000);}}
-	else if(sight[0]==1){ if(y[0]%40==0) { if(parseInt(block[y[0]/40][Math.floor(x[0]/40)+1]/ 1000)==1) npcTalk(block[y[0]/40][Math.floor(x[0]/40)+1]%1000); else if(parseInt(block[y[0]/40][Math.floor(x[0]/40)+2]/ 1000)==1) npcTalk(block[y[0]/40][Math.floor(x[0]/40)+2]%1000)}}
-	else if(sight[0]==2){ if(x[0]%40==0) { if(parseInt(block[Math.floor(y[0]/40)+1][x[0]/40+2]/ 1000)==1) npcTalk(block[Math.floor(y[0]/40)+1][x[0]/40+2]%1000); else if(parseInt(block[Math.floor(y[0]/40)+2][x[0]/40+2]/ 1000)==1) npcTalk(block[Math.floor(y[0]/40)+2][x[0]/40+2]%1000)}}
-	else{ if(y[0]%40==0) { if(parseInt(block[y[0]/40+2][Math.floor(x[0]/40)+1]/ 1000)==1) npcTalk(block[y[0]/40+2][Math.floor(x[0]/40)+1]%1000); else if(parseInt(block[y[0]/40+2][Math.floor(x[0]/40)+2]/ 1000)==1) npcTalk(block[y[0]/40+2][Math.floor(x[0]/40)+2]%1000)}}
+	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( block[Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]/ 1000)==1) npcTalk(block[Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]%1000); else if(parseInt(block[Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]/ 1000)==1) npcTalk(block[Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]%1000);}}
+	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(block[y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(block[y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]%1000); else if(parseInt(block[y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]/ 1000)==1) npcTalk(block[y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]%1000)}}
+	else if(sight[0]==2){ if(x[0]%oneBlock==0) { if(parseInt(block[Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+2]/ 1000)==1) npcTalk(block[Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+2]%1000); else if(parseInt(block[Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock+2]/ 1000)==1) npcTalk(block[Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock+2]%1000)}}
+	else{ if(y[0]%oneBlock==0) { if(parseInt(block[y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(block[y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+1]%1000); else if(parseInt(block[y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+2]/ 1000)==1) npcTalk(block[y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+2]%1000)}}
 }<!--spacebar-->
 
 }
