@@ -15,8 +15,8 @@ var ctx=can.getContext("2d");
 var map={};
 var oneBlock=40;
 var halfBlock=oneBlock/2;
-var x = [80, 120];
-var y = [40, 40];
+var x = [80, 1080];
+var y = [40, 480];
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -24,8 +24,8 @@ var dialogueNpc=0;<!--대화중인 npc-->
 var sight=[3,3];<!--좌:0 상:1 우:2 하: 3-->
 var backgroundx,backgroundy,charx,chary;
 var mw,mh;<!--mapwidth mapheight-->
-mw=4000;
-mh=2000;
+mw=1200;
+mh=800;
 var mwBlock=mw/oneBlock, mhBlock=mh/oneBlock;
 
 function playMusic(id){
@@ -90,17 +90,17 @@ var obstacleMap = [
 	new makeObstacle("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png"),
 	new makeObstacle("통",8,8,1,1,"https://diotheworld.github.io/image/tong.png"),
 ];
-for(var i=1;i<=50;i++){
+for(var i=1;i<=mhBlock;i++){
 	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",1,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
-	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",100,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
+	obstacleMap[obstacleMap.length]=new makeObstacle("세로철조망",mwBlock,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
 }
-for(var i=2;i<=99;i++){
+for(var i=2;i<=mwBlock-1;i++){
 	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
-	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,50,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+	obstacleMap[obstacleMap.length]=new makeObstacle("가로철조망",i,mhBlock,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 }
 for(var i=0;i<40;i++){
 	for(var n=0;n<23;n++)
-	obstacleMap[obstacleMap.length]=new makeObstacle("통",2*i+18,2*n+2,1,1,"https://diotheworld.github.io/image/tong.png");
+	obstacleMap[obstacleMap.length]=new makeObstacle("통",2*i,2*n,1,1,"https://diotheworld.github.io/image/tong.png");
 }
 <!--장애물 만들기
 function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
@@ -111,10 +111,7 @@ function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 	this.sizex=sizex;
 	this.sizey=sizey;
 	this.state=0;
-	this.item=Math.floor(Math.random() * 3);
-	for(a=0;a<sizey;a++)
-		for(b=0;b<sizex;b++)
-			block[y+a][x+b]=10000;
+	this.item=Math.floor(Math.random() * 6);
 	this.image=new Array(2);
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
@@ -123,6 +120,13 @@ function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
+	if((x>mwBlock+1)||(x<1)||(y>mhBlock+1)||(y<1)||(block[y][x]!=0)){
+		this.existence=0;
+		return;
+	}
+	for(a=0;a<sizey;a++)
+		for(b=0;b<sizex;b++)
+			block[y+a][x+b]=10000;
 }
 <!--장애물 그리기
 function drawObstacles(){
@@ -148,9 +152,13 @@ function makeNpc(name,x,y,source){
 	this.name=name;
 	this.x=x;
     this.y=y;
-    block[y][x]=2;
     this.image=new Image();
     this.image.src=source;
+	if((x>mwBlock+1)||(x<1)||(y>mhBlock+1)||(y<1)){
+		this.x=0; this.y=0;
+		return;
+	}
+	block[y][x]=2;
 }
 function setNpcBlock(){
 	var a=0;
@@ -266,11 +274,11 @@ function Talking(){
 		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
 }
 var w=[0,0];
-for(k=0;k<2;k++){
+for(k=0;k<2;k++){//물풍선
 	w[k]={
-		maxPossibleCount:50, possibleCount:10,<!--물풍선 쓸 수 있는 개수
-		maxLen:20, len:10,<!--물줄기
-		speedCount:15, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
+		maxPossibleCount:100, possibleCount:1,<!--물풍선 쓸 수 있는 개수
+		maxLen:50, len:1,<!--물줄기
+		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		x:1,
@@ -610,17 +618,13 @@ if(dialogueSet==0){
 			waterBallon(w[0].order,x[0],y[0],0);
 		}
 	}<!-->-->
-	if(map[191]){
-		w[0].inBalloon=0;
-	}<!--?-->
+	if(map[191]){ w[0].inBalloon=0; }<!--?-->
 	if(map[65]&&(w[1].inBalloon==0)){
 		if((w[1].count[w[1].order]==0)&&(block[Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==0)){
 			waterBallon(w[1].order,x[1],y[1],1);
 		}
 	}<!--a-->
-	if(map[81]){
-		w[1].inBalloon=0;
-	}<!--q-->
+	if(map[81]){ w[1].inBalloon=0; }<!--q-->
 }
 for(kk=0;kk<2;kk++){
 	for(var i=0;i<w[kk].possibleCount;i++){<!--물풍선 각각 시간초 증가
