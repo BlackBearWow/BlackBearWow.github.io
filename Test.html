@@ -265,8 +265,8 @@ var w=[0,0];
 for(k=0;k<2;k++){
 	w[k]={
 		maxPossibleCount:50, possibleCount:10,<!--물풍선 쓸 수 있는 개수
-		maxLen:20, len:17,<!--물줄기
-		speedCount:20, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
+		maxLen:20, len:10,<!--물줄기
+		speedCount:15, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,8,10,20,40],<!--롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		x:1,
@@ -316,7 +316,7 @@ for(k=0;k<2;k++){
 	w[k].image2.src=("https://diotheworld.github.io/image/water.jpg");
 }
 
-function charBlock(Y,X){ return block[y[0]/40+1+Y][x[0]/40+1+X]; }
+function charBlock(Y,X,k){ return block[y[k]/40+1+Y][x[k]/40+1+X]; }
 function balloonBlock(Y,X,k,j){ return block[w[j].y[k]+Y][w[j].x[k]+X]; }
 
 function waterBallon(k,x,y,j){
@@ -349,6 +349,22 @@ function ifDownKeyDown(){
 	sight[0]=3;
 	if(downSet[0]==0){	downSet[0]=1; }
 }
+function ifLeftKeyDown2(){
+	sight[1]=0;
+	if(leftSet[1]==0){	leftSet[1]=1; }
+}
+function ifRightKeyDown2(){
+	sight[1]=2;
+	if(rightSet[1]==0){ rightSet[1]=1; }
+}
+function ifUpKeyDown2(){
+	sight[1]=1;
+	if(upSet[1]==0){ upSet[1]=1; }
+}
+function ifDownKeyDown2(){
+	sight[1]=3;
+	if(downSet[1]==0){	downSet[1]=1; }
+}
 
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
@@ -380,65 +396,131 @@ if(dialogueSet==0){
 			if(map[37]){
 				sight[0]=0;
 				if(map[38]) {
-					if(((charBlock(-1,-1)/200)<1)&&((charBlock(-1,0)/200)<1)&&((charBlock(0,-1)/200)<1)){ ifLeftKeyDown(); ifUpKeyDown(); }
-					else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
-					else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+					if(((charBlock(-1,-1,0)/200)<1)&&((charBlock(-1,0,0)/200)<1)&&((charBlock(0,-1,0)/200)<1)){ ifLeftKeyDown(); ifUpKeyDown(); }
+					else if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown();
+					else if((charBlock(-1,0,0)/200)<1) ifUpKeyDown();
 				}
 				else if(map[40]) {
-					if(((charBlock(0,-1)/200)<1)&&((charBlock(+1,-1)/200)<1)&&((charBlock(+1,0)/200)<1)){ ifLeftKeyDown(); ifDownKeyDown(); }
-					else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
-					else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+					if(((charBlock(0,-1,0)/200)<1)&&((charBlock(+1,-1,0)/200)<1)&&((charBlock(+1,0,0)/200)<1)){ ifLeftKeyDown(); ifDownKeyDown(); }
+					else if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown();
+					else if((charBlock(+1,0,0)/200)<1) ifDownKeyDown();
 				}
-				else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+				else if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown();
 			}
 			else if(map[39]){
 				sight[0]=2;
 				if(map[38]) { 
-					if(((charBlock(-1,0)/200)<1)&&((charBlock(-1,+1)/200)<1)&&((charBlock(0,+1)/200)<1)){ ifRightKeyDown(); ifUpKeyDown(); }
-					else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
-					else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+					if(((charBlock(-1,0,0)/200)<1)&&((charBlock(-1,+1,0)/200)<1)&&((charBlock(0,+1,0)/200)<1)){ ifRightKeyDown(); ifUpKeyDown(); }
+					else if((charBlock(0,+1,0)/200)<1) ifRightKeyDown();
+					else if((charBlock(-1,0,0)/200)<1) ifUpKeyDown();
 				}
 				else if(map[40]) { 
-					if(((charBlock(0,+1)/200)<1)&&((charBlock(+1,0)/200)<1)&&((charBlock(+1,+1)/200)<1)){ ifRightKeyDown(); ifDownKeyDown(); }
-					else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
-					else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+					if(((charBlock(0,+1,0)/200)<1)&&((charBlock(+1,0,0)/200)<1)&&((charBlock(+1,+1,0)/200)<1)){ ifRightKeyDown(); ifDownKeyDown(); }
+					else if((charBlock(0,+1,0)/200)<1) ifRightKeyDown();
+					else if((charBlock(+1,0,0)/200)<1) ifDownKeyDown();
 				}
-				else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+				else if((charBlock(0,+1,0)/200)<1) ifRightKeyDown();
 			}
-			else if(map[38]) { sight[0]=1; if((charBlock(-1,0)/200)<1) ifUpKeyDown(); }
-			else if(map[40]) { sight[0]=3; if((charBlock(+1,0)/200)<1) ifDownKeyDown(); }
+			else if(map[38]) { sight[0]=1; if((charBlock(-1,0,0)/200)<1) ifUpKeyDown(); }
+			else if(map[40]) { sight[0]=3; if((charBlock(+1,0,0)/200)<1) ifDownKeyDown(); }
 		}
 		else if((sight[0]==0)||(sight[0]==2)){
 			if(map[38]){
 				sight[0]=1;
 				if(map[37]) {
-					if(((charBlock(-1,-1)/200)<1)&&((charBlock(-1,0)/200)<1)&&((charBlock(0,-1)/200)<1)){ ifUpKeyDown(); ifLeftKeyDown(); }
-					else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
-					else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+					if(((charBlock(-1,-1,0)/200)<1)&&((charBlock(-1,0,0)/200)<1)&&((charBlock(0,-1,0)/200)<1)){ ifUpKeyDown(); ifLeftKeyDown(); }
+					else if((charBlock(-1,0,0)/200)<1) ifUpKeyDown();
+					else if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown();
 				}
 				else if(map[39]) {
-					if(((charBlock(-1,0)/200)<1)&&((charBlock(-1,+1)/200)<1)&&((charBlock(0,+1)/200)<1)){ ifUpKeyDown(); ifRightKeyDown(); }
-					else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
-					else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+					if(((charBlock(-1,0,0)/200)<1)&&((charBlock(-1,+1,0)/200)<1)&&((charBlock(0,+1,0)/200)<1)){ ifUpKeyDown(); ifRightKeyDown(); }
+					else if((charBlock(-1,0,0)/200)<1) ifUpKeyDown();
+					else if((charBlock(0,+1,0)/200)<1) ifRightKeyDown();
 				}
-				else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+				else if((charBlock(-1,0,0)/200)<1) ifUpKeyDown();
 			}
 			else if(map[40]){
 				sight[0]=3;
 				if(map[37]) { 
-					if(((charBlock(0,-1)/200)<1)&&((charBlock(+1,-1)/200)<1)&&((charBlock(+1,0)/200)<1)){ ifDownKeyDown(); ifLeftKeyDown(); }
-					else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
-					else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+					if(((charBlock(0,-1,0)/200)<1)&&((charBlock(+1,-1,0)/200)<1)&&((charBlock(+1,0,0)/200)<1)){ ifDownKeyDown(); ifLeftKeyDown(); }
+					else if((charBlock(+1,0,0)/200)<1) ifDownKeyDown();
+					else if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown();
 				}
 				else if(map[39]) { 
-					if(((charBlock(0,+1)/200)<1)&&((charBlock(+1,0)/200)<1)&&((charBlock(+1,+1)/200)<1)){ ifDownKeyDown(); ifRightKeyDown(); }
-					else if((charBlock(+1,0)/200<1)) ifDownKeyDown();
-					else if((charBlock(0,+1)/200<1)) ifRightKeyDown();
+					if(((charBlock(0,+1,0)/200)<1)&&((charBlock(+1,0,0)/200)<1)&&((charBlock(+1,+1,0)/200)<1)){ ifDownKeyDown(); ifRightKeyDown(); }
+					else if((charBlock(+1,0,0)/200<1)) ifDownKeyDown();
+					else if((charBlock(0,+1,0)/200<1)) ifRightKeyDown();
 				}
-				else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+				else if((charBlock(+1,0,0)/200)<1) ifDownKeyDown();
 			}
-			else if(map[37]) { sight[0]=0; if((charBlock(0,-1)/200)<1) ifLeftKeyDown(); }
-			else if(map[39]) { sight[0]=2; if((charBlock(0,+1)/200)<1) ifRightKeyDown(); }
+			else if(map[37]) { sight[0]=0; if((charBlock(0,-1,0)/200)<1) ifLeftKeyDown(); }
+			else if(map[39]) { sight[0]=2; if((charBlock(0,+1,0)/200)<1) ifRightKeyDown(); }
+		}
+	}
+	if((x[1]%40==0)&&(y[1]%40)==0){
+		if((sight[1]==1)||(sight[1]==3)){
+			if(map[83]){
+				sight[1]=0;
+				if(map[69]) {
+					if(((charBlock(-1,-1,1)/200)<1)&&((charBlock(-1,0,1)/200)<1)&&((charBlock(0,-1,1)/200)<1)){ ifLeftKeyDown2(); ifUpKeyDown2(); }
+					else if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2();
+					else if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2();
+				}
+				else if(map[68]) {
+					if(((charBlock(0,-1,1)/200)<1)&&((charBlock(+1,-1,1)/200)<1)&&((charBlock(+1,0,1)/200)<1)){ ifLeftKeyDown2(); ifDownKeyDown2(); }
+					else if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2();
+					else if((charBlock(+1,0,1)/200)<1) ifDownKeyDown2();
+				}
+				else if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2();
+			}
+			else if(map[70]){
+				sight[1]=2;
+				if(map[69]) { 
+					if(((charBlock(-1,0,1)/200)<1)&&((charBlock(-1,+1,1)/200)<1)&&((charBlock(0,+1,1)/200)<1)){ ifRightKeyDown2(); ifUpKeyDown2(); }
+					else if((charBlock(0,+1,1)/200)<1) ifRightKeyDown2();
+					else if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2();
+				}
+				else if(map[68]) { 
+					if(((charBlock(0,+1,1)/200)<1)&&((charBlock(+1,0,1)/200)<1)&&((charBlock(+1,+1,1)/200)<1)){ ifRightKeyDown2(); ifDownKeyDown2(); }
+					else if((charBlock(0,+1,1)/200)<1) ifRightKeyDown2();
+					else if((charBlock(+1,0,1)/200)<1) ifDownKeyDown2();
+				}
+				else if((charBlock(0,+1,1)/200)<1) ifRightKeyDown2();
+			}
+			else if(map[69]) { sight[1]=1; if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2(); }
+			else if(map[68]) { sight[1]=3; if((charBlock(+1,0,1)/200)<1) ifDownKeyDown2(); }
+		}
+		else if((sight[1]==0)||(sight[1]==2)){
+			if(map[69]){
+				sight[1]=1;
+				if(map[83]) {
+					if(((charBlock(-1,-1,1)/200)<1)&&((charBlock(-1,0,1)/200)<1)&&((charBlock(0,-1,1)/200)<1)){ ifUpKeyDown2(); ifLeftKeyDown2(); }
+					else if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2();
+					else if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2();
+				}
+				else if(map[70]) {
+					if(((charBlock(-1,0,1)/200)<1)&&((charBlock(-1,+1,1)/200)<1)&&((charBlock(0,+1,1)/200)<1)){ ifUpKeyDown2(); ifRightKeyDown2(); }
+					else if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2();
+					else if((charBlock(0,+1,1)/200)<1) ifRightKeyDown2();
+				}
+				else if((charBlock(-1,0,1)/200)<1) ifUpKeyDown2();
+			}
+			else if(map[68]){
+				sight[1]=3;
+				if(map[83]) { 
+					if(((charBlock(0,-1,1)/200)<1)&&((charBlock(+1,-1,1)/200)<1)&&((charBlock(+1,0,1)/200)<1)){ ifDownKeyDown2(); ifLeftKeyDown2(); }
+					else if((charBlock(+1,0,1)/200)<1) ifDownKeyDown2();
+					else if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2();
+				}
+				else if(map[70]) { 
+					if(((charBlock(0,+1,1)/200)<1)&&((charBlock(+1,0,1)/200)<1)&&((charBlock(+1,+1,1)/200)<1)){ ifDownKeyDown2(); ifRightKeyDown2(); }
+					else if((charBlock(+1,0,1)/200<1)) ifDownKeyDown2();
+					else if((charBlock(0,+1,1)/200<1)) ifRightKeyDown2();
+				}
+				else if((charBlock(+1,0,1)/200)<1) ifDownKeyDown2();
+			}
+			else if(map[83]) { sight[1]=0; if((charBlock(0,-1,1)/200)<1) ifLeftKeyDown2(); }
+			else if(map[70]) { sight[1]=2; if((charBlock(0,+1,1)/200)<1) ifRightKeyDown2(); }
 		}
 	}
 }
@@ -513,17 +595,17 @@ else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary,40,40);
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1]*40,backgroundy+y[1]*40,40,40);
 else ctx.drawImage(mainChar[1][sight[0]].image,backgroundx+x[1],backgroundy+y[1],40,40);
 if(dialogueSet==0){
-	if(map[65]){
+	if(map[188]){
 		ctx.drawImage(ff,charx-120,chary,120,40);
-	}<!--a-->
-	if(map[83]&&(w[0].inBalloon==0)){
+	}<!--<-->
+	if(map[190]&&(w[0].inBalloon==0)){
 		if((w[0].count[w[0].order]==0)&&(block[Math.round(y[0]/40)+1][Math.round(x[0]/40)+1]==0)){
 			waterBallon(w[0].order,x[0],y[0],0);
 		}
-	}<!--s-->
-	if(map[68]){
+	}<!-->-->
+	if(map[191]){
 		w[0].inBalloon=0;
-	}<!--d-->
+	}<!--?-->
 }
 
 	for(var i=0;i<w[0].possibleCount;i++){<!--물풍선 각각 시간초 증가
