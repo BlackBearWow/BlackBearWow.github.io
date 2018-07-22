@@ -9,8 +9,10 @@
 </center>
 <audio id="Sugar" src="https://diotheworld.github.io/Music/DanceOfTheSugarplumFairy.mp3"/>
 <audio id="Fade" src="https://diotheworld.github.io/Music/Fade.mp3"/>
-<audio id="bb" src="https://diotheworld.github.io/Music/sports-sound13.ogg"/>
-<audio id="cc" src="https://diotheworld.github.io/Music/etc-sound0010.ogg"/>
+<audio id="Camp" src="https://diotheworld.github.io/Music/CAMP.mp3"/>
+<audio id="balloonBoom" src="https://diotheworld.github.io/Music/sports-sound13.ogg"/>
+<audio id="item" src="https://diotheworld.github.io/Music/아이템이다.mp3"/>
+<audio id="balloonSet" src="https://diotheworld.github.io/Music/etc-sound0010.ogg"/>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -339,6 +341,7 @@ function charBlock(Y,X,k){ return block[y[k]/oneBlock+1+Y][x[k]/oneBlock+1+X]; }
 function balloonBlock(Y,X,k,j){ return block[w[j].y[k]+Y][w[j].x[k]+X]; }
 
 function waterBallon(k,x,y,j){
+	playMusic2("balloonSet");
 	w[j].count[k]=1;
 	w[j].x[k]=Math.round(x/oneBlock)+1;
 	w[j].y[k]=Math.round(y/oneBlock)+1;
@@ -400,7 +403,7 @@ function start(){
 var preB=1;
 function update(){
 <!--배경음악 설정.
-playMusic("Sugar");
+playMusic("Camp");
 <!--배경이미지 좌표 설정
 if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
 else if(x[0]>600-halfBlock&&x[0]<=mw-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
@@ -594,7 +597,7 @@ if(block[Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==1)w[1].inBal
 for(kk=0;kk<2;kk++){//아이템 먹는다면?
 	if((x[kk]%oneBlock==0)&&(y[kk]%oneBlock==0)&&(w[kk].inBalloon==0)){ 
 		if((block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]>=100)&&(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]<=102)){
-			playMusic2("cc");
+			playMusic2("item");
 			if(block[y[kk]/oneBlock+1][x[kk]/oneBlock+1]==100) { 
 				for(var a=0;a<obstacleMap.length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[a].y)&&((x[kk]/oneBlock+1)==obstacleMap[a].x)) {obstacleBoom(a)} }
 				if(w[kk].speedCount<(w[kk].speed.length-1)) w[kk].speedCount+=1; 
@@ -762,7 +765,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 		if(w[kk].count[i]){
 			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i]-1)*oneBlock-27,backgroundy+(w[kk].y[i]-1)*oneBlock-36,90,90);
 			else if(w[kk].countTime[i]==3000){
-				playMusic2("bb");
+				playMusic2("balloonBoom");
 				block[w[kk].y[i]][w[kk].x[i]]=1;
 				for(w[kk].leftLen[i]=1;w[kk].leftLen[i]<=w[kk].len;w[kk].leftLen[i]++){
 					if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
