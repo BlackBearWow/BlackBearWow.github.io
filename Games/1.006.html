@@ -111,6 +111,12 @@ for(var i=0;i<40;i++){
 	for(var n=0;n<23;n++)
 	obstacleMap[obstacleMap.length]=new makeObstacle("통",2*i,2*n,1,1,"https://diotheworld.github.io/image/tong.png");
 }
+for(var i=0;i<25;i++){
+	for(var n=0;n<16;n++){
+		if(Math.floor(Math.random() * 4)<1)
+		obstacleMap[obstacleMap.length]=new makeObstacle("통",i+4,n+4,1,1,"https://diotheworld.github.io/image/tong.png");
+	}
+}
 <!--장애물 만들기
 function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
 	this.name=name;
