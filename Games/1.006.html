@@ -18,7 +18,7 @@ var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
-var oneBlock=40;
+var oneBlock=20;
 var halfBlock=oneBlock/2;
 var x = [80, 1080];
 var y = [40, 480];
@@ -769,7 +769,7 @@ preB=0;
 for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 	for(var i=0;i<w[kk].possibleCount;i++){
 		if(w[kk].count[i]){
-			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i]-1)*oneBlock-27,backgroundy+(w[kk].y[i]-1)*oneBlock-36,90,90);
+			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i]-1)*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i]-1)*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);
 			else if(w[kk].countTime[i]==3000){
 				playMusic2("balloonBoom");
 				block[w[kk].y[i]][w[kk].x[i]]=1;
