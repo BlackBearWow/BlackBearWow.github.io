@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body onload="start()" style="background-color:black">
+<center>
+<canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3"/>
+</center>
+<script>
+var can=document.getElementById("can");
+var ctx=can.getContext("2d");
+var a=new Image();
+a.src="https://diotheworld.github.io/image/바닥.png";
+for(var i=0;i<30;i++)
+for(var b=0;b<20;b++) 
+ctx.drawImage(a,i*40,b*40,40,40);
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,1200,40);
+ctx.fillRect(0,760,1200,40);
+ctx.fillRect(0,0,80,800);
+ctx.fillRect(1120,0,80,800);
+</script>
+</body>
+</html> 
