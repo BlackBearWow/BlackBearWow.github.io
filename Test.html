@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -47,7 +48,7 @@ function aud_play_pause(id) {
 
 var blockMap =new Array(2);
 blockMap[0] = new Array(52); <!-- map 0번째의 벽들 생성. 가로 102칸 세로 52칸.
-// -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선1p 20001:물풍선2p 30001:빌딩들
+// -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선1p 20001:물풍선2p 30001:빌딩들 40001:맵 이동
 // 0~999: 지나다닐 수 있는 공간 
 for(var i=0;i<mhBlock+2;i++) blockMap[0][i] = new Array(mwBlock+2);
 for(var i=0;i<mhBlock+2;i++)
@@ -659,10 +660,6 @@ ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
 drawBuildings();
 drawObstacles();
 drawNpcs();
-if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.3,oneBlock,oneBlock*1.3);
-else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.3,oneBlock,oneBlock*1.3);
-if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.3,oneBlock,oneBlock*1.3);
-else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.3,oneBlock,oneBlock*1.3);
 if(dialogueSet==0){
 	if(map[188]){
 		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
@@ -885,6 +882,10 @@ if(0){//blockMap[0]정보 화면에 표시
 		for(var n=0;n<102;n++)
 			ctx.fillText(blockMap[0][i][n],backgroundx+(n-1)*oneBlock,backgroundy+(i-1)*oneBlock+15);
 }
+if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
+else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 if(dialogueSet) { Talking(); }<!--drawdialogue
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]%1000);}}
