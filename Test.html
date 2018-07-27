@@ -1,5 +1,6 @@
 
 
+
 <html>
 <head>
 </head>
@@ -440,7 +441,7 @@ function start(){
 	setInterval(update,0);
 	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
-	window.addEventListener('mousemove', function (e) { mouseX = e.clientX; mouseY = e.clientY; })
+	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
 }
 var preB=1;
 function update(){
