@@ -22,9 +22,9 @@ window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
 document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
 
 var blockMap=new Array(mh);
-for(y_=0;y_<mh;y_++)
-for(x_=0;x_<mw;x_++)
-blockMap[y][x]=10000;
+for(yy=0;yy<mh;yy++)
+for(xx=0;xx<mw;xx++)
+blockMap[yy][xx]=10000;
 
 
 function drawInformation(){
@@ -41,9 +41,9 @@ setInterval(update,20);
 function update(){
 if(map[37]) x-=2; else if(map[39]) x+=2;
 if(map[38]) y-=2; else if(map[40]) y+=2;
-for(y_=0;y_<mh;y_++)
-for(x_=0;x_<mw;x_++)
-if(blockMap[y_][x_]==10000) 
+for(yy=0;yy<mh;yy++)
+for(xx=0;xx<mw;xx++)
+//if(blockMap[0][0]==10000) 
 ctx.drawImage(a,x_*40,y_*40,40,40);
 drawInformation();
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
