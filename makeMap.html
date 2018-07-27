@@ -44,7 +44,7 @@ if(map[38]) y-=2; else if(map[40]) y+=2;
 for(yy=0;yy<mh;yy++)
 for(xx=0;xx<mw;xx++)
 //if(blockMap[0][0]==10000) 
-ctx.drawImage(a,x_*40,y_*40,40,40);
+ctx.drawImage(a,xx*40,yy*40,40,40);
 drawInformation();
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
 }
