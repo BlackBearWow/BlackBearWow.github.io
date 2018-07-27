@@ -1,10 +1,11 @@
 
+
 <html>
 <head>
 </head>
 <body onload="start()" style="background-color:black">
 <center>
-<canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3"/>
+<canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3; cursor:none;"/>
 </center>
 <audio id="Sugar" src="https://diotheworld.github.io/Music/DanceOfTheSugarplumFairy.mp3"/>
 <audio id="Fade" src="https://diotheworld.github.io/Music/Fade.mp3"/>
@@ -31,6 +32,7 @@ var mw,mh;<!--mapwidth mapheight-->
 mw=1200;
 mh=800;
 var mwBlock=mw/oneBlock, mhBlock=mh/oneBlock;
+var mouseX, mouseY;
 
 function playMusic(id){
 	var myAudio = document.getElementById(id); 
@@ -63,6 +65,8 @@ background1.src=("https://diotheworld.github.io/image/background1.png");
 
 var ff=new Image();
 ff.src=("https://diotheworld.github.io/image/fire.png");
+var mouse=new Image();
+mouse.src=("https://diotheworld.github.io/image/cursor.png");
 
 var mainChar=[
 	[//원래캐릭터
@@ -429,13 +433,14 @@ function ifDownKeyDown2(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(npcCount+" "+w[0].upLen[0]+" "+w[0].countTime[1]+" "+w[0].countTime[2]+" "+w[0].speedCount,10,50);
+	ctx.fillText(mouseX+" "+w[0].upLen[0]+" "+w[0].countTime[1]+" "+w[0].countTime[2]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
 	setInterval(update,0);
 	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
+	window.addEventListener('mousemove', function (e) { mouseX = e.clientX; mouseY = e.clientY; })
 }
 var preB=1;
 function update(){
@@ -887,6 +892,7 @@ else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 if(dialogueSet) { Talking(); }<!--drawdialogue
+ctx.drawImage(mouse,mouseX,mouseY,30,30);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]%1000); else if(parseInt(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]%1000)}}
