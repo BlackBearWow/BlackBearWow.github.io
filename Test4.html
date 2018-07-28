@@ -437,7 +437,7 @@ function drawInformation(){
 }
 
 function start(){
-	blockMap[0][10][12]=99;
+	blockMap[0][10][12]=50201;
 	setInterval(update,0);
 	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
@@ -457,6 +457,10 @@ else if(y[0]>mh-(400+halfBlock)){ backgroundy=-mh+800; chary=y[0]-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
+		if(map[37])if((charBlock(0,-1,0)>=50000)&&(charBlock(0,-1,0)<60000)) alert('success');
+		else if(map[39])if((charBlock(0,1,0)>=50000)&&(charBlock(0,1,0)<60000)) alert('success');
+		else if(map[38])if((charBlock(-1,0,0)>=50000)&&(charBlock(-1,0,0)<60000)) alert('success');
+		else if(map[40])if((charBlock(1,0,0)>=50000)&&(charBlock(1,0,0)<60000)) alert('success');
 		if((sight[0]==1)||(sight[0]==3)){
 			if(map[37]){
 				sight[0]=0;
@@ -660,7 +664,6 @@ for(kk=0;kk<2;kk++){//아이템 먹는다면?
 				if(w[kk].len<w[kk].maxLen) w[kk].len+=1; 
 			}
 		}
-		if((blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]==99)){alert('success');}
 	}
 }
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
