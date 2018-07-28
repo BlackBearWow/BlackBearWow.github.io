@@ -1,8 +1,8 @@
+
 <html>
 <body style="background-color:black">
 <center>
 <canvas id="can" width="1200" height="800" style="border:10px solid #c3c3c3;  cursor:none;"/>
-<p id="abb"></p>
 </center>
 <script>
 var map={};
@@ -16,7 +16,14 @@ var x=0,y=0;
 var mouseX=0, mouseY=0;
 var mouse=new Image();
 mouse.src=("https://diotheworld.github.io/image/cursor.png");
-
+var blockSet=0;
+var Img=[
+	new addImage("https://diotheworld.github.io/image/바닥.png")
+];
+function addImage(source){
+	this.image=new Image();
+	this.image.src=source;
+}
 window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
 document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
@@ -29,7 +36,7 @@ for(yy=0;yy<mh;yy++)
 blockMap[yy]=new Array(mw);
 for(yy=0;yy<mh;yy++)
 for(xx=0;xx<mw;xx++)
-blockMap[yy][xx]=10000;
+blockMap[yy][xx]=2147483647;
 
 function drawInformation(){
 	ctx.font="30px Comic Sans MS";
@@ -43,7 +50,12 @@ ctx.fillRect(0,0,80,800);
 ctx.fillRect(1120,0,80,800);
 var startInterval=setInterval(update,10);
 function stop(){
-	clearInterval(startInterval);
+//	clearInterval(startInterval);
+	var myWindow = window.open("", "MsgWindow", "width=800,height=800");
+	myWindow.document.write('['+'<br>');
+	for(a=0;a<mh;a++)
+	myWindow.document.write('['+blockMap[a]+'],'+'<br>');
+	myWindow.document.write('];'+'<br>');
 }
 function update(){
 if(map[37]) x-=4; else if(map[39]) x+=4;
@@ -52,11 +64,12 @@ ctx.fillStyle='#aaaaaa';
 ctx.fillRect(0,0,1200,800);
 for(yy=0;yy<mh;yy++)
 for(xx=0;xx<mw;xx++){
-	if(blockMap[yy][xx]==10000) 
-		ctx.drawImage(abv,xx*40+x,yy*40+y,40,40);
-	else if(blockMap[yy][xx]==0) {
+	if(blockMap[yy][xx]==2147483647){
 		ctx.fillStyle="black";
 		ctx.fillRect(xx*40+x,yy*40+y,40,40);
+	}
+	else {
+		ctx.drawImage(Img[blockMap[yy][xx]].image,xx*40+x,yy*40+y,40,40);
 	}
 }
 drawInformation();
@@ -64,5 +77,6 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);
 }
 </script>
 <button onclick="stop()">stop</button>
+<p id="abb" style="color:yellow"></p>
 </body>
 </html> 
