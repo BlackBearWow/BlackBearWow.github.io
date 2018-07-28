@@ -196,13 +196,13 @@ function obstacleBoom(a){
 }
 <!--npc들
 var npcCount=0;
-var npcMap = new Array(<!--x는 최대 100, y는 최대 50
+npcMap[0] = [<!--x는 최대 100, y는 최대 50
   new makeNpc("김 상병",4,4,"https://diotheworld.github.io/image/Npc/김상병.png"), 
   new makeNpc("이 일병",17,5,"https://diotheworld.github.io/image/a.jpg"), 
   new makeNpc("최 병장",20,25,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
   new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
   new makeNpc("이성우 일병",40,40,"https://diotheworld.github.io/image/Npc/김상병.png")
-);
+];
 function makeNpc(name,x,y,source){
 	this.name=name;
 	this.x=x;
@@ -217,9 +217,9 @@ function makeNpc(name,x,y,source){
 	npcCount+=1;
 }
 function drawNpcs(){
-var a,b=npcMap.length;
+var a,b=npcMap[0].length;
 for(a=0;a<b;a++)
-ctx.drawImage(npcMap[a].image,backgroundx+(npcMap[a].x-1)*oneBlock,backgroundy+(npcMap[a].y-1)*oneBlock,oneBlock,oneBlock);
+ctx.drawImage(npcMap[0][a].image,backgroundx+(npcMap[0][a].x-1)*oneBlock,backgroundy+(npcMap[0][a].y-1)*oneBlock,oneBlock,oneBlock);
 }
 var dialogue = [  //npc의 대화들
   [
@@ -320,7 +320,7 @@ function Talking(){
 	ctx.font = "50px Arial";
 	ctx.fillStyle = "yellow";
 	if(dialogue[dialogueNpc][situation][dialogueCount]==0)
-		ctx.fillText(npcMap[dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
+		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
 	else
 		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
 }
