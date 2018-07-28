@@ -29,7 +29,7 @@ window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
 document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
 document.getElementById("can").addEventListener("onwheel", function(e) {x+=1;})
 document.getElementById("can").addEventListener("mousedown", function(e) {
-	blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=0;
+	blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
 });
 var blockMap=new Array(mh);
 for(yy=0;yy<mh;yy++)
@@ -43,11 +43,6 @@ function drawInformation(){
 	ctx.fillStyle = "red";
 	ctx.fillText(x+' '+y+' '+mh+''+mh+'',10,50);
 }
-ctx.fillStyle = "black";
-ctx.fillRect(0,0,1200,40);
-ctx.fillRect(0,760,1200,40);
-ctx.fillRect(0,0,80,800);
-ctx.fillRect(1120,0,80,800);
 var startInterval=setInterval(update,10);
 function stop(){
 //	clearInterval(startInterval);
@@ -58,8 +53,10 @@ function stop(){
 	myWindow.document.write('];'+'<br>');
 }
 function update(){
-if(map[37]) x-=4; else if(map[39]) x+=4;
-if(map[38]) y-=4; else if(map[40]) y+=4;
+if(map[37]) x+=4; else if(map[39]) x-=4;
+if(map[38]) y+=4; else if(map[40]) y-=4;
+if(map[48]) blockSet=0;
+else if(map[49]) blockSet=2147483647;
 ctx.fillStyle='#aaaaaa';
 ctx.fillRect(0,0,1200,800);
 for(yy=0;yy<mh;yy++)
