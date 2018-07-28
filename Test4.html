@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -436,6 +437,7 @@ function drawInformation(){
 }
 
 function start(){
+	blockMap[0][10][12]=99;
 	setInterval(update,0);
 	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
@@ -658,6 +660,7 @@ for(kk=0;kk<2;kk++){//아이템 먹는다면?
 				if(w[kk].len<w[kk].maxLen) w[kk].len+=1; 
 			}
 		}
+		if((blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]==99)){alert('success');}
 	}
 }
 ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
