@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -130,45 +131,43 @@ if(buildingMap[0][a].existence) ctx.drawImage(buildingMap[0][a].image[buildingMa
 }
 <!--장애물들
 obstacleMap[0] = [
-	new makeObstacle("통",3,4,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",3,6,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",4,6,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,4,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",7,4,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,6,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",7,6,1,1,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,7,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",3,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",3,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",4,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",7,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",7,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,7,"https://diotheworld.github.io/image/tong.png"),
 	
-	new makeObstacle("통",8,8,1,1,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
 ];
-if(1){//크아 라면.
-	for(var i=1;i<=mhBlock;i++){
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",1,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock,i,1,1,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
-	}
-	for(var i=2;i<=mwBlock-1;i++){
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,1,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock,1,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
-	}
+for(var i=1;i<=mhBlock;i++){
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
+}
+for(var i=2;i<=mwBlock-1;i++){
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+}
+if(0){//크아 라면.
 	for(var i=0;i<40;i++){
 		for(var n=0;n<23;n++)
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,1,1,"https://diotheworld.github.io/image/tong.png");
+		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,"https://diotheworld.github.io/image/tong.png");
 	}
 	for(var i=0;i<25;i++){
 		for(var n=0;n<16;n++){
 			if(Math.floor(Math.random() * 4)<1)
-			obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",i+4,n+4,1,1,"https://diotheworld.github.io/image/tong.png");
+			obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",i+4,n+4,"https://diotheworld.github.io/image/tong.png");
 		}
 	}
 }
 <!--장애물 만들기
-function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
+function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
 	this.name=name;
 	this.existence=1;
 	this.x=x;
     this.y=y;
-	this.sizex=sizex;
-	this.sizey=sizey;
 	this.state=0;
 	this.item=Math.floor(Math.random() * 6);
 	this.image=new Array(2);
@@ -183,15 +182,13 @@ function makeObstacle(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 		this.existence=0;
 		return;
 	}
-	for(a=0;a<sizey;a++)
-		for(b=0;b<sizex;b++)
-			blockMap[0][y+a][x+b]=10000;
+	blockMap[0][y][x]=10000;
 }
 <!--장애물 그리기
 function drawObstacles(){
 var a,b=obstacleMap[0].length;
 for(a=0;a<b;a++)
-if(obstacleMap[0][a].existence) ctx.drawImage(obstacleMap[0][a].image[obstacleMap[0][a].state],backgroundx+(obstacleMap[0][a].x-1)*oneBlock,backgroundy+(obstacleMap[0][a].y-1)*oneBlock,obstacleMap[0][a].sizex*oneBlock,obstacleMap[0][a].sizey*oneBlock);
+if(obstacleMap[0][a].existence) ctx.drawImage(obstacleMap[0][a].image[obstacleMap[0][a].state],backgroundx+(obstacleMap[0][a].x-1)*oneBlock,backgroundy+(obstacleMap[0][a].y-1)*oneBlock,oneBlock,oneBlock);
 }
 <!--장애물, 아이템 물풍선에 맞았을 때
 function obstacleBoom(a){
