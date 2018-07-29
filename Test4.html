@@ -1,4 +1,5 @@
 
+
 <html>
 <head>
 </head>
@@ -329,7 +330,7 @@ for(k=0;k<2;k++){//물풍선
 	w[k]={
 		maxPossibleCount:100, possibleCount:1,<!--물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,<!--물줄기
-		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],<!--롤러스테이트
+		speedCount:10, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],<!--롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		x:1,
@@ -457,10 +458,10 @@ else if(y[0]>mh-(400+halfBlock)){ backgroundy=-mh+800; chary=y[0]-mh+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
-		if(map[37])if((charBlock(0,-1,0)>=50000)&&(charBlock(0,-1,0)<60000)) alert('success');
-		else if(map[39])if((charBlock(0,1,0)>=50000)&&(charBlock(0,1,0)<60000)) alert('success');
-		else if(map[38])if((charBlock(-1,0,0)>=50000)&&(charBlock(-1,0,0)<60000)) alert('success');
-		else if(map[40])if((charBlock(1,0,0)>=50000)&&(charBlock(1,0,0)<60000)) alert('success');
+		if(map[37]){if((charBlock(0,-1,0)>=50000)&&(charBlock(0,-1,0)<60000)) alert('success');}
+		else if(map[39]){if((charBlock(0,1,0)>=50000)&&(charBlock(0,1,0)<60000)) alert('success');}
+		else if(map[38]){if((charBlock(-1,0,0)>=50000)&&(charBlock(-1,0,0)<60000)) alert('success');}
+		else if(map[40]){if((charBlock(1,0,0)>=50000)&&(charBlock(1,0,0)<60000)) alert('success');}
 		if((sight[0]==1)||(sight[0]==3)){
 			if(map[37]){
 				sight[0]=0;
@@ -703,6 +704,7 @@ preB=0;
 				else if(balloonBlock(0,-aa,i,0)==2147483647){ break; }
 				else if(balloonBlock(0,-aa,i,0)==10000){ break; }
 				else if(balloonBlock(0,-aa,i,0)==30000){ break; }
+				else if((balloonBlock(0,-aa,i,0)>=50000)&&(balloonBlock(0,-aa,i,0)<60000)){break;}
 				else if((balloonBlock(0,-aa,i,0)>=10001)&&(balloonBlock(0,-aa,i,0)<=(10001+w[0].maxPossibleCount))){
 					w[0].countTime[blockMap[0][w[0].y[i]][w[0].x[i]-aa]-10001]=3000;  preB=1; blockMap[0][w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
@@ -717,6 +719,7 @@ preB=0;
 				else if(balloonBlock(0,bb,i,0)==2147483647){ break; }
 				else if(balloonBlock(0,bb,i,0)==10000){ break; }
 				else if(balloonBlock(0,bb,i,0)==30000){ break; }
+				else if((balloonBlock(0,bb,i,0)>=50000)&&(balloonBlock(0,bb,i,0)<60000)){break;}
 				else if((balloonBlock(0,bb,i,0)>=10001)&&(balloonBlock(0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
 					w[0].countTime[blockMap[0][w[0].y[i]][w[0].x[i]+bb]-10001]=3000;  preB=1; blockMap[0][w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
@@ -731,6 +734,7 @@ preB=0;
 				else if(balloonBlock(-cc,0,i,0)==2147483647){ break; }
 				else if(balloonBlock(-cc,0,i,0)==10000){ break; }
 				else if(balloonBlock(-cc,0,i,0)==30000){ break; }
+				else if((balloonBlock(-cc,0,i,0)>=50000)&&(balloonBlock(-cc,0,i,0)<60000)){break;}
 				else if((balloonBlock(-cc,0,i,0)>=10001)&&(balloonBlock(-cc,0,i,0)<=(10001+w[0].maxPossibleCount))){
 					w[0].countTime[blockMap[0][w[0].y[i]-cc][w[0].x[i]]-10001]=3000;  preB=1; blockMap[0][w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
@@ -745,6 +749,7 @@ preB=0;
 				else if(balloonBlock(dd,0,i,0)==2147483647){ break; }
 				else if(balloonBlock(dd,0,i,0)==10000){ break; }
 				else if(balloonBlock(dd,0,i,0)==30000){ break; }
+				else if((balloonBlock(dd,0,i,0)>=50000)&&(balloonBlock(dd,0,i,0)<60000)){break;}
 				else if((balloonBlock(dd,0,i,0)>=10001)&&(balloonBlock(dd,0,i,0)<=(10001+w[0].maxPossibleCount))){
 					w[0].countTime[blockMap[0][w[0].y[i]+dd][w[0].x[i]]-10001]=3000;  preB=1; blockMap[0][w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
@@ -764,6 +769,7 @@ preB=0;
 				else if(balloonBlock(0,-aa,i,1)==2147483647){ break; }
 				else if(balloonBlock(0,-aa,i,1)==10000){ break; }
 				else if(balloonBlock(0,-aa,i,1)==30000){ break; }
+				else if((balloonBlock(0,-aa,i,0)>=50000)&&(balloonBlock(0,-aa,i,0)<60000)){break;}
 				else if((balloonBlock(0,-aa,i,1)>=20001)&&(balloonBlock(0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
 					w[1].countTime[blockMap[0][w[1].y[i]][w[1].x[i]-aa]-20001]=3000;  preB=1; blockMap[0][w[1].y[i]][w[1].x[i]-aa]=1; 
 					break;
@@ -778,6 +784,7 @@ preB=0;
 				else if(balloonBlock(0,bb,i,1)==2147483647){ break; }
 				else if(balloonBlock(0,bb,i,1)==10000){ break; }
 				else if(balloonBlock(0,bb,i,1)==30000){ break; }
+				else if((balloonBlock(0,bb,i,0)>=50000)&&(balloonBlock(0,bb,i,0)<60000)){break;}
 				else if((balloonBlock(0,bb,i,1)>=20001)&&(balloonBlock(0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
 					w[1].countTime[blockMap[0][w[1].y[i]][w[1].x[i]+bb]-20001]=3000;  preB=1; blockMap[0][w[1].y[i]][w[1].x[i]+bb]=1; 
 					break;
@@ -792,6 +799,7 @@ preB=0;
 				else if(balloonBlock(-cc,0,i,1)==2147483647){ break; }
 				else if(balloonBlock(-cc,0,i,1)==10000){ break; }
 				else if(balloonBlock(-cc,0,i,1)==30000){ break; }
+				else if((balloonBlock(-cc,0,i,0)>=50000)&&(balloonBlock(-cc,0,i,0)<60000)){break;}
 				else if((balloonBlock(-cc,0,i,1)>=20001)&&(balloonBlock(-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
 					w[1].countTime[blockMap[0][w[1].y[i]-cc][w[1].x[i]]-20001]=3000;  preB=1; blockMap[0][w[1].y[i]-cc][w[1].x[i]]=1; 
 					break;
@@ -806,6 +814,7 @@ preB=0;
 				else if(balloonBlock(dd,0,i,1)==2147483647){ break; }
 				else if(balloonBlock(dd,0,i,1)==10000){ break; }
 				else if(balloonBlock(dd,0,i,1)==30000){ break; }
+				else if((balloonBlock(dd,0,i,0)>=50000)&&(balloonBlock(dd,0,i,0)<60000)){break;}
 				else if((balloonBlock(dd,0,i,1)>=20001)&&(balloonBlock(dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
 					w[1].countTime[blockMap[0][w[1].y[i]+dd][w[1].x[i]]-20001]=3000;  preB=1; blockMap[0][w[1].y[i]+dd][w[1].x[i]]=1; 
 					break;
@@ -827,6 +836,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				blockMap[0][w[kk].y[i]][w[kk].x[i]]=1;
 				for(w[kk].leftLen[i]=1;w[kk].leftLen[i]<=w[kk].len;w[kk].leftLen[i]++){
 					if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
+					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=50000)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<60000)){break;}
 					else if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==1){ w[kk].leftBlock[i]=1; break; }
 					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=30000)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<=30000+buildingMap[0].length)){break;}	//해야됨
 					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=100)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<110)){	
@@ -836,6 +846,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				}
 				for(w[kk].rightLen[i]=1;w[kk].rightLen[i]<=w[kk].len;w[kk].rightLen[i]++){
 					if(balloonBlock(0,w[kk].rightLen[i],i,kk)==2147483647){ w[kk].rightBlock[i]=2147483647; break; }
+					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=50000)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<60000)){break;}
 					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==1){ w[kk].rightBlock[i]=1; break; }
 					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=100)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<110)){	
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
@@ -845,6 +856,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				}
 				for(w[kk].upLen[i]=1;w[kk].upLen[i]<=w[kk].len;w[kk].upLen[i]++){
 					if(balloonBlock(-w[kk].upLen[i],0,i,kk)==2147483647){ w[kk].upBlock[i]=2147483647; break; }
+					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=50000)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<60000)){break;}
 					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==1){ w[kk].upBlock[i]=1; break; }
 					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=100)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<110)){
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
@@ -854,6 +866,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				}
 				for(w[kk].downLen[i]=1;w[kk].downLen[i]<=w[kk].len;w[kk].downLen[i]++){
 					if(balloonBlock(w[kk].downLen[i],0,i,kk)==2147483647){ w[kk].downBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<60000)){break;}
 					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==1){ w[kk].downBlock[i]=1; break; }
 					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<110)){
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
@@ -897,7 +910,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 	}
 }
 if(1){ drawInformation(); }
-if(0){//blockMap[0]정보 화면에 표시
+if(1){//blockMap[0]정보 화면에 표시
 	ctx.font = "15px Arial";
 	for(var i=0;i<52;i++)
 		for(var n=0;n<102;n++)
