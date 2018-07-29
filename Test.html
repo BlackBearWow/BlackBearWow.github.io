@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -139,11 +140,11 @@ obstacleMap[0] = [
 	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
 ];
 for(var i=0;i<mhBlock;i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",0,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
 }
 for(var i=1;i<mwBlock;i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
 }
 if(0){//크아 라면.
@@ -382,8 +383,8 @@ function balloonBlock(Y,X,k,j){ return blockMap[0][w[j].y[k]+Y][w[j].x[k]+X]; }
 function waterBallon(k,x,y,j){
 	playMusic2("balloonSet");
 	w[j].count[k]=1;
-	w[j].x[k]=Math.round(x/oneBlock)+1;
-	w[j].y[k]=Math.round(y/oneBlock)+1;
+	w[j].x[k]=Math.round(x/oneBlock);
+	w[j].y[k]=Math.round(y/oneBlock);
 	blockMap[0][w[j].y[k]][w[j].x[k]]=(10000*(j+1)+1+w[j].order);
 	w[j].leftBlock[k]=0;
 	w[j].rightBlock[k]=0;
@@ -649,8 +650,8 @@ for(kk=0;kk<2;kk++){//상하좌우 움직이기
 		if(dddd[kk]>=oneBlock) { y[kk]=Math.round(y[kk]/oneBlock)*oneBlock; dddd[kk]=0; downSet[kk]=0; }
 	}
 }
-if(blockMap[0][Math.round(y[0]/oneBlock)+1][Math.round(x[0]/oneBlock)+1]==1)w[0].inBalloon=1;
-if(blockMap[0][Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==1)w[1].inBalloon=1;
+if(blockMap[0][Math.round(y[0]/oneBlock)][Math.round(x[0]/oneBlock)]==1)w[0].inBalloon=1;
+if(blockMap[0][Math.round(y[1]/oneBlock)][Math.round(x[1]/oneBlock)]==1)w[1].inBalloon=1;
 if((w[0].inBalloon==0)&&(w[1].inBalloon==1)){
 	if((x[0]<x[1]+oneBlock)&&(x[0]+oneBlock>x[1])&&(y[0]<y[1]+oneBlock)&&(y[0]+oneBlock>y[1])) alert("1p win");//1p우승
 }
@@ -659,18 +660,18 @@ if((w[0].inBalloon==1)&&(w[1].inBalloon==0)){
 }
 for(kk=0;kk<2;kk++){//아이템 먹는다면?
 	if((x[kk]%oneBlock==0)&&(y[kk]%oneBlock==0)&&(w[kk].inBalloon==0)){ 
-		if((blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]>=100)&&(blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]<=102)){
+		if((blockMap[0][y[kk]/oneBlock][x[kk]/oneBlock]>=100)&&(blockMap[0][y[kk]/oneBlock][x[kk]/oneBlock]<=102)){
 			playMusic2("item");
-			if(blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]==100) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[0][a].y)&&((x[kk]/oneBlock+1)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			if(blockMap[0][y[kk]/oneBlock][x[kk]/oneBlock]==100) { 
+				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
 				if(w[kk].speedCount<(w[kk].speed.length-1)) w[kk].speedCount+=1; 
 			}
-			else if(blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]==101) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[0][a].y)&&((x[kk]/oneBlock+1)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			else if(blockMap[0][y[kk]/oneBlock][x[kk]/oneBlock]==101) { 
+				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
 				if(w[kk].possibleCount<w[kk].maxPossibleCount) w[kk].possibleCount+=1; 
 			}
-			else if(blockMap[0][y[kk]/oneBlock+1][x[kk]/oneBlock+1]==102) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock+1)==obstacleMap[0][a].y)&&((x[kk]/oneBlock+1)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			else if(blockMap[0][y[kk]/oneBlock][x[kk]/oneBlock]==102) { 
+				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
 				if(w[kk].len<w[kk].maxLen) w[kk].len+=1; 
 			}
 		}
@@ -685,13 +686,13 @@ if(dialogueSet==0){
 		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
 	}<!--<-->
 	if(map[190]&&(w[0].inBalloon==0)){
-		if((w[0].count[w[0].order]==0)&&(blockMap[0][Math.round(y[0]/oneBlock)+1][Math.round(x[0]/oneBlock)+1]==0)){
+		if((w[0].count[w[0].order]==0)&&(blockMap[0][Math.round(y[0]/oneBlock)][Math.round(x[0]/oneBlock)]==0)){
 			waterBallon(w[0].order,x[0],y[0],0);
 		}
 	}<!-->-->
 	if(map[191]){ w[0].inBalloon=0; }<!--?-->
 	if(map[65]&&(w[1].inBalloon==0)){
-		if((w[1].count[w[1].order]==0)&&(blockMap[0][Math.round(y[1]/oneBlock)+1][Math.round(x[1]/oneBlock)+1]==0)){
+		if((w[1].count[w[1].order]==0)&&(blockMap[0][Math.round(y[1]/oneBlock)][Math.round(x[1]/oneBlock)]==0)){
 			waterBallon(w[1].order,x[1],y[1],1);
 		}
 	}<!--a-->
@@ -847,7 +848,7 @@ preB=0;
 for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 	for(var i=0;i<w[kk].possibleCount;i++){
 		if(w[kk].count[i]){
-			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i]-1)*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i]-1)*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);
+			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);
 			else if(w[kk].countTime[i]==3000){
 				playMusic2("balloonBoom");
 				blockMap[0][w[kk].y[i]][w[kk].x[i]]=1;
@@ -895,18 +896,18 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
 					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==30000){ w[kk].downBlock[i]=30000; break; }
 				}
-				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock);
-				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[0][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1-n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[0][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1+n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[0][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1-n)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[0][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1+n)*oneBlock,oneBlock,oneBlock); }
+				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
+				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[0][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[0][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[0][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[0][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}
 			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=4000)){
-				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock);
-				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1-n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1+n)*oneBlock,backgroundy+(w[kk].y[i]-1)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].upLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1-n)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-1)*oneBlock,backgroundy+(w[kk].y[i]-1+n)*oneBlock,oneBlock,oneBlock); }
+				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
+				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].upLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}
 			else{ 
 				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[0][w[kk].y[i]][w[kk].x[i]-n]=0; }
@@ -931,11 +932,11 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 	}
 }
 if(1){ drawInformation(); }
-if(0){//blockMap[0]정보 화면에 표시
+if(1){//blockMap[0]정보 화면에 표시
 	ctx.font = "15px Arial";
-	for(var i=0;i<52;i++)
-		for(var n=0;n<102;n++)
-			ctx.fillText(blockMap[0][i][n],backgroundx+(n-1)*oneBlock,backgroundy+(i-1)*oneBlock+15);
+	for(var i=0;i<20;i++)
+		for(var n=0;n<30;n++)
+			ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
 }
 if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
@@ -944,10 +945,10 @@ else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
 if(map[32]){
-	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock]%1000);}}
-	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+1]%1000); else if(parseInt(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock][Math.floor(x[0]/oneBlock)+2]%1000)}}
-	else if(sight[0]==2){ if(x[0]%oneBlock==0) { if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+2]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+2]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock+2]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+2][x[0]/oneBlock+2]%1000)}}
-	else{ if(y[0]%oneBlock==0) { if(parseInt(blockMap[0][y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+1]%1000); else if(parseInt(blockMap[0][y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+2]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock+2][Math.floor(x[0]/oneBlock)+2]%1000)}}
+	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[0][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
+	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[0][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[0][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
+	else if(sight[0]==2){ if(x[0]%oneBlock==0) { if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]%1000); else if(parseInt(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[0][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]%1000)}}
+	else{ if(y[0]%oneBlock==0) { if(parseInt(blockMap[0][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[0][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[0][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]%1000)}}
 }<!--spacebar-->
 
 }
