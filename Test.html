@@ -54,7 +54,7 @@ function aud_stop(id) {
 }
 
 var blockMap =new Array(2);
-blockMap[0] = new Array(mhBlock); <!-- map 0번째의 벽들 생성. 가로 102칸 세로 52칸.
+blockMap[0] = new Array(mhBlock+2); <!-- map 0번째의 벽들 생성. 가로 102칸 세로 52칸.
 // -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선1p 20001:물풍선2p 30001:빌딩들 40001:맵 이동
 // 0~999: 지나다닐 수 있는 공간 
 for(var i=0;i<mhBlock+2;i++) blockMap[0][i] = new Array(mwBlock+2);
@@ -140,12 +140,12 @@ obstacleMap[0] = [
 	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
 ];
 for(var i=0;i<mhBlock;i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png");
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",0,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][0]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][mwBlock-1]=2147483647;
 }
-for(var i=1;i<mwBlock;i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png");
+for(var i=0;i<mwBlock;i++){
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][0][i]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][mhBlock-1][i]=2147483647;
 }
 if(0){//크아 라면.
 	for(var i=0;i<40;i++){
@@ -175,7 +175,7 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
-	if((x>mwBlock+1)||(x<1)||(y>mhBlock+1)||(y<1)||(blockMap[0][y][x]!=0)){
+	if((x>mwBlock)||(x<0)||(y>mhBlock)||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
 	}
@@ -656,7 +656,7 @@ if((w[0].inBalloon==0)&&(w[1].inBalloon==1)){
 	if((x[0]<x[1]+oneBlock)&&(x[0]+oneBlock>x[1])&&(y[0]<y[1]+oneBlock)&&(y[0]+oneBlock>y[1])) alert("1p win");//1p우승
 }
 if((w[0].inBalloon==1)&&(w[1].inBalloon==0)){
-	if((x[1]<x[0]+oneBlock)&&(x[1]+oneBlock>x[0])&&(y[1]<y[0]+oneBlock)&&(y[1]+oneBlock>y[0])) alert("1p win");//1p우승
+	if((x[1]<x[0]+oneBlock)&&(x[1]+oneBlock>x[0])&&(y[1]<y[0]+oneBlock)&&(y[1]+oneBlock>y[0])) alert("2p win");//2p우승
 }
 for(kk=0;kk<2;kk++){//아이템 먹는다면?
 	if((x[kk]%oneBlock==0)&&(y[kk]%oneBlock==0)&&(w[kk].inBalloon==0)){ 
