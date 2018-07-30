@@ -29,7 +29,8 @@ var dialogueNpc=0;<!--대화중인 npc-->
 var sight=[3,3];<!--좌:0 상:1 우:2 하: 3-->
 var backgroundx,backgroundy,charx,chary;
 var background=[
-	new makeBackground("https://diotheworld.github.io/image/background1.png")
+	new makeBackground("https://diotheworld.github.io/image/background1.png"),
+	new makeBackground("https://diotheworld.github.io/image/a.jpg"),
 ];
 function makeBackground(source){
 	this.image=new Image();
@@ -154,7 +155,7 @@ for(var i=0;i<mwBlock;i++){
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][0][i]=2147483647;
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][mhBlock-1][i]=2147483647;
 }
-if(1){//크아 라면.
+if(0){//크아 라면.
 	for(var i=0;i<40;i++){
 		for(var n=0;n<23;n++)
 		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,"https://diotheworld.github.io/image/tong.png");
@@ -439,7 +440,7 @@ function mapMove(key){
 	playMusic2("door");
 	if(key==50100){//1번맵 0번 지역.
 		mapCount=1;
-		x[0]=40; y[0]=40;
+		x[0]=21*40; y[0]=36*40;
 	}
 	else {
 		mapCount=1;
@@ -454,7 +455,7 @@ function drawInformation(){
 }
 
 function start(){
-	blockMap[0][10][12]=50201;
+	blockMap[0][10][12]=50100;
 	setInterval(update,0);
 	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
@@ -684,7 +685,7 @@ for(kk=0;kk<2;kk++){//아이템 먹는다면?
 		}
 	}
 }
-ctx.drawImage(background[0].image,backgroundx,backgroundy,mw[0],mh[0]);
+ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[0],mh[0]);
 drawBuildings();
 drawObstacles();
 drawNpcs();
