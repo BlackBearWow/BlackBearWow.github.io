@@ -2,10 +2,9 @@
 <body style="background-color:black">
 <center>
 <!--<canvas id="can2" width="1200" height="40" style="border:1px solid #c3c3c3"/>-->
-<canvas id="can" width="1200" height="800" style="border:10px solid #c3c3c3;  cursor:none; float:left"/>
+<canvas id="can" width="1600" height="1600" style="border:10px solid #c3c3c3;  cursor:none; float:left"/>
 </center>
 <script>
-
 var map={};
 var mw=prompt("mw 가로 칸 개수");//가로
 var mh=prompt("mh 세로 칸 개수");//세로
@@ -242,11 +241,21 @@ function saveMakedMapInfo(){
 	myWindow.document.write('//가로:'+mw+'세로:'+mh+'<br>}');
 }
 function loadMapInfo(){
-	var finalBlockMap=blockMap;
+	var finalBlockMap=new Array(mh);
+	for(a=0;a<mh;a++)
+		finalBlockMap[a]=new Array(mw);
+	//저장할 공간 생성.
+	for(yy=0;yy<mh;yy++)
+	for(xx=0;xx<mw;xx++){
+		if(blockMap[yy][xx]==0)finalBlockMap[yy][xx]=2147483647;
+		else if(blockMap[yy][xx]==1)finalBlockMap[yy][xx]=0;
+		else if(blockMap[yy][xx]==2)finalBlockMap[yy][xx]=0;
+		else finalBlockMap[yy][xx]=2147483647;
+	}//장애물 설정
 	for(yy=0;yy<mh;yy++)
 	for(xx=0;xx<mw;xx++){
 		if(blockMap3[yy][xx]!=0)finalBlockMap[yy][xx]=blockMap3[yy][xx];
-	}
+	}//포탈 설정
 	var myWindow = window.open("", "MsgWindow", "width=800,height=800");
 	myWindow.document.write('finalBlockMap=['+'<br>');
 	for(a=0;a<mh;a++)
@@ -259,7 +268,7 @@ if(map[37]) x+=4; else if(map[39]) x-=4;
 if(map[38]) y+=4; else if(map[40]) y-=4;
 for(a=0;a<10;a++){if(map[48+a]) {blockSet=a; break;}}
 ctx.fillStyle='#aaaaaa';
-ctx.fillRect(0,0,1200,800);
+ctx.fillRect(0,0,1600,1600);
 for(yy=0;yy<mh;yy++)//blockMap
 for(xx=0;xx<mw;xx++){
 	if((blockMap[yy][xx]<100)){
