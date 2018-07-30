@@ -1,3 +1,4 @@
+
 <html>
 <head>
 </head>
@@ -27,10 +28,17 @@ var dialogueCount=-2;<!--대화중 필요한 변수-->
 var dialogueNpc=0;<!--대화중인 npc-->
 var sight=[3,3];<!--좌:0 상:1 우:2 하: 3-->
 var backgroundx,backgroundy,charx,chary;
-var mw,mh;<!--mapwidth mapheight-->
-mw=4000;
-mh=2000;
-var mwBlock=mw/oneBlock, mhBlock=mh/oneBlock;
+var background=[
+	new makeBackground("https://diotheworld.github.io/image/background1.png")
+];
+function makeBackground(source){
+	this.image=new Image();
+	this.image.src=source;
+}
+var mw=new Array(2),mh=new Array(2);<!--mapwidth mapheight-->
+mw[0]=4000;
+mh[0]=2000;
+var mwBlock=mw[0]/oneBlock, mhBlock=mh[0]/oneBlock;
 var mouseX, mouseY;
 var mapCount=0;
 
@@ -459,11 +467,11 @@ if(mapCount==0) playMusic("Camp");
 else aud_stop("Camp");
 <!--배경이미지 좌표 설정
 if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
-else if(x[0]>600-halfBlock&&x[0]<=mw-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
-else if(x[0]>mw-(600+halfBlock)){ backgroundx=-mw+1200; charx=x[0]-mw+1200; }
+else if(x[0]>600-halfBlock&&x[0]<=mw[0]-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
+else if(x[0]>mw[0]-(600+halfBlock)){ backgroundx=-mw[0]+1200; charx=x[0]-mw[0]+1200; }
 if(y[0]<=400-halfBlock){ backgroundy=0; chary=y[0]; }
-else if(y[0]>400-halfBlock&&y[0]<=mh-(400+halfBlock)){ backgroundy=-y[0]+400-halfBlock; chary=400-halfBlock; }
-else if(y[0]>mh-(400+halfBlock)){ backgroundy=-mh+800; chary=y[0]-mh+800; }
+else if(y[0]>400-halfBlock&&y[0]<=mh[0]-(400+halfBlock)){ backgroundy=-y[0]+400-halfBlock; chary=400-halfBlock; }
+else if(y[0]>mh[0]-(400+halfBlock)){ backgroundy=-mh[0]+800; chary=y[0]-mh[0]+800; }
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
@@ -676,7 +684,7 @@ for(kk=0;kk<2;kk++){//아이템 먹는다면?
 		}
 	}
 }
-ctx.drawImage(background1,backgroundx,backgroundy,mw,mh);
+ctx.drawImage(background[0].image,backgroundx,backgroundy,mw[0],mh[0]);
 drawBuildings();
 drawObstacles();
 drawNpcs();
