@@ -526,10 +526,10 @@ else if(y[0]>mh[mapCount]-(400+halfBlock)){ backgroundy=-mh[mapCount]+800; chary
 <!--대화중이라면 움직일 수 없음
 if(dialogueSet==0){
 	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
-		if(map[37]){if((charBlock(0,-1,0,mapCount)>=50000)&&(charBlock(0,-1,0,mapCount)<60000)) mapMove(charBlock(0,-1,0,mapCount));}
-		else if(map[39]){if((charBlock(0,1,0,mapCount)>=50000)&&(charBlock(0,1,0,mapCount)<60000)) mapMove(charBlock(0,1,0,mapCount));}
-		else if(map[38]){if((charBlock(-1,0,0,mapCount)>=50000)&&(charBlock(-1,0,0,mapCount)<60000)) mapMove(charBlock(-1,0,0,mapCount));}
-		else if(map[40]){if((charBlock(1,0,0,mapCount)>=50000)&&(charBlock(1,0,0,mapCount)<60000)) mapMove(charBlock(1,0,0,mapCount));}
+		if(map[37]&&(charBlock(0,-1,0,mapCount)>=50000)&&(charBlock(0,-1,0,mapCount)<60000)){ mapMove(charBlock(0,-1,0,mapCount));}
+		else if(map[39]&&(charBlock(0,1,0,mapCount)>=50000)&&(charBlock(0,1,0,mapCount)<60000)){ mapMove(charBlock(0,1,0,mapCount));}
+		else if(map[38]&&(charBlock(-1,0,0,mapCount)>=50000)&&(charBlock(-1,0,0,mapCount)<60000)){ mapMove(charBlock(-1,0,0,mapCount));}
+		else if(map[40]&&(charBlock(1,0,0,mapCount)>=50000)&&(charBlock(1,0,0,mapCount)<60000)){ mapMove(charBlock(1,0,0,mapCount));}
 		if((sight[0]==1)||(sight[0]==3)){
 			if(map[37]){
 				sight[0]=0;
