@@ -29,6 +29,8 @@ var Img=[
 	new addImage("https://diotheworld.github.io/image/계단1_2.png"),
 	new addImage("https://diotheworld.github.io/image/계단2.png"),
 	new addImage("https://diotheworld.github.io/image/계단2_2.png"),
+	new addImage("https://vignette.wikia.nocookie.net/pokemon/images/d/dc/SMUSUM_%ED%9D%94%EB%93%A4%EB%A6%AC%EB%8A%94_%EB%82%98%EB%AC%B4.png/revision/latest?cb=20171127073027&path-prefix=ko"),
+	new addImage("https://pbs.twimg.com/media/DGnJ1YnUIAAKUvt.png"),
 ]
 ];
 function addImage(source){
@@ -285,6 +287,12 @@ for(xx=0;xx<mw;xx++){
 	}
 	if((blockMap2[yy][xx]==2)||(blockMap2[yy][xx]==4)){//계단 아래로
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y,160,80);
+	}
+	if(blockMap2[yy][xx]==5){//나무
+		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y-40,40,80);
+	}
+	if(blockMap2[yy][xx]==6){//풀
+		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y-5,40,45);
 	}
 }
 
