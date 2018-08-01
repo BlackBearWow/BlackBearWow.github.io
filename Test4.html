@@ -17,6 +17,8 @@ var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var map={};
+ctx.fillStyle='yellow'; ctx.font = "50px Arial";
+ctx.fillText('Loading...',200,200);
 var oneBlock=40;
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];
@@ -36,15 +38,11 @@ function makeBackground(source){
 	this.image=new Image();
 	this.image.src=source;
 }
-var mw=new Array(3),mh=new Array(3);<!--mapwidth mapheight-->
+var mw=new Array(background.length),mh=new Array(background.length);<!--mapwidth mapheight-->
 mw[0]=4000;
 mh[0]=2000;
-for(a=1;a<background.length;a++){
-	mw[a]=background[a].image.width;
-	mh[a]=background[a].image.height;
-}
-mw[1]=background[1].image.width;
-mh[1]=1600;
+background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height;}
+background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height;}
 var mwBlock=mw[0]/oneBlock, mhBlock=mh[0]/oneBlock;
 var mouseX, mouseY;
 var mapCount=0;
@@ -447,16 +445,16 @@ function mapMove(key){
 		mapCount=1;
 		x[0]=21*40; y[0]=36*40;
 	}
-	else {
-		mapCount=1;
-		x[0]=40; y[0]=40;
+	else if(key==50000){//0번맵 0번 지역.
+		mapCount=0;
+		x[0]=12*40; y[0]=10*40;
 	}
 }
 
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(mouseX+" "+mw[1]+" "+w[0].countTime[1]+" "+w[0].countTime[2]+" "+w[0].speedCount,10,50);
+	ctx.fillText(mouseX+" "+mw[1]+" "+mh[1]+" "+w[0].countTime[2]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
