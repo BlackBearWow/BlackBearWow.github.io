@@ -142,9 +142,10 @@ function makechar(source){
 	this.image=new Image();
 	this.image.src=source;
 }
-var obstacleMap=new Array(2); //장애물: 1칸씩이고 물풍선으로 파괴가능. 아이템도 나옴.
-var buildingMap=new Array(2);	//빙딩들: 1칸이 아니고 물풍선으로 파괴 불가능.
-var npcMap=new Array(2);	//npc들. 말을 걸 수 있음
+var obstacleMap=new Array(background.length); //장애물: 1칸씩이고 물풍선으로 파괴가능. 아이템도 나옴.
+var buildingMap=new Array(background.length);	//빙딩들: 1칸이 아니고 물풍선으로 파괴 불가능.
+var npcMap=new Array(background.length);	//npc들. 말을 걸 수 있음
+var monsterMap=new Array(background.length);
 //빌딩들
 buildingMap[0]=[
 	new makeBuilding("큰통",3,7,2,2,"https://diotheworld.github.io/image/tong.png"),
@@ -245,6 +246,37 @@ if(obstacleMap[0][a].existence) ctx.drawImage(obstacleMap[0][a].image[obstacleMa
 function obstacleBoom(a){
 	if((obstacleMap[0][a].itemExistence==0)||(obstacleMap[0][a].state)){ obstacleMap[0][a].existence=0; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=0; }
 	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
+}
+monsterMap[0]=[
+	new makeMonster("몬스터",3,2,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
+];
+function makeMonster(name,x,y,hp,source){//몬스터 만들기
+	this.name=name;
+	this.existence=1;
+	this.x=x;
+    this.y=y;
+	this.hp=hp;
+	this.state=0;
+	this.item=Math.floor(Math.random() * 6);
+	this.image=new Array(2);
+    this.image[0]=new Image();
+    this.image[0].src=source;	//장애물 이미지
+	this.image[1]=new Image();	//아이템 이미지
+	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	this.itemExistence=(this.item<=2);
+	if((x>=mwBlock)||(x<0)||(y>=mhBlock)||(y<0)||(blockMap[0][y][x]!=0)){
+		this.existence=0;
+		return;
+	}
+	blockMap[0][y][x]=100;
+}
+function drawMonsters(){
+if(monsterMap[mapCount]==undefined) return;
+var a,b=monsterMap[0].length;
+for(a=0;a<b;a++)
+if(monsterMap[0][a].existence) ctx.drawImage(monsterMap[0][a].image[monsterMap[0][a].state],backgroundx+(monsterMap[0][a].x)*oneBlock,backgroundy+(monsterMap[0][a].y)*oneBlock,oneBlock,oneBlock);
 }
 <!--npc들
 var npcCount=0;
@@ -739,6 +771,7 @@ ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[mapCount],mh
 drawBuildings();
 drawObstacles();
 drawNpcs();
+drawMonsters();
 if(dialogueSet==0){
 	if(map[188]){
 		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
