@@ -256,7 +256,7 @@ monsterMap[0]=[
 for(a=0;a<mhBlock;a++)
 for(b=0;b<mwBlock;b++){
 if(Math.floor(Math.random() * 15)<1){
-var extraHp=Math.floor(Math.random() * 1500);
+var extraHp=Math.floor(Math.random() * 500);
 monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
 }
 }
@@ -442,6 +442,7 @@ for(k=0;k<2;k++){//물풍선
 		speedCount:10, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],<!--롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
+		map:1,
 		x:1,
 		y:1,
 		count:1,<!--물풍선 갯수
@@ -463,6 +464,7 @@ for(k=0;k<2;k++){//물풍선
 	w[k].y=new Array(w.possibleCount);
 	w[k].count=new Array(w.possibleCount);
 	w[k].countTime=new Array(w.possibleCount);
+	w[k].map=new Array(w.possibleCount);
 	for(var a=0;a<w[k].maxPossibleCount;a++){
 		w[k].leftLen[a]=0;
 		w[k].rightLen[a]=0;
@@ -476,6 +478,7 @@ for(k=0;k<2;k++){//물풍선
 		w[k].y[a]=0;
 		w[k].count[a]=0;
 		w[k].countTime[a]=0;
+		w[k].map[a]=0;
 	}
 	for(var a=0;a<w[k].maxLen;a++){
 		w[k].leftLen[a]=0;
@@ -494,6 +497,7 @@ function balloonBlock(Y,X,k,j){ return blockMap[mapCount][w[j].y[k]+Y][w[j].x[k]
 
 function waterBallon(k,x,y,j){
 	playMusic2("balloonSet");
+	w[j].map[k]=mapCount;
 	w[j].count[k]=1;
 	w[j].x[k]=Math.round(x/oneBlock);
 	w[j].y[k]=Math.round(y/oneBlock);
@@ -555,7 +559,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(mouseX+" "+mw[1]+" "+mh[1]+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText(w[0].map[1]+" "+mw[1]+" "+mh[1]+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
@@ -822,7 +826,7 @@ while(preB){//물풍선 같은줄에 있으면 한꺼번에 터지게
 preB=0;
 	for(var i=0;i<w[0].possibleCount;i++){
 		if(w[0].count[i])if(w[0].countTime[i]==3000){
-			blockMap[mapCount][w[0].y[i]][w[0].x[i]]=1;
+			blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]]=1;
 			for(aa=1;aa<=w[0].len;aa++){
 				if(balloonBlock(0,-aa,i,0)==1){ break; }
 				else if(balloonBlock(0,-aa,i,0)==2147483647){ break; }
@@ -891,7 +895,7 @@ preB=0;
 	}
 	for(var i=0;i<w[1].possibleCount;i++){
 		if(w[1].count[i])if(w[1].countTime[i]==3000){
-			blockMap[mapCount][w[1].y[i]][w[1].x[i]]=1;
+			blockMap[w[1].map[i]][w[1].y[i]][w[1].x[i]]=1;
 			for(aa=1;aa<=w[1].len;aa++){
 				if(balloonBlock(0,-aa,i,1)==1){ break; }
 				else if(balloonBlock(0,-aa,i,1)==2147483647){ break; }
