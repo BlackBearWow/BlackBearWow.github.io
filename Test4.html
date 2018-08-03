@@ -13,6 +13,8 @@
 <audio id="item" src="https://diotheworld.github.io/Music/아이템이다.mp3"/>
 <audio id="balloonSet" src="https://diotheworld.github.io/Music/etc-sound0010.ogg"/>
 <audio id="door" src="https://diotheworld.github.io/Music/문소리.mp3"/>
+<audio id="levelUp" src="https://diotheworld.github.io/Music/렙업.wav"/>
+<audio id="monsterdie" src="https://diotheworld.github.io/Music/monsterdie.swf.mp3"/>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -299,7 +301,7 @@ if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[0].length;
 for(a=0;a<b;a++)
 if((monsterMap[0][a].existence)&&(monsterMap[0][a].hp<=0)) {
-	monsterMap[0][a].existence=0; monsterMap[0][a].hp=0;
+	monsterMap[0][a].existence=0; monsterMap[0][a].hp=0; playMusic2('monsterdie');
 }
 }
 <!--npc들
@@ -406,15 +408,6 @@ var dialogue = [  //npc의 대화들
     ],
   ]
 ];
-function npcTalk2(n){
-	ctx.font = "30px Arial";
-	<!--ctx.strokeText("Hello World",10,50);
-	for(a=0;a<dialogue[n][situation].length;a++){
-		for(b=0;b<1000;b++)
-		ctx.strokeText(dialogue[n][situation][a],100,700);
-	}
-	map[32]=0;
-}
 function npcTalk(n){
 	dialogueNpc=n;
 	map[32]=0;
@@ -1016,7 +1009,7 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[mapCount][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
 				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[mapCount][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}
-			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=4000)){
+			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=3500)){
 				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
 				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
 				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
