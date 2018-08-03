@@ -253,6 +253,13 @@ function obstacleBoom(a){
 monsterMap[0]=[
 	new makeMonster("몬스터",3,2,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
 ];
+for(a=0;a<mhBlock;a++)
+for(b=0;b<mwBlock;b++){
+if(Math.floor(Math.random() * 15)<1){
+var extraHp=Math.floor(Math.random() * 1500);
+monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+}
+}
 function makeMonster(name,x,y,maxHp,hp,source){//몬스터 만들기
 	this.name=name;
 	this.existence=1;
