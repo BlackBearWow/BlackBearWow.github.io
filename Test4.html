@@ -493,7 +493,7 @@ for(k=0;k<2;k++){//물풍선
 }
 
 function charBlock(Y,X,k,m){ return blockMap[m][y[k]/oneBlock+Y][x[k]/oneBlock+X]; }
-function balloonBlock(Y,X,k,j){ return blockMap[mapCount][w[j].y[k]+Y][w[j].x[k]+X]; }
+function balloonBlock(m,Y,X,k,j){ return blockMap[mapCount][w[j].y[k]+Y][w[j].x[k]+X]; }
 
 function waterBallon(k,x,y,j){
 	playMusic2("balloonSet");
@@ -828,66 +828,66 @@ preB=0;
 		if(w[0].count[i])if(w[0].countTime[i]==3000){
 			blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]]=1;
 			for(aa=1;aa<=w[0].len;aa++){
-				if(balloonBlock(0,-aa,i,0)==1){ break; }
-				else if(balloonBlock(0,-aa,i,0)==2147483647){ break; }
-				else if(balloonBlock(0,-aa,i,0)==10000){ break; }
-				else if(balloonBlock(0,-aa,i,0)==30000){ break; }
-				else if((balloonBlock(0,-aa,i,0)>=50000)&&(balloonBlock(0,-aa,i,0)<60000)){break;}
-				else if((balloonBlock(0,-aa,i,0)>=1000)&&(balloonBlock(0,-aa,i,0)<2000)){break;}
-				else if((balloonBlock(0,-aa,i,0)>=10001)&&(balloonBlock(0,-aa,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(0,-aa,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
+				if(balloonBlock(w[0].map[i],0,-aa,i,0)==1){ break; }
+				else if(balloonBlock(w[0].map[i],0,-aa,i,0)==2147483647){ break; }
+				else if(balloonBlock(w[0].map[i],0,-aa,i,0)==10000){ break; }
+				else if(balloonBlock(w[0].map[i],0,-aa,i,0)==30000){ break; }
+				else if((balloonBlock(w[0].map[i],0,-aa,i,0)>=50000)&&(balloonBlock(w[0].map[i],0,-aa,i,0)<60000)){break;}
+				else if((balloonBlock(w[0].map[i],0,-aa,i,0)>=1000)&&(balloonBlock(w[0].map[i],0,-aa,i,0)<2000)){break;}
+				else if((balloonBlock(w[0].map[i],0,-aa,i,0)>=10001)&&(balloonBlock(w[0].map[i],0,-aa,i,0)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(w[0].map[i],0,-aa,i,0)-10001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(0,-aa,i,0)>=20001)&&(balloonBlock(0,-aa,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(0,-aa,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
+				else if((balloonBlock(w[0].map[i],0,-aa,i,0)>=20001)&&(balloonBlock(w[0].map[i],0,-aa,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(w[0].map[i],0,-aa,i,0)-20001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(bb=1;bb<=w[0].len;bb++){
-				if(balloonBlock(0,bb,i,0)==1){ break; }
-				else if(balloonBlock(0,bb,i,0)==2147483647){ break; }
-				else if(balloonBlock(0,bb,i,0)==10000){ break; }
-				else if(balloonBlock(0,bb,i,0)==30000){ break; }
-				else if((balloonBlock(0,bb,i,0)>=50000)&&(balloonBlock(0,bb,i,0)<60000)){break;}
-				else if((balloonBlock(0,bb,i,0)>=1000)&&(balloonBlock(0,bb,i,0)<2000)){break;}
-				else if((balloonBlock(0,bb,i,0)>=10001)&&(balloonBlock(0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(0,bb,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
+				if(balloonBlock(w[0].map[i],0,bb,i,0)==1){ break; }
+				else if(balloonBlock(w[0].map[i],0,bb,i,0)==2147483647){ break; }
+				else if(balloonBlock(w[0].map[i],0,bb,i,0)==10000){ break; }
+				else if(balloonBlock(w[0].map[i],0,bb,i,0)==30000){ break; }
+				else if((balloonBlock(w[0].map[i],0,bb,i,0)>=50000)&&(balloonBlock(w[0].map[i],0,bb,i,0)<60000)){break;}
+				else if((balloonBlock(w[0].map[i],0,bb,i,0)>=1000)&&(balloonBlock(w[0].map[i],0,bb,i,0)<2000)){break;}
+				else if((balloonBlock(w[0].map[i],0,bb,i,0)>=10001)&&(balloonBlock(w[0].map[i],0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(w[0].map[i],0,bb,i,0)-10001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(0,bb,i,0)>=20001)&&(balloonBlock(0,bb,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(0,bb,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
+				else if((balloonBlock(w[0].map[i],0,bb,i,0)>=20001)&&(balloonBlock(w[0].map[i],0,bb,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(w[0].map[i],0,bb,i,0)-20001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(cc=1;cc<=w[0].len;cc++){
-				if(balloonBlock(-cc,0,i,0)==1){ break; }
-				else if(balloonBlock(-cc,0,i,0)==2147483647){ break; }
-				else if(balloonBlock(-cc,0,i,0)==10000){ break; }
-				else if(balloonBlock(-cc,0,i,0)==30000){ break; }
-				else if((balloonBlock(-cc,0,i,0)>=50000)&&(balloonBlock(-cc,0,i,0)<60000)){break;}
-				else if((balloonBlock(-cc,0,i,0)>=1000)&&(balloonBlock(-cc,0,i,0)<2000)){break;}
-				else if((balloonBlock(-cc,0,i,0)>=10001)&&(balloonBlock(-cc,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(-cc,0,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
+				if(balloonBlock(w[0].map[i],-cc,0,i,0)==1){ break; }
+				else if(balloonBlock(w[0].map[i],-cc,0,i,0)==2147483647){ break; }
+				else if(balloonBlock(w[0].map[i],-cc,0,i,0)==10000){ break; }
+				else if(balloonBlock(w[0].map[i],-cc,0,i,0)==30000){ break; }
+				else if((balloonBlock(w[0].map[i],-cc,0,i,0)>=50000)&&(balloonBlock(w[0].map[i],-cc,0,i,0)<60000)){break;}
+				else if((balloonBlock(w[0].map[i],-cc,0,i,0)>=1000)&&(balloonBlock(w[0].map[i],-cc,0,i,0)<2000)){break;}
+				else if((balloonBlock(w[0].map[i],-cc,0,i,0)>=10001)&&(balloonBlock(w[0].map[i],-cc,0,i,0)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(w[0].map[i],-cc,0,i,0)-10001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(-cc,0,i,0)>=20001)&&(balloonBlock(-cc,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(-cc,0,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
+				else if((balloonBlock(w[0].map[i],-cc,0,i,0)>=20001)&&(balloonBlock(w[0].map[i],-cc,0,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(w[0].map[i],-cc,0,i,0)-20001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(dd=1;dd<=w[0].len;dd++){
-				if(balloonBlock(dd,0,i,0)==1){ break; }
-				else if(balloonBlock(dd,0,i,0)==2147483647){ break; }
-				else if(balloonBlock(dd,0,i,0)==10000){ break; }
-				else if(balloonBlock(dd,0,i,0)==30000){ break; }
-				else if((balloonBlock(dd,0,i,0)>=50000)&&(balloonBlock(dd,0,i,0)<60000)){break;}
-				else if((balloonBlock(dd,0,i,0)>=1000)&&(balloonBlock(dd,0,i,0)<2000)){break;}
-				else if((balloonBlock(dd,0,i,0)>=10001)&&(balloonBlock(dd,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(dd,0,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
+				if(balloonBlock(w[0].map[i],dd,0,i,0)==1){ break; }
+				else if(balloonBlock(w[0].map[i],dd,0,i,0)==2147483647){ break; }
+				else if(balloonBlock(w[0].map[i],dd,0,i,0)==10000){ break; }
+				else if(balloonBlock(w[0].map[i],dd,0,i,0)==30000){ break; }
+				else if((balloonBlock(w[0].map[i],dd,0,i,0)>=50000)&&(balloonBlock(w[0].map[i],dd,0,i,0)<60000)){break;}
+				else if((balloonBlock(w[0].map[i],dd,0,i,0)>=1000)&&(balloonBlock(w[0].map[i],dd,0,i,0)<2000)){break;}
+				else if((balloonBlock(w[0].map[i],dd,0,i,0)>=10001)&&(balloonBlock(w[0].map[i],dd,0,i,0)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(w[0].map[i],dd,0,i,0)-10001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(dd,0,i,0)>=20001)&&(balloonBlock(dd,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(dd,0,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
+				else if((balloonBlock(w[0].map[i],dd,0,i,0)>=20001)&&(balloonBlock(w[0].map[i],dd,0,i,0)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(w[0].map[i],dd,0,i,0)-20001]=3000;  preB=1; blockMap[w[0].map[i]][w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -897,66 +897,66 @@ preB=0;
 		if(w[1].count[i])if(w[1].countTime[i]==3000){
 			blockMap[w[1].map[i]][w[1].y[i]][w[1].x[i]]=1;
 			for(aa=1;aa<=w[1].len;aa++){
-				if(balloonBlock(0,-aa,i,1)==1){ break; }
-				else if(balloonBlock(0,-aa,i,1)==2147483647){ break; }
-				else if(balloonBlock(0,-aa,i,1)==10000){ break; }
-				else if(balloonBlock(0,-aa,i,1)==30000){ break; }
-				else if((balloonBlock(0,-aa,i,1)>=50000)&&(balloonBlock(0,-aa,i,1)<60000)){break;}
-				else if((balloonBlock(0,-aa,i,1)>=1000)&&(balloonBlock(0,-aa,i,1)<2000)){break;}
-				else if((balloonBlock(0,-aa,i,1)>=20001)&&(balloonBlock(0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(0,-aa,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
+				if(balloonBlock(mapCount,0,-aa,i,1)==1){ break; }
+				else if(balloonBlock(mapCount,0,-aa,i,1)==2147483647){ break; }
+				else if(balloonBlock(mapCount,0,-aa,i,1)==10000){ break; }
+				else if(balloonBlock(mapCount,0,-aa,i,1)==30000){ break; }
+				else if((balloonBlock(mapCount,0,-aa,i,1)>=50000)&&(balloonBlock(mapCount,0,-aa,i,1)<60000)){break;}
+				else if((balloonBlock(mapCount,0,-aa,i,1)>=1000)&&(balloonBlock(mapCount,0,-aa,i,1)<2000)){break;}
+				else if((balloonBlock(mapCount,0,-aa,i,1)>=20001)&&(balloonBlock(mapCount,0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(mapCount,0,-aa,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(0,-aa,i,1)>=10001)&&(balloonBlock(0,-aa,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(0,-aa,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
+				else if((balloonBlock(mapCount,0,-aa,i,1)>=10001)&&(balloonBlock(mapCount,0,-aa,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(mapCount,0,-aa,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(bb=1;bb<=w[1].len;bb++){
-				if(balloonBlock(0,bb,i,1)==1){ break; }
-				else if(balloonBlock(0,bb,i,1)==2147483647){ break; }
-				else if(balloonBlock(0,bb,i,1)==10000){ break; }
-				else if(balloonBlock(0,bb,i,1)==30000){ break; }
-				else if((balloonBlock(0,bb,i,1)>=50000)&&(balloonBlock(0,bb,i,1)<60000)){break;}
-				else if((balloonBlock(0,bb,i,1)>=1000)&&(balloonBlock(0,bb,i,1)<2000)){break;}
-				else if((balloonBlock(0,bb,i,1)>=20001)&&(balloonBlock(0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(0,bb,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
+				if(balloonBlock(mapCount,0,bb,i,1)==1){ break; }
+				else if(balloonBlock(mapCount,0,bb,i,1)==2147483647){ break; }
+				else if(balloonBlock(mapCount,0,bb,i,1)==10000){ break; }
+				else if(balloonBlock(mapCount,0,bb,i,1)==30000){ break; }
+				else if((balloonBlock(mapCount,0,bb,i,1)>=50000)&&(balloonBlock(mapCount,0,bb,i,1)<60000)){break;}
+				else if((balloonBlock(mapCount,0,bb,i,1)>=1000)&&(balloonBlock(mapCount,0,bb,i,1)<2000)){break;}
+				else if((balloonBlock(mapCount,0,bb,i,1)>=20001)&&(balloonBlock(mapCount,0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(mapCount,0,bb,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(0,bb,i,1)>=10001)&&(balloonBlock(0,bb,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(0,bb,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
+				else if((balloonBlock(mapCount,0,bb,i,1)>=10001)&&(balloonBlock(mapCount,0,bb,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(mapCount,0,bb,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(cc=1;cc<=w[1].len;cc++){
-				if(balloonBlock(-cc,0,i,1)==1){ break; }
-				else if(balloonBlock(-cc,0,i,1)==2147483647){ break; }
-				else if(balloonBlock(-cc,0,i,1)==10000){ break; }
-				else if(balloonBlock(-cc,0,i,1)==30000){ break; }
-				else if((balloonBlock(-cc,0,i,1)>=50000)&&(balloonBlock(-cc,0,i,1)<60000)){break;}
-				else if((balloonBlock(-cc,0,i,1)>=1000)&&(balloonBlock(-cc,0,i,1)<2000)){break;}
-				else if((balloonBlock(-cc,0,i,1)>=20001)&&(balloonBlock(-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(-cc,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
+				if(balloonBlock(mapCount,-cc,0,i,1)==1){ break; }
+				else if(balloonBlock(mapCount,-cc,0,i,1)==2147483647){ break; }
+				else if(balloonBlock(mapCount,-cc,0,i,1)==10000){ break; }
+				else if(balloonBlock(mapCount,-cc,0,i,1)==30000){ break; }
+				else if((balloonBlock(mapCount,-cc,0,i,1)>=50000)&&(balloonBlock(mapCount,-cc,0,i,1)<60000)){break;}
+				else if((balloonBlock(mapCount,-cc,0,i,1)>=1000)&&(balloonBlock(mapCount,-cc,0,i,1)<2000)){break;}
+				else if((balloonBlock(mapCount,-cc,0,i,1)>=20001)&&(balloonBlock(mapCount,-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(mapCount,-cc,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(-cc,0,i,1)>=10001)&&(balloonBlock(-cc,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(-cc,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
+				else if((balloonBlock(mapCount,-cc,0,i,1)>=10001)&&(balloonBlock(mapCount,-cc,0,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(mapCount,-cc,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
 			for(dd=1;dd<=w[1].len;dd++){
-				if(balloonBlock(dd,0,i,1)==1){ break; }
-				else if(balloonBlock(dd,0,i,1)==2147483647){ break; }
-				else if(balloonBlock(dd,0,i,1)==10000){ break; }
-				else if(balloonBlock(dd,0,i,1)==30000){ break; }
-				else if((balloonBlock(dd,0,i,1)>=50000)&&(balloonBlock(dd,0,i,1)<60000)){break;}
-				else if((balloonBlock(dd,0,i,1)>=1000)&&(balloonBlock(dd,0,i,1)<2000)){break;}
-				else if((balloonBlock(dd,0,i,1)>=20001)&&(balloonBlock(dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(dd,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
+				if(balloonBlock(mapCount,dd,0,i,1)==1){ break; }
+				else if(balloonBlock(mapCount,dd,0,i,1)==2147483647){ break; }
+				else if(balloonBlock(mapCount,dd,0,i,1)==10000){ break; }
+				else if(balloonBlock(mapCount,dd,0,i,1)==30000){ break; }
+				else if((balloonBlock(mapCount,dd,0,i,1)>=50000)&&(balloonBlock(mapCount,dd,0,i,1)<60000)){break;}
+				else if((balloonBlock(mapCount,dd,0,i,1)>=1000)&&(balloonBlock(mapCount,dd,0,i,1)<2000)){break;}
+				else if((balloonBlock(mapCount,dd,0,i,1)>=20001)&&(balloonBlock(mapCount,dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
+					w[1].countTime[balloonBlock(mapCount,dd,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
-				else if((balloonBlock(dd,0,i,1)>=10001)&&(balloonBlock(dd,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(dd,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
+				else if((balloonBlock(mapCount,dd,0,i,1)>=10001)&&(balloonBlock(mapCount,dd,0,i,1)<=(10001+w[0].maxPossibleCount))){
+					w[0].countTime[balloonBlock(mapCount,dd,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -969,56 +969,56 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);
 			else if(w[kk].countTime[i]==3000){
 				playMusic2("balloonBoom");
-				blockMap[mapCount][w[kk].y[i]][w[kk].x[i]]=1;
+				blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]]=1;
 				for(w[kk].leftLen[i]=1;w[kk].leftLen[i]<=w[kk].len;w[kk].leftLen[i]++){
-					if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
-					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=50000)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<60000)){break;}
-					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=1000)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<2000)){break;}
-					else if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==1){ w[kk].leftBlock[i]=1; break; }
-					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=30000)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<=30000+buildingMap[0].length)){break;}	//해야됨
-					else if((balloonBlock(0,-w[kk].leftLen[i],i,kk)>=100)&&(balloonBlock(0,-w[kk].leftLen[i],i,kk)<110)){	
+					if(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)>=50000)&&(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)<60000)){break;}
+					else if((balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)>=1000)&&(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)<2000)){break;}
+					else if(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)==1){ w[kk].leftBlock[i]=1; break; }
+					else if((balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)>=30000)&&(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)<=30000+buildingMap[0].length)){break;}	//해야됨
+					else if((balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)>=100)&&(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)<110)){	
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==10000){ w[kk].leftBlock[i]=10000; break; }
+					else if(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)==10000){ w[kk].leftBlock[i]=10000; break; }
 				}
 				for(w[kk].rightLen[i]=1;w[kk].rightLen[i]<=w[kk].len;w[kk].rightLen[i]++){
-					if(balloonBlock(0,w[kk].rightLen[i],i,kk)==2147483647){ w[kk].rightBlock[i]=2147483647; break; }
-					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=50000)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<60000)){break;}
-					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=1000)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<2000)){break;}
-					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==1){ w[kk].rightBlock[i]=1; break; }
-					else if((balloonBlock(0,w[kk].rightLen[i],i,kk)>=100)&&(balloonBlock(0,w[kk].rightLen[i],i,kk)<110)){	
+					if(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)==2147483647){ w[kk].rightBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)>=50000)&&(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)<60000)){break;}
+					else if((balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)>=1000)&&(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)<2000)){break;}
+					else if(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)==1){ w[kk].rightBlock[i]=1; break; }
+					else if((balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)>=100)&&(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)<110)){	
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==10000){ w[kk].rightBlock[i]=10000; break; }
-					else if(balloonBlock(0,w[kk].rightLen[i],i,kk)==30000){ w[kk].rightBlock[i]=30000; break; }
+					else if(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)==10000){ w[kk].rightBlock[i]=10000; break; }
+					else if(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)==30000){ w[kk].rightBlock[i]=30000; break; }
 				}
 				for(w[kk].upLen[i]=1;w[kk].upLen[i]<=w[kk].len;w[kk].upLen[i]++){
-					if(balloonBlock(-w[kk].upLen[i],0,i,kk)==2147483647){ w[kk].upBlock[i]=2147483647; break; }
-					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=50000)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<60000)){break;}
-					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=1000)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<2000)){break;}
-					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==1){ w[kk].upBlock[i]=1; break; }
-					else if((balloonBlock(-w[kk].upLen[i],0,i,kk)>=100)&&(balloonBlock(-w[kk].upLen[i],0,i,kk)<110)){
+					if(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)==2147483647){ w[kk].upBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)<60000)){break;}
+					else if((balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)>=1000)&&(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)<2000)){break;}
+					else if(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)==1){ w[kk].upBlock[i]=1; break; }
+					else if((balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)<110)){
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==10000){ w[kk].upBlock[i]=10000; break; }
-					else if(balloonBlock(-w[kk].upLen[i],0,i,kk)==30000){ w[kk].upBlock[i]=30000; break; }
+					else if(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)==10000){ w[kk].upBlock[i]=10000; break; }
+					else if(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)==30000){ w[kk].upBlock[i]=30000; break; }
 				}
 				for(w[kk].downLen[i]=1;w[kk].downLen[i]<=w[kk].len;w[kk].downLen[i]++){
-					if(balloonBlock(w[kk].downLen[i],0,i,kk)==2147483647){ w[kk].downBlock[i]=2147483647; break; }
-					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<60000)){break;}
-					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=1000)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<2000)){break;}
-					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==1){ w[kk].downBlock[i]=1; break; }
-					else if((balloonBlock(w[kk].downLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].downLen[i],0,i,kk)<110)){
+					if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==2147483647){ w[kk].downBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)<60000)){break;}
+					else if((balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)>=1000)&&(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)<2000)){break;}
+					else if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==1){ w[kk].downBlock[i]=1; break; }
+					else if((balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)<110)){
 						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
-					else if(balloonBlock(w[kk].downLen[i],0,i,kk)==30000){ w[kk].downBlock[i]=30000; break; }
+					else if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
+					else if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==30000){ w[kk].downBlock[i]=30000; break; }
 				}
 				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
-				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[mapCount][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[mapCount][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[mapCount][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[mapCount][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}
 			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=3500)){
 				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
@@ -1028,23 +1028,23 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}
 			else{ 
-				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[mapCount][w[kk].y[i]][w[kk].x[i]-n]=0; }
-				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[mapCount][w[kk].y[i]][w[kk].x[i]+n]=0; }
-				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[mapCount][w[kk].y[i]-n][w[kk].x[i]]=0; }
-				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[mapCount][w[kk].y[i]+n][w[kk].x[i]]=0; }
-				if(w[kk].leftBlock[i]==10000)if(balloonBlock(0,-w[kk].leftLen[i],i,kk)==10000){
+				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]-n]=0; }
+				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]+n]=0; }
+				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]-n][w[kk].x[i]]=0; }
+				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]+n][w[kk].x[i]]=0; }
+				if(w[kk].leftBlock[i]==10000)if(balloonBlock(w[kk].map[i],0,-w[kk].leftLen[i],i,kk)==10000){
 					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].rightBlock[i]==10000)if(balloonBlock(0,w[kk].rightLen[i],i,kk)==10000){
+				if(w[kk].rightBlock[i]==10000)if(balloonBlock(w[kk].map[i],0,w[kk].rightLen[i],i,kk)==10000){
 					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].upBlock[i]==10000)if(balloonBlock(-w[kk].upLen[i],0,i,kk)==10000){
+				if(w[kk].upBlock[i]==10000)if(balloonBlock(w[kk].map[i],-w[kk].upLen[i],0,i,kk)==10000){
 					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].downBlock[i]==10000)if(balloonBlock(w[kk].downLen[i],0,i,kk)==10000){
+				if(w[kk].downBlock[i]==10000)if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==10000){
 					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
 				}
-				w[kk].count[i]=0; w[kk].countTime[i]=0; blockMap[mapCount][w[kk].y[i]][w[kk].x[i]]=0;
+				w[kk].count[i]=0; w[kk].countTime[i]=0; blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]]=0;
 			}
 		}
 	}
