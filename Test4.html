@@ -45,10 +45,9 @@ var mw=new Array(background.length),mh=new Array(background.length);<!--mapwidth
 var mwBlock=new Array(background.length),mhBlock=new Array(background.length);
 mw[0]=4000;
 mh[0]=2000;
-background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height;}
-background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height;}
-for(k=0;k<background.length;k++){
-mwBlock[k]=mw[k]/oneBlock, mhBlock[k]=mh[k]/oneBlock;}
+mwBlock[0]=mw[0]/oneBlock, mhBlock[0]=mh[0]/oneBlock;
+background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height; mwBlock[1]=mw[1]/oneBlock, mhBlock[1]=mh[1]/oneBlock;}
+background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height; mwBlock[2]=mw[2]/oneBlock, mhBlock[2]=mh[2]/oneBlock;}
 var mouseX, mouseY;
 var mapCount=0;
 function playMusic(id){
@@ -265,9 +264,9 @@ var extraHp=Math.floor(Math.random() * 500);
 monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
 }
 }
-for(a=0;a<mhBlock[1];a++)
-for(b=0;b<mwBlock[1];b++){
-if(Math.floor(Math.random() * 1)<1){
+for(a=0;a<40;a++)
+for(b=0;b<40;b++){
+if(Math.floor(Math.random() * 2)<1){
 var extraHp=Math.floor(Math.random() * 500);
 monsterMap[1][monsterMap[1].length]=new makeMonster2("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
 }
@@ -593,7 +592,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[1][0].existence+" "+mw[1]+" "+mh[1]+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText(monsterMap[1][0].existence+" "+mwBlock[1]+" "+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
