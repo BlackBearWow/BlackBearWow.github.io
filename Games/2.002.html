@@ -23,6 +23,8 @@ var map={};
 ctx.fillStyle='yellow'; ctx.font = "50px Arial";
 ctx.fillText('Loading...',200,200);
 var oneBlock=40;
+var exp=0;
+var charLevel=1;
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];
 var y = [oneBlock*1, 480];
@@ -345,7 +347,8 @@ if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
-	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie');
+	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie'); exp+=1;
+	if(exp>=3){playMusic2('levelUp'); exp=0; charLevel+=1;}
 }
 }
 <!--npc들
@@ -596,7 +599,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[1][0].existence+" "+mwBlock[1]+" "+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText("Level:"+charLevel+" "+mwBlock[1]+" "+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
@@ -1099,10 +1102,10 @@ if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,o
 else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
-if(dialogueSet) { Talking(); }<!--drawdialogue
 drawMonsters();
 monsterHit();
 monsterDie();
+if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
