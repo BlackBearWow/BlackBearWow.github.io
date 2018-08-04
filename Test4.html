@@ -835,11 +835,11 @@ preB=0;
 				else if((balloonBlock(0,-aa,i,0)>=50000)&&(balloonBlock(0,-aa,i,0)<60000)){break;}
 				else if((balloonBlock(0,-aa,i,0)>=1000)&&(balloonBlock(0,-aa,i,0)<2000)){break;}
 				else if((balloonBlock(0,-aa,i,0)>=10001)&&(balloonBlock(0,-aa,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
+					w[0].countTime[balloonBlock(0,-aa,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(0,-aa,i,0)>=20001)&&(balloonBlock(0,-aa,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
+					w[1].countTime[balloonBlock(0,-aa,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -851,11 +851,11 @@ preB=0;
 				else if((balloonBlock(0,bb,i,0)>=50000)&&(balloonBlock(0,bb,i,0)<60000)){break;}
 				else if((balloonBlock(0,bb,i,0)>=1000)&&(balloonBlock(0,bb,i,0)<2000)){break;}
 				else if((balloonBlock(0,bb,i,0)>=10001)&&(balloonBlock(0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
+					w[0].countTime[balloonBlock(0,bb,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(0,bb,i,0)>=20001)&&(balloonBlock(0,bb,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
+					w[1].countTime[balloonBlock(0,bb,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]][w[0].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -867,11 +867,11 @@ preB=0;
 				else if((balloonBlock(-cc,0,i,0)>=50000)&&(balloonBlock(-cc,0,i,0)<60000)){break;}
 				else if((balloonBlock(-cc,0,i,0)>=1000)&&(balloonBlock(-cc,0,i,0)<2000)){break;}
 				else if((balloonBlock(-cc,0,i,0)>=10001)&&(balloonBlock(-cc,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
+					w[0].countTime[balloonBlock(-cc,0,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(-cc,0,i,0)>=20001)&&(balloonBlock(-cc,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
+					w[1].countTime[balloonBlock(-cc,0,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]-cc][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -883,11 +883,11 @@ preB=0;
 				else if((balloonBlock(dd,0,i,0)>=50000)&&(balloonBlock(dd,0,i,0)<60000)){break;}
 				else if((balloonBlock(dd,0,i,0)>=1000)&&(balloonBlock(dd,0,i,0)<2000)){break;}
 				else if((balloonBlock(dd,0,i,0)>=10001)&&(balloonBlock(dd,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
+					w[0].countTime[balloonBlock(dd,0,i,0)-10001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(dd,0,i,0)>=20001)&&(balloonBlock(dd,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
+					w[1].countTime[balloonBlock(dd,0,i,0)-20001]=3000;  preB=1; blockMap[mapCount][w[0].y[i]+dd][w[0].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -904,11 +904,11 @@ preB=0;
 				else if((balloonBlock(0,-aa,i,1)>=50000)&&(balloonBlock(0,-aa,i,1)<60000)){break;}
 				else if((balloonBlock(0,-aa,i,1)>=1000)&&(balloonBlock(0,-aa,i,1)<2000)){break;}
 				else if((balloonBlock(0,-aa,i,1)>=20001)&&(balloonBlock(0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
+					w[1].countTime[balloonBlock(0,-aa,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(0,-aa,i,1)>=10001)&&(balloonBlock(0,-aa,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
+					w[0].countTime[balloonBlock(0,-aa,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]-aa]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -920,11 +920,11 @@ preB=0;
 				else if((balloonBlock(0,bb,i,1)>=50000)&&(balloonBlock(0,bb,i,1)<60000)){break;}
 				else if((balloonBlock(0,bb,i,1)>=1000)&&(balloonBlock(0,bb,i,1)<2000)){break;}
 				else if((balloonBlock(0,bb,i,1)>=20001)&&(balloonBlock(0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
+					w[1].countTime[balloonBlock(0,bb,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(0,bb,i,1)>=10001)&&(balloonBlock(0,bb,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
+					w[0].countTime[balloonBlock(0,bb,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]][w[1].x[i]+bb]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -936,11 +936,11 @@ preB=0;
 				else if((balloonBlock(-cc,0,i,1)>=50000)&&(balloonBlock(-cc,0,i,1)<60000)){break;}
 				else if((balloonBlock(-cc,0,i,1)>=1000)&&(balloonBlock(-cc,0,i,1)<2000)){break;}
 				else if((balloonBlock(-cc,0,i,1)>=20001)&&(balloonBlock(-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
+					w[1].countTime[balloonBlock(-cc,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(-cc,0,i,1)>=10001)&&(balloonBlock(-cc,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
+					w[0].countTime[balloonBlock(-cc,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]-cc][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
@@ -952,11 +952,11 @@ preB=0;
 				else if((balloonBlock(dd,0,i,1)>=50000)&&(balloonBlock(dd,0,i,1)<60000)){break;}
 				else if((balloonBlock(dd,0,i,1)>=1000)&&(balloonBlock(dd,0,i,1)<2000)){break;}
 				else if((balloonBlock(dd,0,i,1)>=20001)&&(balloonBlock(dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
+					w[1].countTime[balloonBlock(dd,0,i,1)-20001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 				else if((balloonBlock(dd,0,i,1)>=10001)&&(balloonBlock(dd,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
+					w[0].countTime[balloonBlock(dd,0,i,1)-10001]=3000;  preB=1; blockMap[mapCount][w[1].y[i]+dd][w[1].x[i]]=1; 
 					break;
 				}//물풍선일때 해야될 것
 			}
