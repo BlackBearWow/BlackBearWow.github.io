@@ -42,11 +42,12 @@ function makeBackground(source){
 	this.image.src=source;
 }
 var mw=new Array(background.length),mh=new Array(background.length);<!--mapwidth mapheight-->
+var mwBlock=new Array(background.length),mhBlock=new Array(background.length);
 mw[0]=4000;
 mh[0]=2000;
-background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height;}
-background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height;}
-var mwBlock=mw[0]/oneBlock, mhBlock=mh[0]/oneBlock;
+mwBlock[0]=mw[0]/oneBlock, mhBlock[0]=mh[0]/oneBlock;
+background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height; mwBlock[1]=mw[1]/oneBlock, mhBlock[1]=mh[1]/oneBlock;}
+background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height; mwBlock[2]=mw[2]/oneBlock, mhBlock[2]=mh[2]/oneBlock;}
 var mouseX, mouseY;
 var mapCount=0;
 function playMusic(id){
@@ -67,12 +68,12 @@ function aud_stop(id) {
 	{ myAudio.pause(); myAudio.load(); } 
 }
 var blockMap =new Array(2);
-blockMap[0] = new Array(mhBlock); <!-- map 0번째의 벽들 생성. 가로 102칸 세로 52칸.
+blockMap[0] = new Array(mhBlock[0]); <!-- map 0번째의 벽들 생성. 가로 102칸 세로 52칸.
 // -1:벽 0:공중 101~107:아이템 1000대:npc들 10000:부술 수 있는장애물 10001:물풍선1p 20001:물풍선2p 30001:빌딩들 40001:맵 이동
 // 0~999: 지나다닐 수 있는 공간 
-for(var i=0;i<mhBlock;i++) blockMap[0][i] = new Array(mwBlock);
-for(var i=0;i<mhBlock;i++)
-	for(var n=0;n<mwBlock;n++)
+for(var i=0;i<mhBlock[0];i++) blockMap[0][i] = new Array(mwBlock[0]);
+for(var i=0;i<mhBlock[0];i++)
+	for(var n=0;n<mwBlock[0];n++)
 		blockMap[0][i][n]=0;
 blockMap[1]=[
 [2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
@@ -168,7 +169,7 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
     this.image[0].src=source;	//장애물 이미지
 	this.image[1]=new Image();	//아이템 이미지
 	this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; //롤러스테이트
-	if((x>=mwBlock)||(x<0)||(y>=mhBlock)||(y<0)||(blockMap[0][y][x]!=0)){
+	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
 	}
@@ -196,13 +197,13 @@ obstacleMap[0] = [
 	
 	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
 ];
-for(var i=0;i<mhBlock;i++){
+for(var i=0;i<mhBlock[0];i++){
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",0,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][0]=2147483647;
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][mwBlock-1]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock[0]-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][mwBlock[0]-1]=2147483647;
 }
-for(var i=0;i<mwBlock;i++){
+for(var i=0;i<mwBlock[0];i++){
 	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][0][i]=2147483647;
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][mhBlock-1][i]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock[0]-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][mhBlock[0]-1][i]=2147483647;
 }
 if(1){//크아 라면.
 	for(var i=0;i<40;i++){
@@ -232,7 +233,7 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
-	if((x>=mwBlock)||(x<0)||(y>=mhBlock)||(y<0)||(blockMap[0][y][x]!=0)){
+	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
 	}
@@ -253,11 +254,21 @@ function obstacleBoom(a){
 monsterMap[0]=[
 	new makeMonster("몬스터",3,2,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
 ];
-for(a=0;a<mhBlock;a++)
-for(b=0;b<mwBlock;b++){
+monsterMap[1]=[
+	new makeMonster2("몬스터",20,30,3000,3000,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
+];
+for(a=0;a<mhBlock[0];a++)
+for(b=0;b<mwBlock[0];b++){
 if(Math.floor(Math.random() * 15)<1){
-var extraHp=Math.floor(Math.random() * 500);
+var extraHp=Math.floor(Math.random() * 300);
 monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+}
+}
+for(a=0;a<40;a++)
+for(b=0;b<40;b++){
+if(Math.floor(Math.random() * 20)<1){
+var extraHp=Math.floor(Math.random() * 2000);
+monsterMap[1][monsterMap[1].length]=new makeMonster2("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
 }
 }
 function makeMonster(name,x,y,maxHp,hp,source){//몬스터 만들기
@@ -277,38 +288,64 @@ function makeMonster(name,x,y,maxHp,hp,source){//몬스터 만들기
 	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
-	if((x>=mwBlock)||(x<0)||(y>=mhBlock)||(y<0)||(blockMap[0][y][x]!=0)){
+	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
+		this.existence=0;
+		return;
+	}
+}
+function makeMonster2(name,x,y,maxHp,hp,source){//몬스터 만들기
+	this.name=name;
+	this.existence=1;
+	this.x=x;
+    this.y=y;
+	this.maxHp=maxHp;
+	this.hp=hp;
+	this.state=0;
+	this.item=Math.floor(Math.random() * 6);
+	this.image=new Array(2);
+    this.image[0]=new Image();
+    this.image[0].src=source;	//장애물 이미지
+	this.image[1]=new Image();	//아이템 이미지
+	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	this.itemExistence=(this.item<=2);
+	if((x>=mwBlock[1])||(x<0)||(y>=mhBlock[1])||(y<0)||(blockMap[1][y][x]!=0)){
 		this.existence=0;
 		return;
 	}
 }
 function drawMonsters(){
 if(monsterMap[mapCount]==undefined) return;
-var a,b=monsterMap[0].length;
+var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
-if(monsterMap[0][a].existence) {
+if(monsterMap[mapCount][a].existence) {
 ctx.fillStyle="black";
-ctx.fillRect(backgroundx+(monsterMap[0][a].x)*oneBlock-7,backgroundy+(monsterMap[0][a].y)*oneBlock-10,oneBlock+7,10);
+ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,oneBlock+7,10);
 ctx.fillStyle="red";
-ctx.fillRect(backgroundx+(monsterMap[0][a].x)*oneBlock-5,backgroundy+(monsterMap[0][a].y)*oneBlock-8,(monsterMap[0][a].hp/monsterMap[0][a].maxHp)*(oneBlock+3),6);
-ctx.drawImage(monsterMap[0][a].image[monsterMap[0][a].state],backgroundx+(monsterMap[0][a].x)*oneBlock,backgroundy+(monsterMap[0][a].y)*oneBlock,oneBlock,oneBlock);
+ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(oneBlock+3),6);
+ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].state],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
 }
 }
 function monsterHit(){
 if(monsterMap[mapCount]==undefined) return;
-var a,b=monsterMap[0].length;
+var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
-if(monsterMap[0][a].existence) {
-	if(blockMap[mapCount][monsterMap[0][a].y][monsterMap[0][a].x]==1)
-		monsterMap[0][a].hp-=1;
+if(monsterMap[mapCount][a].existence) {
+	if(blockMap[mapCount][monsterMap[mapCount][a].y][monsterMap[mapCount][a].x]==1){
+		monsterMap[mapCount][a].hp-=1;
+		ctx.fillStyle="yellow";
+		ctx.font = "20px Arial";
+		ctx.fillText(1,backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
+	}
 }
 }
 function monsterDie(){
 if(monsterMap[mapCount]==undefined) return;
-var a,b=monsterMap[0].length;
+var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
-if((monsterMap[0][a].existence)&&(monsterMap[0][a].hp<=0)) {
-	monsterMap[0][a].existence=0; monsterMap[0][a].hp=0; playMusic2('monsterdie');
+if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
+	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie');
 }
 }
 <!--npc들
@@ -327,7 +364,7 @@ function makeNpc(name,x,y,source){
 	this.existence=1;
     this.image=new Image();
     this.image.src=source;
-	if((x>=mwBlock)||(x<0)||(y>mhBlock)||(y<0)){
+	if((x>=mwBlock[0])||(x<0)||(y>mhBlock[0])||(y<0)){
 		this.x=0; this.y=0; npcCount+=1; this.existence=0;
 		return;
 	}
@@ -559,7 +596,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(w[0].map[1]+" "+mw[1]+" "+mh[1]+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText(monsterMap[1][0].existence+" "+mwBlock[1]+" "+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
@@ -1054,8 +1091,8 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 if(1){ drawInformation(); }
 if(0){//blockMap[0]정보 화면에 표시
 	ctx.font = "15px Arial";
-	for(var i=0;i<mhBlock;i++)
-		for(var n=0;n<mwBlock;n++)
+	for(var i=0;i<mhBlock[0];i++)
+		for(var n=0;n<mwBlock[0];n++)
 			ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
 }
 if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
@@ -1063,9 +1100,9 @@ else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 if(dialogueSet) { Talking(); }<!--drawdialogue
+drawMonsters();
 monsterHit();
 monsterDie();
-drawMonsters();
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
