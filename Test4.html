@@ -1,4 +1,3 @@
-
 <html>
 <head>
 </head>
@@ -15,6 +14,7 @@
 <audio id="door" src="https://diotheworld.github.io/Music/문소리.mp3"/>
 <audio id="levelUp" src="https://diotheworld.github.io/Music/렙업.wav"/>
 <audio id="monsterdie" src="https://diotheworld.github.io/Music/monsterdie.swf.mp3"/>
+<audio id="mapp" src="https://diotheworld.github.io/Music/커닝스퀘어.mp3"/>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -572,8 +572,8 @@ function start(){
 var preB=1;
 function update(){
 <!--배경음악 설정.
-if(mapCount==0) playMusic("Camp");
-else aud_stop("Camp");
+if(mapCount==0) {playMusic("Camp");aud_stop("mapp");}
+else if(mapCount==1) {playMusic("mapp");aud_stop("Camp");}
 <!--배경이미지 좌표 설정
 
 if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
