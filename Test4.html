@@ -332,8 +332,12 @@ if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if(monsterMap[mapCount][a].existence) {
-	if(blockMap[mapCount][monsterMap[mapCount][a].y][monsterMap[mapCount][a].x]==1)
+	if(blockMap[mapCount][monsterMap[mapCount][a].y][monsterMap[mapCount][a].x]==1){
 		monsterMap[mapCount][a].hp-=1;
+		ctx.fillStyle="yellow";
+		ctx.font = "20px Arial";
+		ctx.fillText(1,backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
+	}
 }
 }
 function monsterDie(){
@@ -1096,9 +1100,9 @@ else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 if(dialogueSet) { Talking(); }<!--drawdialogue
+drawMonsters();
 monsterHit();
 monsterDie();
-drawMonsters();
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
