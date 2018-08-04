@@ -966,7 +966,7 @@ preB=0;
 for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 	for(var i=0;i<w[kk].possibleCount;i++){
 		if(w[kk].count[i]){
-			if(w[kk].countTime[i]<3000) ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);
+			if(w[kk].countTime[i]<3000) {if(w[kk].map[i]==mapCount)ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);}
 			else if(w[kk].countTime[i]==3000){
 				playMusic2("balloonBoom");
 				blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]]=1;
@@ -1014,19 +1014,21 @@ for(kk=0;kk<2;kk++){<!--물풍선 터지는것
 					else if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
 					else if(balloonBlock(w[kk].map[i],w[kk].downLen[i],0,i,kk)==30000){ w[kk].downBlock[i]=30000; break; }
 				}
-				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
-				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
+				if(w[kk].map[i]==mapCount){
+					ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
+					for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
+				}
 			}
-			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=3500)){
+			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=3500)){if(w[kk].map[i]==mapCount){
 				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
 				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
 				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
 				for(var n=1;n<w[kk].upLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
 				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
-			}
+			}}
 			else{ 
 				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]-n]=0; }
 				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].map[i]][w[kk].y[i]][w[kk].x[i]+n]=0; }
