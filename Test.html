@@ -3,10 +3,10 @@
 <style>
 img{
 	position: fixed;
-	width: 40px;
-	height: 40px;
 	top: 0px;
 	left: 0px;
+	width: 40px;
+	height:40px;
 }
 </style>
 </head>
@@ -15,7 +15,6 @@ img{
 <p id='pp' style='color:yellow; font-size:50px; padding:200px; text-shadow:5px 5px 5px red;'>Loading</p>
 <p id='infor' style='color:red; font-size:20px; position:fixed; top:50px;'></p>
 <img id='char'src='https://diotheworld.github.io/image/a.jpg' width='40px'>
-<img id='background1'src='https://diotheworld.github.io/image/background1.png' width='4000px' height='2000px'>
 <script>
 var map={};
 window.addEventListener('keydown',function(e){map[e.keyCode]=true;})
@@ -43,18 +42,21 @@ function makeBackground(source){
 	this.image.src=source;
 	document.body.appendChild(this.image);
 	this.image.style.zIndex='-100';
-	this.image.style.top=backgroundCount*40;
-	this.image.style.left=backgroundCount*40;
+	this.image.style.top=0;
+	this.image.style.left=0;
 	backgroundCount+=1;
-	//this.image.style.display='none';
+	this.image.style.display='none';
 }
 var mw=new Array(background.length),mh=new Array(background.length);<!--mapwidth mapheight-->
 var mwBlock=new Array(background.length),mhBlock=new Array(background.length);
-mw[0]=4000;
-mh[0]=2000;
-mwBlock[0]=mw[0]/oneBlock, mhBlock[0]=mh[0]/oneBlock;
-background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height; mwBlock[1]=mw[1]/oneBlock, mhBlock[1]=mh[1]/oneBlock;}
-background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height; mwBlock[2]=mw[2]/oneBlock, mhBlock[2]=mh[2]/oneBlock;}
+mw[0]=4000;mh[0]=2000;
+mw[1]=1600;mh[1]=1600;
+mw[2]=1600;mh[2]=1600;
+for(a=0;a<background.length;a++){
+	mwBlock[a]=mw[a]/oneBlock; mhBlock[a]=mh[a]/oneBlock;
+	background[a].image.style.width=mw[a];
+	background[a].image.style.height=mh[a];
+}
 var mouseX, mouseY;
 var mapCount=0;
 function playMusic(id){
@@ -146,7 +148,10 @@ function makechar(source){
 	this.image=document.createElement('img');
 	this.image.src=source;
 	document.body.appendChild(this.image);
-	this.image.style.zIndex='-90';
+	this.image.style.zIndex='-2';
+	this.image.style.width='40px';
+	this.image.style.height='40px';
+	this.image.style.display='none';
 }
 var obstacleMap=new Array(background.length); //장애물: 1칸씩이고 물풍선으로 파괴가능. 아이템도 나옴.
 var buildingMap=new Array(background.length);	//빙딩들: 1칸이 아니고 물풍선으로 파괴 불가능.
@@ -169,6 +174,9 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
     this.image=document.createElement('img');
 	document.body.appendChild(this.image);
     this.image.src=source;	//장애물 이미지
+	this.image.style.width=sizex*oneBlock;
+	this.image.style.height=sizey*oneBlock;
+	this.image.style.zIndex='-90';
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
@@ -182,23 +190,56 @@ function drawBuildings(){
 if(buildingMap[mapCount]==undefined) return;
 var a,b=buildingMap[0].length;
 for(a=0;a<b;a++)
-if(buildingMap[0][a].existence) 
+if(buildingMap[0][a].existence) {
 buildingMap[0][a].image.style.left=backgroundx+(buildingMap[0][a].x)*oneBlock;
 buildingMap[0][a].image.style.top=backgroundy+(buildingMap[0][a].y)*oneBlock;
-//buildingMap[0][a].image.width=buildingMap[0][a].sizex*oneBlock;
-//buildingMap[0][a].image.height=buildingMap[0][a].sizey*oneBlock;
 }
-
+}
+/*
+//장애물들
+obstacleMap[0] = [
+	new makeObstacle("통",3,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",3,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",4,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",7,4,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",7,6,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",6,7,"https://diotheworld.github.io/image/tong.png"),
+	
+	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
+];
+<!--장애물 만들기
+function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
+	this.name=name;
+	this.existence=1;
+	this.x=x;
+    this.y=y;
+	this.state=0;
+	this.item=Math.floor(Math.random() * 6);
+	this.image=new Array(2);
+    this.image[0]=new Image();
+    this.image[0].src=source;	//장애물 이미지
+	this.image[1]=new Image();	//아이템 이미지
+	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	this.itemExistence=(this.item<=2);
+	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
+		this.existence=0;
+		return;
+	}
+	blockMap[0][y][x]=10000;
+}
+*/
 var infor=document.getElementById('infor');
-var a=document.getElementById('background1');
 var b=document.getElementById('char');
-a.style.top=0;
-a.style.left=0;
-a.style.zIndex="-100";
 b.style.top=-120;
 b.style.left=-120;
-b.style.zIndex="-99";
-alert('a');
+b.style.zIndex="-2";
+
+background[0].image.style.display='block';
+
 setInterval(update,0);
 function update(){
 if(map[37]) x[0]-=1;<!--좌-->
@@ -213,11 +254,10 @@ else if(x[0]>mw[0]-(document.body.clientWidth/2+20)){ backgroundx=-mw[0]+documen
 if(y[0]<=(document.body.clientHeight/2-20)){ backgroundy=0; chary=y[0]; }
 else if(y[0]>(document.body.clientHeight/2-20)&&y[0]<=mh[0]-(document.body.clientHeight/2+20)){ backgroundy=-y[0]+(document.body.clientHeight/2-20); chary=(document.body.clientHeight/2-20); }
 else if(y[0]>mh[0]-(document.body.clientHeight/2+20)){ backgroundy=-mh[0]+document.body.clientHeight; chary=y[0]-mh[0]+document.body.clientHeight; }
-infor.innerHTML=mh[1];
+infor.innerHTML=mhBlock[1];
 drawBuildings();
-a.style.top=backgroundy;a.style.left=backgroundx;
+//a.style.top=backgroundy;a.style.left=backgroundx;
 b.style.top=chary;b.style.left=charx;
-c.style.top=backgroundy;c.style.left=backgroundx;
 }
 </script>
 </body>
