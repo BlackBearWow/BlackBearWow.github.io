@@ -11,10 +11,20 @@ img{
 </style>
 </head>
 
-<body style='background:black; margin:0px;' >
+<body onload='start()'style='background:black; margin:0px;' >
 <p id='pp' style='color:yellow; font-size:50px; padding:200px; text-shadow:5px 5px 5px red;'>Loading</p>
 <p id='infor' style='color:red; font-size:20px; position:fixed; top:50px;'></p>
 <img id='char'src='https://diotheworld.github.io/image/a.jpg' width='40px'>
+<audio id="Sugar" src="https://diotheworld.github.io/Music/DanceOfTheSugarplumFairy.mp3"/>
+<audio id="Fade" src="https://diotheworld.github.io/Music/Fade.mp3"/>
+<audio id="Camp" src="https://diotheworld.github.io/Music/CAMP.mp3"/>
+<audio id="balloonBoom" src="https://diotheworld.github.io/Music/sports-sound13.ogg"/>
+<audio id="item" src="https://diotheworld.github.io/Music/아이템이다.mp3"/>
+<audio id="balloonSet" src="https://diotheworld.github.io/Music/etc-sound0010.ogg"/>
+<audio id="door" src="https://diotheworld.github.io/Music/문소리.mp3"/>
+<audio id="levelUp" src="https://diotheworld.github.io/Music/렙업.wav"/>
+<audio id="monsterdie" src="https://diotheworld.github.io/Music/monsterdie.swf.mp3"/>
+<audio id="mapp" src="https://diotheworld.github.io/Music/커닝스퀘어.mp3"/>
 <script>
 var map={};
 window.addEventListener('keydown',function(e){map[e.keyCode]=true;})
@@ -176,7 +186,7 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
     this.image.src=source;	//장애물 이미지
 	this.image.style.width=sizex*oneBlock;
 	this.image.style.height=sizey*oneBlock;
-	this.image.style.zIndex='-90';
+	this.image.style.zIndex='-99';
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
@@ -195,7 +205,7 @@ buildingMap[0][a].image.style.left=backgroundx+(buildingMap[0][a].x)*oneBlock;
 buildingMap[0][a].image.style.top=backgroundy+(buildingMap[0][a].y)*oneBlock;
 }
 }
-/*
+
 //장애물들
 obstacleMap[0] = [
 	new makeObstacle("통",3,4,"https://diotheworld.github.io/image/tong.png"),
@@ -218,9 +228,14 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	this.state=0;
 	this.item=Math.floor(Math.random() * 6);
 	this.image=new Array(2);
-    this.image[0]=new Image();
-    this.image[0].src=source;	//장애물 이미지
-	this.image[1]=new Image();	//아이템 이미지
+    this.image[0]=document.createElement('img');	//장애물 이미지
+	this.image[1]=document.createElement('img');	//아이템 이미지
+	for(a=0;a<2;a++){
+		document.body.appendChild(this.image[a]);
+		this.image[a].style.zIndex='-98';
+		this.image[a].style.display='none';
+	}
+    this.image[0].src=source;
 	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
 	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
@@ -231,7 +246,22 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	}
 	blockMap[0][y][x]=10000;
 }
-*/
+//--장애물 그리기
+function drawObstacles(){
+if(obstacleMap[mapCount]==undefined) return;
+var a,b=obstacleMap[0].length;
+for(a=0;a<b;a++)
+if(obstacleMap[0][a].existence){
+obstacleMap[0][a].image[obstacleMap[0][a].state].style.left=backgroundx+(obstacleMap[0][a].x)*oneBlock;
+obstacleMap[0][a].image[obstacleMap[0][a].state].style.top=backgroundy+(obstacleMap[0][a].y)*oneBlock;
+}
+}
+<!--장애물, 아이템 물풍선에 맞았을 때
+function obstacleBoom(a){
+	if((obstacleMap[0][a].itemExistence==0)||(obstacleMap[0][a].state)){ obstacleMap[0][a].existence=0; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=0; }
+	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
+}
+
 var infor=document.getElementById('infor');
 var b=document.getElementById('char');
 b.style.top=-120;
@@ -239,23 +269,36 @@ b.style.left=-120;
 b.style.zIndex="-2";
 
 background[0].image.style.display='block';
+for(a=0;a<obstacleMap[0].length;a++) obstacleMap[0][a].image[0].style.display='block';
 
-setInterval(update,0);
+function start(){
+	blockMap[0][10][12]=50100;
+	setInterval(update,0);
+	window.addEventListener('keydown',function(e){ map[e.keyCode]=true; })
+	window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
+	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
+}
+var preB=1;
 function update(){
+//배경음악 설정.
+//if(mapCount==0) {playMusic("Camp");aud_stop("mapp");}
+//else if(mapCount==1) {playMusic("mapp");aud_stop("Camp");}
+//배경이미지 좌표 설정
+if(x[0]<=document.body.clientWidth/2-halfBlock){ backgroundx=0; charx=x[0]; }
+else if(x[0]>document.body.clientWidth/2-halfBlock&&x[0]<=mw[mapCount]-(document.body.clientWidth/2+halfBlock)){ backgroundx=-x[0]+document.body.clientWidth/2-halfBlock; charx=document.body.clientWidth/2-halfBlock; }
+else if(x[0]>mw[mapCount]-(document.body.clientWidth/2+halfBlock)){ backgroundx=-mw[mapCount]+document.body.clientWidth; charx=x[0]-mw[mapCount]+document.body.clientWidth; }
+if(y[0]<=document.body.clientHeight/2-halfBlock){ backgroundy=0; chary=y[0]; }
+else if(y[0]>document.body.clientHeight/2-halfBlock&&y[0]<=mh[mapCount]-(document.body.clientHeight/2+halfBlock)){ backgroundy=-y[0]+document.body.clientHeight/2-halfBlock; chary=document.body.clientHeight/2-halfBlock; }
+else if(y[0]>mh[mapCount]-(document.body.clientHeight/2+halfBlock)){ backgroundy=-mh[mapCount]+document.body.clientHeight; chary=y[0]-mh[mapCount]+document.body.clientHeight; }
+
 if(map[37]) x[0]-=1;<!--좌-->
 else if(map[39]) x[0]+=1;<!--우-->
 if(map[38]) y[0]-=1;<!--상-->
 else if(map[40]) y[0]+=1;<!--하-->
 
-if(x[0]<=(document.body.clientWidth/2-20)){ backgroundx=0; charx=x[0]; }
-else if(x[0]>(document.body.clientWidth/2-20)&&x[0]<=mw[0]-(document.body.clientWidth/2+20)){ backgroundx=-x[0]+(document.body.clientWidth/2-20); charx=(document.body.clientWidth/2-20); }
-else if(x[0]>mw[0]-(document.body.clientWidth/2+20)){ backgroundx=-mw[0]+document.body.clientWidth; charx=x[0]-mw[0]+document.body.clientWidth; }
-
-if(y[0]<=(document.body.clientHeight/2-20)){ backgroundy=0; chary=y[0]; }
-else if(y[0]>(document.body.clientHeight/2-20)&&y[0]<=mh[0]-(document.body.clientHeight/2+20)){ backgroundy=-y[0]+(document.body.clientHeight/2-20); chary=(document.body.clientHeight/2-20); }
-else if(y[0]>mh[0]-(document.body.clientHeight/2+20)){ backgroundy=-mh[0]+document.body.clientHeight; chary=y[0]-mh[0]+document.body.clientHeight; }
 infor.innerHTML=mhBlock[1];
 drawBuildings();
+drawObstacles();
 //a.style.top=backgroundy;a.style.left=backgroundx;
 b.style.top=chary;b.style.left=charx;
 }
