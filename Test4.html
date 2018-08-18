@@ -1,20 +1,21 @@
 <html>
 <head>
+	<base href="https://diotheworld.github.io/" target="_blank">
 </head>
 <body onload="start()" style="background-color:black">
 <center>
 <canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3; cursor:none;"/>
 </center>
-<audio id="Sugar" src="https://diotheworld.github.io/Music/DanceOfTheSugarplumFairy.mp3"/>
-<audio id="Fade" src="https://diotheworld.github.io/Music/Fade.mp3"/>
-<audio id="Camp" src="https://diotheworld.github.io/Music/CAMP.mp3"/>
-<audio id="balloonBoom" src="https://diotheworld.github.io/Music/sports-sound13.ogg"/>
-<audio id="item" src="https://diotheworld.github.io/Music/아이템이다.mp3"/>
-<audio id="balloonSet" src="https://diotheworld.github.io/Music/etc-sound0010.ogg"/>
-<audio id="door" src="https://diotheworld.github.io/Music/문소리.mp3"/>
-<audio id="levelUp" src="https://diotheworld.github.io/Music/렙업.wav"/>
-<audio id="monsterdie" src="https://diotheworld.github.io/Music/monsterdie.swf.mp3"/>
-<audio id="mapp" src="https://diotheworld.github.io/Music/커닝스퀘어.mp3"/>
+<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
+<audio id="Fade" src="Music/Fade.mp3"/>
+<audio id="Camp" src="Music/CAMP.mp3"/>
+<audio id="balloonBoom" src="Music/sports-sound13.ogg"/>
+<audio id="item" src="Music/아이템이다.mp3"/>
+<audio id="balloonSet" src="Music/etc-sound0010.ogg"/>
+<audio id="door" src="Music/문소리.mp3"/>
+<audio id="levelUp" src="Music/렙업.wav"/>
+<audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
+<audio id="mapp" src="Music/커닝스퀘어.mp3"/>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -35,9 +36,9 @@ var dialogueNpc=0;<!--대화중인 npc-->
 var sight=[3,3];<!--좌:0 상:1 우:2 하: 3-->
 var backgroundx,backgroundy,charx,chary;
 var background=[
-	new makeBackground("https://diotheworld.github.io/image/background1.png"),
-	new makeBackground("https://diotheworld.github.io/image/다운로드.png"),
-	new makeBackground("https://diotheworld.github.io/image/a.jpg"),
+	new makeBackground("image/background1.png"),
+	new makeBackground("image/다운로드.png"),
+	new makeBackground("image/a.jpg"),
 ];
 function makeBackground(source){
 	this.image=new Image();
@@ -121,27 +122,27 @@ blockMap[1]=[
 ];
 //가로:40세로:40
 var background1=new Image();
-background1.src=("https://diotheworld.github.io/image/background1.png");
+background1.src=("image/background1.png");
 
 var ff=new Image();
-ff.src=("https://diotheworld.github.io/image/fire.png");
+ff.src=("image/fire.png");
 var mouse=new Image();
-mouse.src=("https://diotheworld.github.io/image/cursor.png");
+mouse.src=("image/cursor.png");
 
 var mainChar=[
 	[//원래캐릭터
-		new makechar("https://diotheworld.github.io/image/left.png"),
-		new makechar("https://diotheworld.github.io/image/back.png"),
-		new makechar("https://diotheworld.github.io/image/right.png"),
-		new makechar("https://diotheworld.github.io/image/front.png"),
-		new makechar("https://diotheworld.github.io/image/물속.png")
+		new makechar("image/left.png"),
+		new makechar("image/back.png"),
+		new makechar("image/right.png"),
+		new makechar("image/front.png"),
+		new makechar("image/물속.png")
 	],
 	[//2p 캐릭터
-		new makechar("https://diotheworld.github.io/image/left.png"),
-		new makechar("https://diotheworld.github.io/image/back.png"),
-		new makechar("https://diotheworld.github.io/image/right.png"),
-		new makechar("https://diotheworld.github.io/image/front.png"),
-		new makechar("https://diotheworld.github.io/image/물속.png")
+		new makechar("image/left.png"),
+		new makechar("image/back.png"),
+		new makechar("image/right.png"),
+		new makechar("image/front.png"),
+		new makechar("image/물속.png")
 	]
 ];
 function makechar(source){
@@ -154,8 +155,8 @@ var npcMap=new Array(background.length);	//npc들. 말을 걸 수 있음
 var monsterMap=new Array(background.length);
 //빌딩들
 buildingMap[0]=[
-	new makeBuilding("큰통",3,7,2,2,"https://diotheworld.github.io/image/tong.png"),
-	new makeBuilding("시설1",8,8,9,3,"https://diotheworld.github.io/image/시설1.png"),
+	new makeBuilding("큰통",3,7,2,2,"image/tong.png"),
+	new makeBuilding("시설1",8,8,9,3,"image/시설1.png"),
 ];
 //빌딩 만들기
 function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
@@ -170,7 +171,7 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
 	this.image[1]=new Image();	//아이템 이미지
-	this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; //롤러스테이트
+	this.image[1].src="image/Item/Roller.png"; //롤러스테이트
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
@@ -188,34 +189,34 @@ if(buildingMap[0][a].existence) ctx.drawImage(buildingMap[0][a].image[buildingMa
 }
 <!--장애물들
 obstacleMap[0] = [
-	new makeObstacle("통",3,4,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",3,6,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",4,6,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,4,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",7,4,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,6,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",7,6,"https://diotheworld.github.io/image/tong.png"),
-	new makeObstacle("통",6,7,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",3,4,"image/tong.png"),
+	new makeObstacle("통",3,6,"image/tong.png"),
+	new makeObstacle("통",4,6,"image/tong.png"),
+	new makeObstacle("통",6,4,"image/tong.png"),
+	new makeObstacle("통",7,4,"image/tong.png"),
+	new makeObstacle("통",6,6,"image/tong.png"),
+	new makeObstacle("통",7,6,"image/tong.png"),
+	new makeObstacle("통",6,7,"image/tong.png"),
 	
-	new makeObstacle("통",8,8,"https://diotheworld.github.io/image/tong.png"),
+	new makeObstacle("통",8,8,"image/tong.png"),
 ];
 for(var i=0;i<mhBlock[0];i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",0,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][0]=2147483647;
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock[0]-1,i,"https://diotheworld.github.io/image/Obstacle/heightFence.png"); blockMap[0][i][mwBlock[0]-1]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",0,i,"image/Obstacle/heightFence.png"); blockMap[0][i][0]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("세로철조망",mwBlock[0]-1,i,"image/Obstacle/heightFence.png"); blockMap[0][i][mwBlock[0]-1]=2147483647;
 }
 for(var i=0;i<mwBlock[0];i++){
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][0][i]=2147483647;
-	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock[0]-1,"https://diotheworld.github.io/image/Obstacle/widthFence.png"); blockMap[0][mhBlock[0]-1][i]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,0,"image/Obstacle/widthFence.png"); blockMap[0][0][i]=2147483647;
+	obstacleMap[0][obstacleMap[0].length]=new makeObstacle("가로철조망",i,mhBlock[0]-1,"image/Obstacle/widthFence.png"); blockMap[0][mhBlock[0]-1][i]=2147483647;
 }
 if(1){//크아 라면.
 	for(var i=0;i<40;i++){
 		for(var n=0;n<23;n++)
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,"https://diotheworld.github.io/image/tong.png");
+		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,"image/tong.png");
 	}
 	for(var i=0;i<25;i++){
 		for(var n=0;n<16;n++){
 			if(Math.floor(Math.random() * 4)<1)
-			obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",i+4,n+4,"https://diotheworld.github.io/image/tong.png");
+			obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",i+4,n+4,"image/tong.png");
 		}
 	}
 }
@@ -231,9 +232,9 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
 	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
@@ -286,9 +287,9 @@ function makeMonster(name,x,y,maxHp,hp,source){//몬스터 만들기
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
 	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
@@ -308,9 +309,9 @@ function makeMonster2(name,x,y,maxHp,hp,source){//몬스터 만들기
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
 	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="https://diotheworld.github.io/image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="https://diotheworld.github.io/image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="https://diotheworld.github.io/image/Item/Fluid.png"; }//물줄기
+	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
+	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
+	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
 	if((x>=mwBlock[1])||(x<0)||(y>=mhBlock[1])||(y<0)||(blockMap[1][y][x]!=0)){
 		this.existence=0;
@@ -354,11 +355,11 @@ if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
 <!--npc들
 var npcCount=0;
 npcMap[0] = [<!--x는 최대 100, y는 최대 50
-  new makeNpc("김 상병",4,4,"https://diotheworld.github.io/image/Npc/김상병.png"), 
-  new makeNpc("이 일병",17,5,"https://diotheworld.github.io/image/a.jpg"), 
+  new makeNpc("김 상병",4,4,"image/Npc/김상병.png"), 
+  new makeNpc("이 일병",17,5,"image/a.jpg"), 
   new makeNpc("최 병장",20,25,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
   new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
-  new makeNpc("이성우 일병",40,40,"https://diotheworld.github.io/image/Npc/김상병.png")
+  new makeNpc("이성우 일병",40,40,"image/Npc/김상병.png")
 ];
 function makeNpc(name,x,y,source){
 	this.name=name;
@@ -529,7 +530,7 @@ for(k=0;k<2;k++){//물풍선
 	w[k].image=new Image();
 	w[k].image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
 	w[k].image2=new Image();
-	w[k].image2.src=("https://diotheworld.github.io/image/water.jpg");
+	w[k].image2.src=("image/water.jpg");
 }
 
 function charBlock(Y,X,k,m){ return blockMap[m][y[k]/oneBlock+Y][x[k]/oneBlock+X]; }
