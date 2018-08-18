@@ -3,6 +3,7 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+var sometext;
 $(document).ready(function(){
     $("button").click(function(){
         $("#div1").load("https://www.w3schools.com/html/snippet.html");
@@ -14,8 +15,15 @@ $(document).ready(function(){
     });
     $("#btn2").click(function(){
         alert("HTML: " + $("#div1").html());
+        sometext="HTML: " + $("#div1").html();
     });
 });
+var myWindow;
+function openAns() {
+	sometext=$("#div1").html();
+    myWindow = window.open("", "myWindow", "width=900,height=600");
+    myWindow.document.write(sometext);
+}
 </script>
 </head>
 <body>
@@ -25,5 +33,6 @@ $(document).ready(function(){
 <button>Get External Content</button>
 <button id="btn1">Show Text</button>
 <button id="btn2">Show HTML</button>
+<button onclick="openAns()">정답</button>
 </body>
 </html>
