@@ -8,6 +8,12 @@
 			font-family:Aldrich;
 			font-size: 1.7vw;
 		}
+		input.tt{
+			width: 30%;
+			padding: 5px 5px;
+			transition: 0.3s;
+			background-color:lightgreen;
+		}
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -19,8 +25,8 @@
 		<form action="https://potent-poetry-214213.appspot.com/" method="post" style='background-color:yellow'>
     		<fieldset>
     		<legend>Login</legend>
-    		username : <input type="text" name="id"/><br>
-    		password : <input type="password" name="password"/><br>
+    		username : <input class='tt' type="text" name="id"/><br>
+    		password : <input class='tt' type="password" name="password"/><br>
     		<input type="submit" value="login" >
     		</fieldset>
     	</form>
@@ -28,7 +34,7 @@
 	<br><br><br><br><br>
 	<form action="https://8080-dot-4319447-dot-devshell.appspot.com/comment?authuser=0#" method="post" >
     	<fieldset style=''>	
-		익명댓글 : <input type="text" name="comment"/><br>
+		익명댓글 : <input class='tt' type="text" name="comment"/><br>
     	<input type="submit" value="댓글달기" >
     	</fieldset>
 	</form>
