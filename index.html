@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
@@ -9,10 +10,39 @@
 			font-size: 1.7vw;
 		}
 		input.tt{
-			width: 30%;
+			width: 10%;
 			padding: 5px 5px;
 			transition: 0.3s;
 			background-color:lightgreen;
+		}
+		form{
+			animation-name:forma;
+			background-color: red;
+			animation-duration: 15s;
+			animation-iteration-count:infinite;
+		}
+		@keyframes forma{
+			0%	{background-color:DeepPink;}
+			5%	{background-color:red;}
+			10%	{background-color:Coral;}
+			15%	{background-color:Orange;}
+			20%	{background-color:yellow;}
+			25%	{background-color:lightgreen;}
+			30%	{background-color:green;}
+			35%	{background-color:Teal;}
+			40%	{background-color:MediumBlue;}
+			45%	{background-color:RebeccaPurple ;}
+			50%{background-color:Purple;}
+			55%	{background-color:RebeccaPurple ;}
+			60%	{background-color:MediumBlue;}
+			65%	{background-color:Teal;}
+			70%	{background-color:green;}
+			75%	{background-color:lightgreen;}
+			80%	{background-color:yellow;}
+			85%	{background-color:Orange;}
+			90%	{background-color:Coral;}
+			95%{background-color:red;}
+			100%{background-color:DeepPink;}
 		}
 	</style>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +52,7 @@
 <!--	https://potent-poetry-214213.appspot.com/
 		https://8080-dot-4319447-dot-devshell.appspot.com/?authuser=0#
 		-->
-		<form action="https://potent-poetry-214213.appspot.com/" method="post" style='background-color:yellow'>
+		<form action="https://potent-poetry-214213.appspot.com/" method="post">
     		<fieldset>
     		<legend>Login</legend>
     		username : <input class='tt' type="text" name="id"/><br>
