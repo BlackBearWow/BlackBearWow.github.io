@@ -1,16 +1,96 @@
 <html>
 <head>
-
+	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+    <title>w</title>
+	<style>
+		body{
+			background-image: url("https://diotheworld.github.io/image/paper.gif");
+			font-family:Aldrich;
+			font-size: 1.7vw;
+		}
+		input.tt{
+			width: 10%;
+			padding: 5px 5px;
+			transition: 0.5s;
+			background-color:lightgreen;
+			border: 0.3vw solid #aaa;
+			border-radius: 15px;
+			font-size: 1.2vw;
+			font-family:Aldrich;
+		}
+		input.tt:focus{
+			border: 0.3vw solid #555;
+			transition: width 0.5s ease-in-out;
+		}
+		input[name=comment]:focus{
+			width: 90%;
+		}
+		input[name=id]:focus, input[name=password]:focus{
+			width: 20%;
+		}
+		input[type=submit]{
+			width: 15%;
+			background-color: #4CAF50;
+			color:white;
+			padding: 0.6vw;
+			margin:4px 10px;
+			border:none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 1vw;
+		}
+		div {
+			border-radius: 10px;
+			background-color: #f2f2f2;
+			animation-name:forma;
+			animation-duration: 30s;
+			animation-iteration-count:infinite;
+		}
+		@keyframes forma{
+			0%	{background-color:DeepPink;}
+			5%	{background-color:red;}
+			10%	{background-color:Coral;}
+			15%	{background-color:Orange;}
+			20%	{background-color:yellow;}
+			25%	{background-color:lightgreen;}
+			30%	{background-color:green;}
+			35%	{background-color:Teal;}
+			40%	{background-color:MediumBlue;}
+			45%	{background-color:RebeccaPurple ;}
+			50%{background-color:Purple;}
+			55%	{background-color:RebeccaPurple ;}
+			60%	{background-color:MediumBlue;}
+			65%	{background-color:Teal;}
+			70%	{background-color:green;}
+			75%	{background-color:lightgreen;}
+			80%	{background-color:yellow;}
+			85%	{background-color:Orange;}
+			90%	{background-color:Coral;}
+			95%{background-color:red;}
+			100%{background-color:DeepPink;}
+		}
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <form action="https://potent-poetry-214213.appspot.com/" method="post" >
-    <fieldset>
-    <legend>Login</legend>
-    username : <input type="text" name="id"/><br>
-    password : <input type="password" name="password"/><br>
-    <input type="submit" value="login" >
-  </fieldset>
-  </form>
-
-</body>
+<body style="background-color:lightgreen">
+    <center>
+<!--	https://potent-poetry-214213.appspot.com/
+		https://8080-dot-4319447-dot-devshell.appspot.com/?authuser=0#
+		-->
+		<div>
+		<form action="https://potent-poetry-214213.appspot.com/" method="post">
+    		<legend>Login</legend>
+    		username : <input class='tt' type="text" name="id"/><br>
+    		password : <input class='tt' type="password" name="password"/><br>
+    		<input type="submit" value="login" >
+    	</form>
+		</div>
+    </center>
+	<br><br><br><br><br>
+	<div>
+	<form action="https://world-215205.appspot.com/comment" method="post" >
+		익명댓글 : <input class='tt' type="text" name="comment"/><br>
+    	<input type="submit" value="댓글달기"></form>
+	</div>
+    </body>
 </html>
