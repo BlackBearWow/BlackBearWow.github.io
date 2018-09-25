@@ -1,0 +1,41 @@
+<html>
+<script>
+function print(parameter){
+	document.write(parameter+'<br>');
+}
+var baseNum=[0,1,2,3,4,5,6,7,8,9];
+var Num=[];
+for(i=0;i<4;){
+	set=1;
+	Qnum=Math.floor(Math.random()*10);
+	for(j=0;j<Num.length+1;j++)if(Num[j]==Qnum)set=0;
+	if(set){Num[Num.length]=Qnum;i++}
+}
+document.write(Num);
+function isSame(){
+	var Qnum=document.nn.number.value;
+	var set=0,DOEN=[];
+	analyzeNum=Qnum;
+	//숫자 중복 확인
+	DOEN[DOEN.length]=Math.floor(analyzeNum/1000); analyzeNum-=DOEN[0]*1000;
+	DOEN[DOEN.length]=Math.floor(analyzeNum/100); analyzeNum-=DOEN[1]*100;
+	DOEN[DOEN.length]=Math.floor(analyzeNum/10); analyzeNum-=DOEN[2]*10;
+	DOEN[DOEN.length]=Math.floor(analyzeNum); analyzeNum-=DOEN[3];
+	for(i=0;i<4;i++){for(j=i+1;j<4;j++){if(DOEN[i]==DOEN[j]) set=1;}}
+	
+	if(Qnum<1234){document.getElementById('currentSituation').innerHTML='숫자가 너무 작앙';}
+	else if(Qnum>9876){document.getElementById('currentSituation').innerHTML='숫자가 너무 컹';}
+	else if(set){document.getElementById('currentSituation').innerHTML='숫자가 중복됬엉';}
+	else{
+		document.getElementById('currentSituation').innerHTML=DOEN;
+	}
+}
+</script>
+<br><hr><br>
+<p id="currentSituation">맞춰봐잉</p>
+<br><hr><br>
+<form name='nn'>
+정답: <input type="number" name='number' id='whatIsNum' >
+<input type='button' onclick='isSame()' value='Check'>
+</form>
+</html>
