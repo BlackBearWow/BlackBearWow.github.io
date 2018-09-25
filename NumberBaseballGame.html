@@ -12,7 +12,7 @@ for(i=0;i<4;){
 	for(j=0;j<Num.length+1;j++)if(Num[j]==Qnum)set=0;
 	if(set){Num[Num.length]=Qnum;i++}
 }
-document.write(Num);//먗츌 슛땨 생셩
+//document.write(Num);//먗츌 슛땨 생셩
 //갓늉햔 슛땨 묙룍 생셩 5040
 var possibleNum=[];
 for(a=0;a<=9;a++)for(b=0;b<=9;b++)for(c=0;c<=9;c++)for(d=0;d<=9;d++){
@@ -64,11 +64,11 @@ function isSame(){
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
 		ss2=ss2+possibleNum[i]+'<br>';
-	document.getElementById('possibleNum').innerHTML=ss2;
+	//document.getElementById('possibleNum').innerHTML=ss2;
 }
 </script>
 <br><hr><br>
-<p id="currentSituation">맞춰봐잉</p>
+<p id="currentSituation">-숫자야구게임-</p>
 <br><hr><br>
 <form name='nn'>
 정답: <input type="number" name='number' id='whatIsNum' >
