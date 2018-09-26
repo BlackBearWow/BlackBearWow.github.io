@@ -12,7 +12,7 @@ for(i=0;i<4;){
 	for(j=0;j<Num.length+1;j++)if(Num[j]==Qnum)set=0;
 	if(set){Num[Num.length]=Qnum;i++}
 }
-//document.write(Num);//먗츌 슛땨 생셩
+document.write(Num);//먗츌 슛땨 생셩
 //갓늉햔 슛땨 묙룍 생셩 5040
 var possibleNum=[];
 for(a=0;a<=9;a++)for(b=0;b<=9;b++)for(c=0;c<=9;c++)for(d=0;d<=9;d++){
@@ -38,7 +38,8 @@ function checkNumPossible(e,f,g,h,Strike,Ball){
 	}
 }
 function isSame(){
-	var Qnum=document.nn.number.value;
+	//var Qnum=document.nn.number.value;
+	var Qnum=document.getElementById('whatIsNum').value;
 	var set=0,DOAN=[];
 	analyzeNum=Qnum;
 	//숫자 중복 확인 digits of a number
@@ -52,8 +53,7 @@ function isSame(){
 	else if(Qnum>9876){document.getElementById('currentSituation').innerHTML='숫자가 너무 컹';}
 	else if(set){document.getElementById('currentSituation').innerHTML='숫자가 중복됬엉';}
 	else{
-		//document.getElementById('currentSituation').innerHTML=DOAN+'<br>'+checkNum(DOAN);
-		SB=checkNum(DOAN); ss1='-Log-<br>';
+		SB=checkNum(DOAN); ss1='-Log-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
 		log[log.length]=[DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]];
 		checkNumPossible(DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]);
 		for(i=0;i<log.length;i++){
@@ -64,16 +64,14 @@ function isSame(){
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
 		ss2=ss2+possibleNum[i]+'<br>';
-	//document.getElementById('possibleNum').innerHTML=ss2;
+	document.getElementById('possibleNum').innerHTML=ss2;
 }
 </script>
 <br><hr><br>
 <p id="currentSituation">-숫자야구게임-</p>
 <br><hr><br>
-<form name='nn'>
-정답: <input type="number" name='number' id='whatIsNum' >
+정답입력: <input type="number" name='number' id='whatIsNum' >
 <input type='button' onclick='isSame()' value='Check'>
 <hr>
 <p id="possibleNum">맞춰봐잉</p>
-</form>
 </html>
