@@ -21,7 +21,7 @@ for(i=0;i<4;){
 	for(j=0;j<Num.length+1;j++)if(Num[j]==Qnum)set=0;
 	if(set){Num[Num.length]=Qnum;i++}
 }
-document.write(Num);//먗츌 슛땨 생셩
+//document.write(Num);//먗츌 슛땨 생셩
 //갓늉햔 슛땨 묙룍 생셩 5040
 var possibleNum=[];
 for(a=0;a<=9;a++)for(b=0;b<=9;b++)for(c=0;c<=9;c++)for(d=0;d<=9;d++){
@@ -70,26 +70,34 @@ function isSame(){
 			for(i=0;i<log.length;i++){
 				ss1=ss1+(i+1)+'번째 시도▶ Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
 			}
-			document.getElementById('currentSituation').innerHTML=ss1+'<br>'+'-현재-<br>Strike: '+SB[0]+' Ball: '+SB[1];
+			document.getElementById('currentSituation').innerHTML=ss1+'<br>';
 		}
+		document.getElementById('comQ').innerHTML='Strike: '+SB[0]+' Ball: '+SB[1]+'<br><br>'+possibleNum[Math.floor(Math.random()*possibleNum.length)]+'?';//말풍선
 		order=1;
+		document.getElementById('aiw').style.display="none";
+		document.getElementById('SSBB').style.display="block";
+		if(SB[0]==4)
+			document.getElementById('comQ').innerHTML='크~너가이겼어!<br> 인정할게';//말풍선
 	}
 	else {
 		document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
 		checkNumPossible(log[log.length-1][0],log[log.length-1][1],log[log.length-1][2],log[log.length-1][3],S,B);
+		document.getElementById('comQ').innerHTML='음...';//말풍선
 		order=0;
+		document.getElementById('aiw').style.display="block";
+		document.getElementById('SSBB').style.display="none";
+		if(S==4) document.getElementById('comQ').innerHTML='하하 <br>내가 이겼네!';//말풍선
 	}
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
 		ss2=ss2+possibleNum[i]+'<br>';
-	document.getElementById('possibleNum').innerHTML=ss2;//숫쟈 묙룍 냐열
-	document.getElementById('comQ').innerHTML=possibleNum[Math.floor(Math.random()*possibleNum.length)];
+	//document.getElementById('possibleNum').innerHTML=ss2;//숫쟈 묙룍 냐열
 }
 </script>
 <br><hr><br>
 <div style="position:relative; width:500; height:500; float:left"><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G' id='me' style="z-index:-1; posiiton:relative; width:500; height:500; float:left">
 <div style="position:absolute; right:0; top:0;"><img src='https://cdn.clien.net/web/api/file/F01/3324136/3fd65bc50a8a47e182b.JPG' style="width:150; height:150;"></div>
-<div id='comQ' style="position:absolute; right:55; top:55;">음..뭘까</div>
+<div id='comQ' style="position:absolute; right:30; top:55;">음..뭘까</div>
 </div>
 <center>
 <div id="currentSituation">
@@ -102,8 +110,9 @@ function isSame(){
 -숫자를 정해라. 정했나? 그러면 시작하라. 당신이 선이다.<br>
 </div>
 <br><hr><br>
-정답입력: <input type="number" name='number' id='whatIsNum' >
-Strike: <input type="number" name='SStrike' id='SStrike' maxlength="1" size="1" > Ball: <input type="number" name='BBall' id='BBall' size="1" maxlength="1">
+<div id='aiw'>정답입력: <input type="number" name='number' id='whatIsNum' ></div>
+<div id='SSBB' style='display:none;'>Strike: <input type="number" name='SStrike' id='SStrike' maxlength="1" size="1" > Ball: <input type="number" name='BBall' id='BBall' size="1" maxlength="1">
+</div>
 <input type='button' onclick='isSame()' value='확인'>
 <hr>
 <p id="possibleNum">맞춰봐잉</p>
