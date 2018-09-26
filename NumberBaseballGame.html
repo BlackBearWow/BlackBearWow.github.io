@@ -1,5 +1,9 @@
 <html>
 <script>
+var Src=[
+	'http://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2009/08/Mario-in-his-thoughts-coloring-page.jpg',
+	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G'
+];
 function print(parameter){
 	document.write(parameter+'<br>');
 }
@@ -42,6 +46,7 @@ function isSame(){
 	var Qnum=document.getElementById('whatIsNum').value;
 	var set=0,DOAN=[];
 	analyzeNum=Qnum;
+	document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
 	//숫자 중복 확인 digits of a number
 	DOAN[DOAN.length]=Math.floor(analyzeNum/1000); analyzeNum-=DOAN[0]*1000;
 	DOAN[DOAN.length]=Math.floor(analyzeNum/100); analyzeNum-=DOAN[1]*100;
@@ -53,11 +58,11 @@ function isSame(){
 	else if(Qnum>9876){document.getElementById('currentSituation').innerHTML='숫자가 너무 컹';}
 	else if(set){document.getElementById('currentSituation').innerHTML='숫자가 중복됬엉';}
 	else{
-		SB=checkNum(DOAN); ss1='-Log-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
+		SB=checkNum(DOAN); ss1='-Log(기록)-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
 		log[log.length]=[DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]];
 		checkNumPossible(DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]);
 		for(i=0;i<log.length;i++){
-			ss1=ss1+'Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
+			ss1=ss1+(i+1)+'번째 시도▶ Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
 		}
 		document.getElementById('currentSituation').innerHTML=ss1+'<br>'+'-현재-<br>Strike: '+SB[0]+' Ball: '+SB[1];
 	}
@@ -68,10 +73,21 @@ function isSame(){
 }
 </script>
 <br><hr><br>
-<p id="currentSituation">-숫자야구게임-</p>
+<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G' id='me' style="width:500; height:500; float:left">
+<center>
+<div id="currentSituation">
+-숫자야구게임-<hr>
+규칙:<br> 
+-4자리 숫자야구게임이다<br>
+-컴퓨터와 당신의 대결이다<br>
+-컴퓨터의 알고리즘은 주호가 만들었다<br>
+-당신의 차례에는 정답입력칸에 입력하고 Check버튼을 누르면 된다.<br>
+-당신이 선이다. 시작하라.<br>
+</div>
 <br><hr><br>
 정답입력: <input type="number" name='number' id='whatIsNum' >
 <input type='button' onclick='isSame()' value='Check'>
 <hr>
 <p id="possibleNum">맞춰봐잉</p>
+</center>
 </html>
