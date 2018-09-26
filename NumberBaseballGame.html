@@ -1,5 +1,6 @@
 <html>
 <script>
+var order=0;//0 당신순서 1 컴퓨터 순서
 var Src=[
 	'http://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2009/08/Mario-in-his-thoughts-coloring-page.jpg',
 	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G',
@@ -47,28 +48,36 @@ function checkNumPossible(e,f,g,h,Strike,Ball){
 }
 function isSame(){
 	//var Qnum=document.nn.number.value;
-	var Qnum=document.getElementById('whatIsNum').value;
+	var Qnum=document.getElementById('whatIsNum').value;//정답입력 칸 숫자 가져옴
+	var S=document.getElementById('SStrike').value;
+	var B=document.getElementById('BBall').value;
 	var set=0,DOAN=[];
 	analyzeNum=Qnum;
 	document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
 	//숫자 중복 확인 digits of a number
-	DOAN[DOAN.length]=Math.floor(analyzeNum/1000); analyzeNum-=DOAN[0]*1000;
-	DOAN[DOAN.length]=Math.floor(analyzeNum/100); analyzeNum-=DOAN[1]*100;
-	DOAN[DOAN.length]=Math.floor(analyzeNum/10); analyzeNum-=DOAN[2]*10;
-	DOAN[DOAN.length]=Math.floor(analyzeNum); analyzeNum-=DOAN[3];
-	for(i=0;i<4;i++){for(j=i+1;j<4;j++){if(DOAN[i]==DOAN[j]) set=1;}}
-	
-	if(Qnum<0123){document.getElementById('currentSituation').innerHTML='숫자가 너무 작앙';}
-	else if(Qnum>9876){document.getElementById('currentSituation').innerHTML='숫자가 너무 컹';}
-	else if(set){document.getElementById('currentSituation').innerHTML='숫자가 중복됬엉';}
-	else{
-		SB=checkNum(DOAN); ss1='-Log(기록)-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
-		log[log.length]=[DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]];
-		checkNumPossible(DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]);
-		for(i=0;i<log.length;i++){
-			ss1=ss1+(i+1)+'번째 시도▶ Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
+	if(order==0){
+		DOAN[DOAN.length]=Math.floor(analyzeNum/1000); analyzeNum-=DOAN[0]*1000;
+		DOAN[DOAN.length]=Math.floor(analyzeNum/100); analyzeNum-=DOAN[1]*100;
+		DOAN[DOAN.length]=Math.floor(analyzeNum/10); analyzeNum-=DOAN[2]*10;
+		DOAN[DOAN.length]=Math.floor(analyzeNum); analyzeNum-=DOAN[3];
+		for(i=0;i<4;i++){for(j=i+1;j<4;j++){if(DOAN[i]==DOAN[j]) set=1;}}
+		
+		if(Qnum<0123){document.getElementById('currentSituation').innerHTML='숫자가 너무 작앙';}
+		else if(Qnum>9876){document.getElementById('currentSituation').innerHTML='숫자가 너무 컹';}
+		else if(set){document.getElementById('currentSituation').innerHTML='숫자가 중복됬엉';}
+		else{
+			SB=checkNum(DOAN); ss1='-Log(기록)-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
+			log[log.length]=[DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]];
+			for(i=0;i<log.length;i++){
+				ss1=ss1+(i+1)+'번째 시도▶ Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
+			}
+			document.getElementById('currentSituation').innerHTML=ss1+'<br>'+'-현재-<br>Strike: '+SB[0]+' Ball: '+SB[1];
 		}
-		document.getElementById('currentSituation').innerHTML=ss1+'<br>'+'-현재-<br>Strike: '+SB[0]+' Ball: '+SB[1];
+		order=1;
+	}
+	else {
+		checkNumPossible(DOAN[0],DOAN[1],DOAN[2],DOAN[3],S,B);
+		order=0;
 	}
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
@@ -89,12 +98,13 @@ function isSame(){
 -4자리 숫자야구게임이다<br>
 -컴퓨터와 당신의 대결이다<br>
 -컴퓨터의 알고리즘은 주호가 만들었다<br>
--당신의 차례에는 정답입력칸에 입력하고 Check버튼을 누르면 된다.<br>
+-당신의 차례에는 정답입력칸에 입력하고 '확인'버튼을 누르면 된다.<br>
 -숫자를 정해라. 정했나? 그러면 시작하라. 당신이 선이다.<br>
 </div>
 <br><hr><br>
 정답입력: <input type="number" name='number' id='whatIsNum' >
-<input type='button' onclick='isSame()' value='Check'>
+Strike: <input type="number" name='SStrike' id='SStrike' maxlength="1" size="1" > Ball: <input type="number" name='BBall' id='BBall' size="1" maxlength="1">
+<input type='button' onclick='isSame()' value='확인'>
 <hr>
 <p id="possibleNum">맞춰봐잉</p>
 </center>
