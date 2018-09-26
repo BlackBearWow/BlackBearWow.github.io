@@ -2,7 +2,11 @@
 <script>
 var Src=[
 	'http://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2009/08/Mario-in-his-thoughts-coloring-page.jpg',
-	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G'
+	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G',
+	'https://i.pinimg.com/originals/2a/8a/a6/2a8aa6a6f61d0442a2e6ae7a012f41f1.png',
+	'https://st2.depositphotos.com/1024768/6409/v/950/depositphotos_64098703-stock-illustration-man-with-cupcake-coloring-page.jpg',
+	'http://images.yodibujo.es/img/vignettes/sailor-moon-5-38225.jpg',
+	'http://es.colorkid.net/sites/default/files/styles/big_father/public/1433777747_5.gif?itok=RQr_Cunc'
 ];
 function print(parameter){
 	document.write(parameter+'<br>');
@@ -69,11 +73,15 @@ function isSame(){
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
 		ss2=ss2+possibleNum[i]+'<br>';
-	document.getElementById('possibleNum').innerHTML=ss2;
+	document.getElementById('possibleNum').innerHTML=ss2;//숫쟈 묙룍 냐열
+	document.getElementById('comQ').innerHTML=possibleNum[Math.floor(Math.random()*possibleNum.length)];
 }
 </script>
 <br><hr><br>
-<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G' id='me' style="width:500; height:500; float:left">
+<div style="position:relative; width:500; height:500; float:left"><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G' id='me' style="z-index:-1; posiiton:relative; width:500; height:500; float:left">
+<div style="position:absolute; right:0; top:0;"><img src='https://cdn.clien.net/web/api/file/F01/3324136/3fd65bc50a8a47e182b.JPG' style="width:150; height:150;"></div>
+<div id='comQ' style="position:absolute; right:55; top:55;">음..뭘까</div>
+</div>
 <center>
 <div id="currentSituation">
 -숫자야구게임-<hr>
@@ -82,7 +90,7 @@ function isSame(){
 -컴퓨터와 당신의 대결이다<br>
 -컴퓨터의 알고리즘은 주호가 만들었다<br>
 -당신의 차례에는 정답입력칸에 입력하고 Check버튼을 누르면 된다.<br>
--당신이 선이다. 시작하라.<br>
+-숫자를 정해라. 정했나? 그러면 시작하라. 당신이 선이다.<br>
 </div>
 <br><hr><br>
 정답입력: <input type="number" name='number' id='whatIsNum' >
