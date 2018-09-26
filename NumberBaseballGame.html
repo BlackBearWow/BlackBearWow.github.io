@@ -86,12 +86,13 @@ function isSame(){
 		order=0;
 		document.getElementById('aiw').style.display="block";
 		document.getElementById('SSBB').style.display="none";
+		if(possibleNum.length==0) document.getElementById('comQ').innerHTML='잘못알려줬어..<br>다시해야겠는걸?';//말풍선
 		if(S==4) document.getElementById('comQ').innerHTML='하하 <br>내가 이겼네!';//말풍선
 	}
 	ss2='';
 	for(i=0;i<possibleNum.length;i++)
 		ss2=ss2+possibleNum[i]+'<br>';
-	//document.getElementById('possibleNum').innerHTML=ss2;//숫쟈 묙룍 냐열
+	document.getElementById('possibleNum').innerHTML=ss2;//숫쟈 묙룍 냐열
 }
 </script>
 <br><hr><br>
@@ -107,6 +108,7 @@ function isSame(){
 -컴퓨터와 당신의 대결이다<br>
 -컴퓨터의 알고리즘은 주호가 만들었다<br>
 -당신의 차례에는 정답입력칸에 입력하고 '확인'버튼을 누르면 된다.<br>
+-컴퓨터가 대답하는 숫자에 대한 strike와 ball을 입력해줘라.<br>
 -숫자를 정해라. 정했나? 그러면 시작하라. 당신이 선이다.<br>
 </div>
 <br><hr><br>
