@@ -53,7 +53,6 @@ function isSame(){
 	var B=document.getElementById('BBall').value;
 	var set=0,DOAN=[];
 	analyzeNum=Qnum;
-	document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
 	//숫자 중복 확인 digits of a number
 	if(order==0){
 		DOAN[DOAN.length]=Math.floor(analyzeNum/1000); analyzeNum-=DOAN[0]*1000;
@@ -76,7 +75,8 @@ function isSame(){
 		order=1;
 	}
 	else {
-		checkNumPossible(DOAN[0],DOAN[1],DOAN[2],DOAN[3],S,B);
+		document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
+		checkNumPossible(log[log.length-1][0],log[log.length-1][1],log[log.length-1][2],log[log.length-1][3],S,B);
 		order=0;
 	}
 	ss2='';
