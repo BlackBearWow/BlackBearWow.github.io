@@ -1,8 +1,8 @@
 <html>
 <script>
 var impossible=1;//불가능한 버전set
-function im(){impossible=1;}
-function ha(){impossible=0;}
+function im(){impossible=1;document.getElementById('comQ').innerHTML='많이힘든 난이도야';}
+function ha(){impossible=0;document.getElementById('comQ').innerHTML='보통힘든 난이도야';}
 var order=0;//0 당신순서 1 컴퓨터 순서
 function first(){order=0;
 document.getElementById('whoFirst').style.display="none";
