@@ -31,7 +31,9 @@ var charLevel=1;
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
-var mainMaxHp=500,mainCurrentHp=mainMaxHp;
+var mainMaxHp=500,mainCurrentHp=mainMaxHp;//캐릭터의 HP설정.
+var hits=new Array(30), hitsCount=hits.length;
+for(var i=0;i<hitsCount;i++)hits[i]=0;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -357,15 +359,17 @@ var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if(monsterMap[mapCount][a].existence) {
 	if((monsterMap[mapCount][a].y==y[0]/40)&&(monsterMap[mapCount][a].x==x[0]/40)){
-		mainCurrentHp-=1;
-		ctx.font = "30px Arial";
-		ctx.shadowColor="black";
-		ctx.shadowBlur=3;
-		ctx.lineWidth=3;
-		ctx.strokeText(1,charx-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
-		ctx.shadowBlur=0;
-		ctx.fillStyle="blueViolet";
-		ctx.fillText(1,charx-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
+		hits[0]=Math.floor(Math.random()*3+1);
+		hitsCount=hits.length;
+		mainCurrentHp-=hits[0];
+//		ctx.font = "30px Arial";
+//		ctx.shadowColor="black";
+//		ctx.shadowBlur=3;
+//		ctx.lineWidth=3;
+//		ctx.strokeText(1,charx-7,chary-0);
+//		ctx.shadowBlur=0;
+//		ctx.fillStyle="blueViolet";
+//		ctx.fillText(1,charx-7,chary-0);
 	}
 }
 }
@@ -1134,6 +1138,20 @@ else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]
 drawMonsters();
 monsterHit();
 if((x[0]%oneBlock==0)&&(y[0]%oneBlock==0)&&(w[0].inBalloon==0)) monsterAttack();
+if(hitsCount!=0){hitsCount-=1; 
+	for(var i=hits.length-1;i>=0;i--){
+		ctx.font = "30px Arial";
+		ctx.shadowColor="black";
+		ctx.shadowBlur=3;
+		ctx.lineWidth=3;
+		if(hits[i]) ctx.strokeText(hits[i],charx-7,chary-i*3);
+		ctx.shadowBlur=0;
+		ctx.fillStyle="blueViolet";
+		if(hits[i]) ctx.fillText(hits[i],charx-7,chary-i*3);
+		if(i!=(hits.length-1)) hits[i+1]=hits[i];
+		hits[i]=0;
+	}
+}
 monsterDie();
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
