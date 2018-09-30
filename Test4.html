@@ -6,6 +6,7 @@
 <center>
 <canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3; cursor:none;"/>
 </center>
+<div style='display:block;'>
 <audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
 <audio id="Fade" src="Music/Fade.mp3"/>
 <audio id="Camp" src="Music/CAMP.mp3"/>
@@ -16,6 +17,7 @@
 <audio id="levelUp" src="Music/렙업.wav"/>
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
+</div>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -27,8 +29,9 @@ var oneBlock=40;
 var exp=0;
 var charLevel=1;
 var halfBlock=oneBlock/2;
-var x = [oneBlock*2, 1080];
+var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
+var mainMaxHp=100,mainCurrentHp=100;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -1108,6 +1111,9 @@ monsterHit();
 monsterDie();
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
+document.getElementById('mainhp')['innerHTML']='HP:'+mainCurrentHp+'/'+mainMaxHp;
+document.getElementById('redhp').style.width=1200*mainCurrentHp/mainMaxHp;
+mainCurrentHp-=0.1;
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
@@ -1119,6 +1125,10 @@ if(map[32]){
 
 </script>
 <center>
+<div style='position:relative; width:1200px; height:24px; background-color:#888888; border: 2px solid tomato;'>
+<div id='redhp' style='position:absolute; width:1200px; height:24px; top:0px; background-color:red;'></div>
+<div id='mainhp' style='z-index:1; position:absolute; top:0px;'>HP:100/100</div>
+</div>
 <br><br>	
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기');">도움말</button>
 </center>
