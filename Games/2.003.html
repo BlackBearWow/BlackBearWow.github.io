@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -7,6 +6,7 @@
 <center>
 <canvas id="can" width="1200" height="800" style="border:1px solid #c3c3c3; cursor:none;"/>
 </center>
+<div style='display:block;'>
 <audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
 <audio id="Fade" src="Music/Fade.mp3"/>
 <audio id="Camp" src="Music/CAMP.mp3"/>
@@ -17,6 +17,7 @@
 <audio id="levelUp" src="Music/렙업.wav"/>
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
+</div>
 <script>
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -1120,6 +1121,10 @@ if(map[32]){
 
 </script>
 <center>
+<div style='position:relative; width:1200px; height:24px; background-color:#888888; border: 2px solid tomato;'>
+<div style='position:absolute; width:1200px; height:24px; top:0px; background-color:red;'></div>
+<div style='z-index:1; position:absolute; top:0px;'>HP:100/100</div>
+</div>
 <br><br>	
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기');">도움말</button>
 </center>
