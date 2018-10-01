@@ -29,21 +29,22 @@ ctx.fillText('Loading...',200,200);
 var oneBlock=40;
 var main={
 	charLevel:1,
+	exp:1,
+	maxExp:2,
 	levelImageCount:0
 };
+var hits=new Array(30), hitsCount=hits.length;//캐릭터가 몬스터에게 맞았을 경우 화면에 데미지를 띄움.
+for(var i=0;i<hitsCount;i++)hits[i]=0;
 var levelUpImage=new Array(21);
 for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i]=new Image();
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
-var charLevel=1;
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
 var mainMaxHp=500,mainCurrentHp=mainMaxHp;//캐릭터의 HP설정.
 var exp=1, maxExp=2;//캐릭터의 exp설정.
-var hits=new Array(30), hitsCount=hits.length;//캐릭터가 몬스터에게 맞았을 경우 화면에 데미지를 띄움.
-for(var i=0;i<hitsCount;i++)hits[i]=0;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -270,15 +271,14 @@ function obstacleBoom(a){
 monsterMap[0]=[
 	new makeMonster("몬스터",0,3,3,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
 ];
-monsterMap[1]=[
-	new makeMonster("몬스터",1,20,30,3000,3000,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
-];
+monsterMap[1]=[];
 function makeMonster0map() {
 	for(a=3;a<mhBlock[0];a++){
 		for(b=3;b<mwBlock[0];b++){
 			if(Math.floor(Math.random() * 70)<1){
 				var extraHp=Math.floor(Math.random() * 300);
 				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+				if(monsterMap[0][monsterMap[0].length-1].existence==0) monsterMap[0].splice(monsterMap[1].length-1,1);
 			}
 		}
 	}
@@ -289,6 +289,7 @@ function makeMonster1map() {
 			if(Math.floor(Math.random() * 20)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
 				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+				if(monsterMap[1][monsterMap[1].length-1].existence==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
 	}
@@ -311,11 +312,11 @@ function makeMonster(name,map,x,y,maxHp,hp,source){//몬스터 만들기
 	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
 	if((x>=mwBlock[map])||(x<0)||(y>=mhBlock[map])||(y<0)||(blockMap[map][y][x]!=0)){
-		this.existence=0;
+		this.existence=0;//existence가 0이라면 splice로 지우기.
 		return;
 	}
 }
-function drawMonsters(){
+function drawMonsters(){//existence는 이제 상관없어짐. 
 if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
@@ -327,7 +328,7 @@ ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(mon
 ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].state],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
 }
 }
-function monsterHit(){
+function monsterHit(){//캐릭터가 몬스터를 공격함
 if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
@@ -345,7 +346,7 @@ if(monsterMap[mapCount][a].existence) {
 	}
 }
 }
-function monsterAttack(){
+function monsterAttack(){//몬스터가 캐릭터를 공격함
 if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
@@ -354,14 +355,6 @@ if(monsterMap[mapCount][a].existence) {
 		hits[0]=Math.floor(Math.random()*3+1);
 		hitsCount=hits.length;
 		mainCurrentHp-=hits[0];
-//		ctx.font = "30px Arial";
-//		ctx.shadowColor="black";
-//		ctx.shadowBlur=3;
-//		ctx.lineWidth=3;
-//		ctx.strokeText(1,charx-7,chary-0);
-//		ctx.shadowBlur=0;
-//		ctx.fillStyle="blueViolet";
-//		ctx.fillText(1,charx-7,chary-0);
 	}
 }
 }
@@ -370,8 +363,8 @@ if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
-	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie'); exp+=1;
-	if(exp>=maxExp){playMusic2('levelUp'); exp=0; charLevel+=1; main.levelImageCount=210;}
+	monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
+	if(main.exp>=main.maxExp){playMusic2('levelUp'); main.exp=0; main.charLevel+=1; main.levelImageCount=210;}
 }
 }
 <!--npc들
@@ -626,7 +619,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+w[0].speedCount,10,50);
 }
 
 function start(){
@@ -1163,10 +1156,10 @@ ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
 ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,30,822);
 ctx.fillStyle="Aqua"; ctx.fillRect(0,828,1200,28);
 ctx.fillStyle='#999999'; ctx.fillRect(202,830,1196,24);
-ctx.fillStyle="Lime"; ctx.fillRect(200,830,1000*exp/maxExp,24);
+ctx.fillStyle="Lime"; ctx.fillRect(200,830,1000*main.exp/main.maxExp,24);
 ctx.fillStyle="#0039e6"; ctx.fillRect(0,830,200,24);
-ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+exp+'/'+maxExp,220,850); 
-ctx.fillText('Level:'+charLevel,30,850);
+ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+main.exp+'/'+main.maxExp,220,850); 
+ctx.fillText('Level:'+main.charLevel,30,850);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
