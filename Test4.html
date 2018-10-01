@@ -302,6 +302,9 @@ function makeMonster(name,map,x,y,maxHp,hp,source){//몬스터 만들기
     this.y=y;
 	this.maxHp=maxHp;
 	this.hp=hp;
+	this.hits=new Array(30);
+	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
+	this.hitsCount=0;//default=30
 	this.state=0;
 	this.item=Math.floor(Math.random() * 6);
 	this.image=new Array(2);
@@ -328,20 +331,37 @@ for(a=0;a<b;a++){
 	ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].state],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
 }
 }
+function drawMonstersHit(){ 
+if(monsterMap[mapCount]==undefined) return;
+	var a,b=monsterMap[mapCount].length;
+	for(a=0;a<b;a++){
+		if(monsterMap[mapCount][a].hitsCount){
+			monsterMap[mapCount][a].hitsCount--;
+			for(var i=monsterMap[mapCount][a].hits.length-1;i>=0;i--){
+			ctx.font = "30px Arial";
+			ctx.shadowColor="black";
+			ctx.shadowBlur=3;
+			ctx.lineWidth=3;
+			if(monsterMap[mapCount][a].hits[i]) //ctx.strokeText(main.hits[i],charx-7,chary-i*3);
+			ctx.strokeText(monsterMap[mapCount][a].hits[i],backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-i*3);
+			ctx.shadowBlur=0;
+			ctx.fillStyle="yellow";
+			if(monsterMap[mapCount][a].hits[i]) //ctx.fillText(main.hits[i],charx-7,chary-i*3);
+			ctx.fillText(monsterMap[mapCount][a].hits[i],backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-i*3);
+			if(i!=(monsterMap[mapCount][a].hits.length-1)) monsterMap[mapCount][a].hits[i+1]=monsterMap[mapCount][a].hits[i];
+			monsterMap[mapCount][a].hits[i]=0;
+			}
+		}
+	}
+}
 function monsterHit(){//캐릭터가 몬스터를 공격함
 if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++){
 	if(blockMap[mapCount][monsterMap[mapCount][a].y][monsterMap[mapCount][a].x]==1){
-		monsterMap[mapCount][a].hp-=1;
-		ctx.font = "30px Arial";
-		ctx.shadowColor="black";
-		ctx.shadowBlur=3;
-		ctx.lineWidth=3;
-		ctx.strokeText(1,backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
-		ctx.shadowBlur=0;
-		ctx.fillStyle="yellow";
-		ctx.fillText(1,backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-20);
+		monsterMap[mapCount][a].hits[0]=Math.floor(Math.random()*2+1);//이 칸에 이제 캐릭터의 공격력을 넣어야됨.
+		monsterMap[mapCount][a].hitsCount=monsterMap[mapCount][a].hits.length;
+		monsterMap[mapCount][a].hp-=monsterMap[mapCount][a].hits[0];
 	}
 }
 }
@@ -617,7 +637,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+w[0].speedCount,10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+"",10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -1134,6 +1154,7 @@ else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock
 if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
 drawMonsters();
+drawMonstersHit();
 monsterHit();
 monsterDie();
 if((x[0]%oneBlock==0)&&(y[0]%oneBlock==0)&&(w[0].inBalloon==0)) monsterAttack();
@@ -1155,7 +1176,6 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 	main.levelImageCount--;
 	ctx.drawImage(levelUpImage[20-Math.floor(main.levelImageCount/10)],charx-180,chary-220,400,400);
 }
-//ctx.drawImage(levelUpImage[0],charx-180,chary-220,400,400);
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
