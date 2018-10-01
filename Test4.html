@@ -27,12 +27,21 @@ ctx.fillStyle='yellow'; ctx.font = "50px Arial";
 ctx.fillText('Loading...',200,200);
 var oneBlock=40;
 var exp=0;
+var main={
+	charLevel:1,
+	levelImageCount:0
+};
+var levelUpImage=new Array(21);
+for(var i=0;i<levelUpImage.length;i++){
+	levelUpImage[i]=new Image();
+	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
+}
 var charLevel=1;
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
 var mainMaxHp=500,mainCurrentHp=mainMaxHp;//캐릭터의 HP설정.
-var hits=new Array(30), hitsCount=hits.length;
+var hits=new Array(30), hitsCount=hits.length;//캐릭터가 몬스터에게 맞았을 경우 화면에 데미지를 띄움.
 for(var i=0;i<hitsCount;i++)hits[i]=0;
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
@@ -361,7 +370,7 @@ var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
 	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie'); exp+=1;
-	if(exp>=3){playMusic2('levelUp'); exp=0; charLevel+=1;}
+	if(exp>=1){playMusic2('levelUp'); exp=0; charLevel+=1; main.levelImageCount=210;}
 }
 }
 <!--npc들
@@ -1138,6 +1147,11 @@ if(hitsCount!=0){hitsCount-=1;
 		hits[i]=0;
 	}
 }
+if(main.levelImageCount){
+	main.levelImageCount--;
+	ctx.drawImage(levelUpImage[20-Math.floor(main.levelImageCount/10)],charx-180,chary-220,400,400);
+}
+//ctx.drawImage(levelUpImage[0],charx-180,chary-220,400,400);
 monsterDie();
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);
