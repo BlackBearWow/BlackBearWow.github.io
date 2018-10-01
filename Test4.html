@@ -656,7 +656,7 @@ if(y[0]<=400-halfBlock){ backgroundy=0; chary=y[0]; }
 else if(y[0]>400-halfBlock&&y[0]<=mh[mapCount]-(400+halfBlock)){ backgroundy=-y[0]+400-halfBlock; chary=400-halfBlock; }
 else if(y[0]>mh[mapCount]-(400+halfBlock)){ backgroundy=-mh[mapCount]+800; chary=y[0]-mh[mapCount]+800; }
 
-<!--대화중이라면 움직일 수 없음
+<!--대화중이라면 움직일 수 없음 & 맵 움직이기
 if(dialogueSet==0){
 	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
 		if(map[37]&&(charBlock(0,-1,0,mapCount)>=50000)&&(charBlock(0,-1,0,mapCount)<60000)){ mapMove(charBlock(0,-1,0,mapCount));}
@@ -1158,7 +1158,7 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);
 //draw HP
 ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
 ctx.fillStyle='#999999'; ctx.fillRect(2,802,1196,24);
-ctx.fillStyle="red"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
+ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
 ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,50,822);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
