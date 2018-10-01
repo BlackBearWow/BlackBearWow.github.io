@@ -4,7 +4,8 @@
 </head>
 <body onload="start()" style="background-color:black">
 <center>
-<canvas id="can" width="1200" height="828" style="border:1px solid #c3c3c3; cursor:none;"/>
+<canvas id="can" width="1200" height="856" style="border:1px solid #c3c3c3; cursor:none;"/>
+<!--0~800화면. ~828에이치피 ~856exp-->
 </center>
 <div style='display:block;'>
 <audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
@@ -26,7 +27,6 @@ var map={};
 ctx.fillStyle='yellow'; ctx.font = "50px Arial";
 ctx.fillText('Loading...',200,200);
 var oneBlock=40;
-var exp=0;
 var main={
 	charLevel:1,
 	levelImageCount:0
@@ -41,6 +41,7 @@ var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
 var mainMaxHp=500,mainCurrentHp=mainMaxHp;//캐릭터의 HP설정.
+var exp=1, maxExp=2;//캐릭터의 exp설정.
 var hits=new Array(30), hitsCount=hits.length;//캐릭터가 몬스터에게 맞았을 경우 화면에 데미지를 띄움.
 for(var i=0;i<hitsCount;i++)hits[i]=0;
 var situation=0;<!--대화의 상황 순서-->
@@ -370,7 +371,7 @@ var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
 if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
 	monsterMap[mapCount][a].existence=0; monsterMap[mapCount][a].hp=0; playMusic2('monsterdie'); exp+=1;
-	if(exp>=1){playMusic2('levelUp'); exp=0; charLevel+=1; main.levelImageCount=210;}
+	if(exp>=maxExp){playMusic2('levelUp'); exp=0; charLevel+=1; main.levelImageCount=210;}
 }
 }
 <!--npc들
@@ -642,7 +643,7 @@ if(mapCount==0) {playMusic("Camp");aud_stop("mapp");}
 else if(mapCount==1) {playMusic("mapp");aud_stop("Camp");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 ctx.fillStyle='#000000';
-ctx.fillRect(0,0,1200,828);
+ctx.fillRect(0,0,1200,856);
 <!--배경이미지 좌표 설정
 if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
 else if(x[0]>600-halfBlock&&x[0]<=mw[mapCount]-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
@@ -1160,6 +1161,10 @@ ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
 ctx.fillStyle='#999999'; ctx.fillRect(2,802,1196,24);
 ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
 ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,50,822);
+ctx.fillStyle="Aqua"; ctx.fillRect(0,828,1200,28);
+ctx.fillStyle='#999999'; ctx.fillRect(2,830,1196,24);
+ctx.fillStyle="Lime"; ctx.fillRect(0,830,1200*exp/maxExp,24);
+ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+exp+'/'+maxExp,50,850);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
