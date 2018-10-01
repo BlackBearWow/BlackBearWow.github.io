@@ -380,7 +380,7 @@ function monsterDie(){
 if(monsterMap[mapCount]==undefined) return;
 var a,b=monsterMap[mapCount].length;
 for(a=0;a<b;a++)
-if((monsterMap[mapCount][a].existence)&&(monsterMap[mapCount][a].hp<=0)) {
+if(monsterMap[mapCount][a].hp<=0) {
 	monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
 	if(main.exp>=main.maxExp){playMusic2('levelUp'); main.exp=0; main.charLevel+=1; main.levelImageCount=210;}
 }
