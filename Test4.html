@@ -626,7 +626,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText("Level:"+charLevel+" "+mwBlock[1]+" "+" "+buildingMap[1]+" "+w[0].speedCount,10,50);
+	ctx.fillText(buildingMap[1]+" "+w[0].speedCount,10,50);
 }
 
 function start(){
@@ -1160,11 +1160,13 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);
 ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
 ctx.fillStyle='#999999'; ctx.fillRect(2,802,1196,24);
 ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
-ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,50,822);
+ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,30,822);
 ctx.fillStyle="Aqua"; ctx.fillRect(0,828,1200,28);
-ctx.fillStyle='#999999'; ctx.fillRect(2,830,1196,24);
-ctx.fillStyle="Lime"; ctx.fillRect(0,830,1200*exp/maxExp,24);
-ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+exp+'/'+maxExp,50,850);
+ctx.fillStyle='#999999'; ctx.fillRect(202,830,1196,24);
+ctx.fillStyle="Lime"; ctx.fillRect(200,830,1000*exp/maxExp,24);
+ctx.fillStyle="#0039e6"; ctx.fillRect(0,830,200,24);
+ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+exp+'/'+maxExp,220,850); 
+ctx.fillText('Level:'+charLevel,30,850);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
