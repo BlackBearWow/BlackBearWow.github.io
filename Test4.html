@@ -33,7 +33,9 @@ var main={
 	maxExp:2,
 	levelImageCount:0,
 	hits:new Array(30),
-	hitsCount:30
+	hitsCount:30,
+	maxHp:500,
+	currentHp:500
 };
 for(var i=0;i<main.hits.length;i++)main.hits[i]=0;
 var levelUpImage=new Array(21);
@@ -44,8 +46,6 @@ for(var i=0;i<levelUpImage.length;i++){
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
 var y = [oneBlock*1, 480];
-var mainMaxHp=500,mainCurrentHp=mainMaxHp;//캐릭터의 HP설정.
-var exp=1, maxExp=2;//캐릭터의 exp설정.
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -352,7 +352,7 @@ for(a=0;a<b;a++){
 	if((monsterMap[mapCount][a].y==y[0]/40)&&(monsterMap[mapCount][a].x==x[0]/40)){
 		main.hits[0]=Math.floor(Math.random()*3+1);
 		main.hitsCount=main.hits.length;
-		mainCurrentHp-=main.hits[0];
+		main.currentHp-=main.hits[0];
 	}
 }
 }
@@ -622,8 +622,8 @@ function drawInformation(){
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
 	ctx.fillStyle='#999999'; ctx.fillRect(2,802,1196,24);
-	ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*mainCurrentHp/mainMaxHp,24);
-	ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+mainCurrentHp+'/'+mainMaxHp,30,822);
+	ctx.fillStyle="maroon"; ctx.fillRect(0,802,1200*main.currentHp/main.maxHp,24);
+	ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('HP:'+main.currentHp+'/'+main.maxHp,30,822);
 	ctx.fillStyle="Aqua"; ctx.fillRect(0,828,1200,28);
 	ctx.fillStyle='#999999'; ctx.fillRect(202,830,1196,24);
 	ctx.fillStyle="Lime"; ctx.fillRect(200,830,1000*main.exp/main.maxExp,24);
