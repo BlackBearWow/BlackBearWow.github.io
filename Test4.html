@@ -51,9 +51,7 @@ function makeBackground(source){
 }
 var mw=new Array(background.length),mh=new Array(background.length);<!--mapwidth mapheight-->
 var mwBlock=new Array(background.length),mhBlock=new Array(background.length);
-mw[0]=4000;
-mh[0]=2000;
-mwBlock[0]=mw[0]/oneBlock, mhBlock[0]=mh[0]/oneBlock;
+mw[0]=4000; mwBlock[0]=mw[0]/oneBlock; mh[0]=2000; mhBlock[0]=mh[0]/oneBlock;
 background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height; mwBlock[1]=mw[1]/oneBlock, mhBlock[1]=mh[1]/oneBlock;}
 background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height; mwBlock[2]=mw[2]/oneBlock, mhBlock[2]=mh[2]/oneBlock;}
 var mouseX, mouseY;
@@ -260,48 +258,32 @@ function obstacleBoom(a){
 	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
 }
 monsterMap[0]=[
-	new makeMonster("몬스터",3,2,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
+	new makeMonster("몬스터",0,3,3,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
 ];
 monsterMap[1]=[
-	new makeMonster2("몬스터",20,30,3000,3000,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true"),
+	new makeMonster("몬스터",1,20,30,3000,3000,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
 ];
-for(a=3;a<mhBlock[0];a++)
-for(b=3;b<mwBlock[0];b++){
-if(Math.floor(Math.random() * 70)<1){
-var extraHp=Math.floor(Math.random() * 300);
-monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
-}
-}
-for(a=0;a<40;a++)
-for(b=0;b<40;b++){
-if(Math.floor(Math.random() * 20)<1){
-var extraHp=Math.floor(Math.random() * 2000);
-monsterMap[1][monsterMap[1].length]=new makeMonster2("몬스터",b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
-}
-}
-function makeMonster(name,x,y,maxHp,hp,source){//몬스터 만들기
-	this.name=name;
-	this.existence=1;
-	this.x=x;
-    this.y=y;
-	this.maxHp=maxHp;
-	this.hp=hp;
-	this.state=0;
-	this.item=Math.floor(Math.random() * 6);
-	this.image=new Array(2);
-    this.image[0]=new Image();
-    this.image[0].src=source;	//장애물 이미지
-	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
-	this.itemExistence=(this.item<=2);
-	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
-		this.existence=0;
-		return;
+function makeMonster0map() {
+	for(a=3;a<mhBlock[0];a++){
+		for(b=3;b<mwBlock[0];b++){
+			if(Math.floor(Math.random() * 70)<1){
+				var extraHp=Math.floor(Math.random() * 300);
+				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+			}
+		}
 	}
 }
-function makeMonster2(name,x,y,maxHp,hp,source){//몬스터 만들기
+function makeMonster1map() {
+	for(a=0;a<mhBlock[1];a++){
+		for(b=0;b<mwBlock[1];b++){
+			if(Math.floor(Math.random() * 20)<1){
+				var extraHp=Math.floor(Math.random() * 2000);
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+			}
+		}
+	}
+}
+function makeMonster(name,map,x,y,maxHp,hp,source){//몬스터 만들기
 	this.name=name;
 	this.existence=1;
 	this.x=x;
@@ -318,7 +300,7 @@ function makeMonster2(name,x,y,maxHp,hp,source){//몬스터 만들기
 	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
-	if((x>=mwBlock[1])||(x<0)||(y>=mhBlock[1])||(y<0)||(blockMap[1][y][x]!=0)){
+	if((x>=mwBlock[map])||(x<0)||(y>=mhBlock[map])||(y<0)||(blockMap[map][y][x]!=0)){
 		this.existence=0;
 		return;
 	}
@@ -620,10 +602,14 @@ function mapMove(key){
 	if(key==50100){//1번맵 0번 지역.
 		mapCount=1;
 		x[0]=21*40; y[0]=36*40;
+		monsterMap[1].splice(0,monsterMap[1].length);
+		makeMonster1map();
 	}
 	else if(key==50000){//0번맵 0번 지역.
 		mapCount=0;
 		x[0]=12*40; y[0]=10*40;
+		monsterMap[0].splice(0,monsterMap[0].length);
+		makeMonster0map();
 	}
 }
 
