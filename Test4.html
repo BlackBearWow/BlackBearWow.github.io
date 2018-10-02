@@ -48,13 +48,14 @@ for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
 var whatSkill=[
-	new Skill("image/",5),
+	new Skill("image/SkillImage/flash/섬광",5),
+	new Skill("image/SkillImage/apocalypse/apocalypse",19),
 ];
 function Skill(NoNumberSource,imageQuantity){
 	this.image=new Array(imageQuantity);
 	for(var i=0;i<imageQuantity;i++){
 		this.image[i]=new Image();
-		this.image[i].src="image/SkillImage/flash/섬광"+i+".png";
+		this.image[i].src=NoNumberSource+i+".png";
 	}
 }
 var halfBlock=oneBlock/2;
@@ -1194,13 +1195,13 @@ if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
 if(!main.skillCoolTime){
-if(keyBoard[71]){
-main.skillCoolTime=80; main.selectSkill=0;
-}
+if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0;}
+else if(keyBoard[50]){main.skillCoolTime=190; main.selectSkill=1;}
 }
 else{
 	main.skillCoolTime--;
-	ctx.drawImage(whatSkill[main.selectSkill].image[5-Math.floor(main.skillCoolTime/16)],charx-90,chary-50,100,100);
+	if(main.selectSkill==0)ctx.drawImage(whatSkill[main.selectSkill].image[5-Math.floor(main.skillCoolTime/16)],charx-90,chary-50,100,100);
+	if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[19-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 }
 if(keyBoard[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
