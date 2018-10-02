@@ -1,4 +1,5 @@
 
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -284,10 +285,56 @@ function obstacleBoom(a){
 	if((obstacleMap[0][a].itemExistence==0)||(obstacleMap[0][a].state)){ obstacleMap[0][a].existence=0; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=0; }
 	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
 }
+//몬스터
 monsterMap[0]=[
 	new makeMonster("몬스터",0,3,3,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
 ];
 monsterMap[1]=[];
+hitMonster=[];
+basdf(3,0,100,0,500,500);
+function basdf(attackQuantity,delayTime,betweenAttackTime,damageValue,startX,startY){
+	for(var i=0;i<attackQuantity;i++)
+		hitMonster[hitMonster.length]=new addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY-25*i,i);
+}
+function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
+	this.hitCounts=400+delayTime+i*betweenAttackTime;
+	this.damageValue=damageValue;
+	this.startX=startX;
+	this.startY=startY;
+	this.betweenAttackTime=betweenAttackTime;
+	this.delayTime=delayTime;
+}
+function drawBB(){
+	for(var i=0;i<hitMonster.length;i++){
+		hitMonster[i].hitCounts--;
+		if(hitMonster[i].hitCounts>300){}
+		else if(hitMonster[i].hitCounts>200){
+			ctx.font = "30px Arial";
+			ctx.shadowColor="black";
+			ctx.shadowBlur=3;
+			ctx.lineWidth=3;
+			ctx.strokeText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
+			ctx.shadowBlur=0;
+			ctx.fillStyle="yellow";
+			ctx.fillText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
+		}
+		else if(hitMonster[i].hitCounts){
+			ctx.globalAlpha = hitMonster[i].hitCounts/200;
+			ctx.font = "30px Arial";
+			ctx.shadowColor="black";
+			ctx.shadowBlur=3;
+			ctx.lineWidth=3;
+			ctx.strokeText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
+			ctx.shadowBlur=0;
+			ctx.fillStyle="yellow";
+			ctx.fillText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
+			ctx.globalAlpha = 1;
+		}
+		else{
+			hitMonster.splice(i,1);
+		}
+	}
+}
 function makeMonster0map() {
 	for(a=3;a<mhBlock[0];a++){
 		for(b=3;b<mwBlock[0];b++){
@@ -652,7 +699,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+whatSkill[0]+"",10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+hitMonster.length+"",10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -1194,8 +1241,8 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
-if(!main.skillCoolTime){
-if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0;}
+if(!main.skillCoolTime){//스킬
+if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0; basdf(3,0,50,0,500,500);}
 else if(keyBoard[50]){main.skillCoolTime=190; main.selectSkill=1;}
 }
 else{
@@ -1209,7 +1256,7 @@ if(keyBoard[32]){
 	else if(sight[0]==2){ if(x[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]%1000)}}
 	else{ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]%1000)}}
 }<!--spacebar-->
-
+drawBB();
 }
 </script>
 <center>
