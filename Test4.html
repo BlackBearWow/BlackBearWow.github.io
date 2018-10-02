@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -42,6 +43,16 @@ var levelUpImage=new Array(21);
 for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i]=new Image();
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
+}
+var whatSkill=[
+	new Skill("image/",5),
+];
+function Skill(NoNumberSource,imageQuantity){
+	this.image=new Array(imageQuantity);
+	for(var i=0;i<imageQuantity;i++){
+		this.image[i]=new Image();
+		this.image[i].src="image/SkillImage/flash/섬광"+i+".png";
+	}
 }
 var halfBlock=oneBlock/2;
 var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
@@ -637,7 +648,7 @@ function mapMove(key){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+"",10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+whatSkill[0]+"",10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -1179,6 +1190,7 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
+ctx.drawImage(whatSkill[0].image[2],0,0,180,180);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
 	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
