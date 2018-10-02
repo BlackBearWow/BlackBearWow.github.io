@@ -1242,7 +1242,13 @@ if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
 if(!main.skillCoolTime){//스킬
-if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0; basdf(3,10,50,0,x[0]-40,y[0]);}
+if(keyBoard[49]){
+	main.skillCoolTime=80; main.selectSkill=0;
+	for(var i=0;i<monsterMap[mapCount].length;i++){
+		if(((Math.floor(y[0]/oneBlock-1)==monsterMap[mapCount][i].y)||(Math.floor(y[0]/oneBlock)==monsterMap[mapCount][i].y))&&((Math.floor(x[0]/oneBlock)-1==monsterMap[mapCount][i].x)||(Math.floor(x[0]/oneBlock)-2==monsterMap[mapCount][i].x))) 
+		basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
+	}
+}
 else if(keyBoard[50]){main.skillCoolTime=190; main.selectSkill=1;}
 }
 else{
