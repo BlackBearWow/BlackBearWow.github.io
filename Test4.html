@@ -297,7 +297,7 @@ function basdf(attackQuantity,delayTime,betweenAttackTime,damageValue,startX,sta
 		hitMonster[hitMonster.length]=new addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY-25*i,i);
 }
 function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
-	this.hitCounts=400+delayTime+i*betweenAttackTime;
+	this.hitCounts=300+delayTime+i*betweenAttackTime;
 	this.damageValue=damageValue;
 	this.startX=startX;
 	this.startY=startY;
@@ -1242,7 +1242,7 @@ if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
 if(!main.skillCoolTime){//스킬
-if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0; basdf(3,0,50,0,500,500);}
+if(keyBoard[49]){main.skillCoolTime=80; main.selectSkill=0; basdf(3,10,50,0,x[0]-40,y[0]);}
 else if(keyBoard[50]){main.skillCoolTime=190; main.selectSkill=1;}
 }
 else{
