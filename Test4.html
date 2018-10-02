@@ -294,10 +294,10 @@ hitMonster=[];
 basdf(3,0,100,0,500,500);
 function basdf(attackQuantity,delayTime,betweenAttackTime,damageValue,startX,startY){
 	for(var i=0;i<attackQuantity;i++)
-		hitMonster[hitMonster.length]=new addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY-25*i,i);
+		hitMonster[hitMonster.length]=new addHitMonster(delayTime,betweenAttackTime,Math.floor(Math.random()*5+1),startX,startY-25*i,i);
 }
 function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
-	this.hitCounts=300+delayTime+i*betweenAttackTime;
+	this.hitCounts=200+delayTime+i*betweenAttackTime;
 	this.damageValue=damageValue;
 	this.startX=startX;
 	this.startY=startY;
@@ -307,8 +307,8 @@ function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
 function drawBB(){
 	for(var i=0;i<hitMonster.length;i++){
 		hitMonster[i].hitCounts--;
-		if(hitMonster[i].hitCounts>300){}
-		else if(hitMonster[i].hitCounts>200){
+		if(hitMonster[i].hitCounts>200){}
+		else if(hitMonster[i].hitCounts>100){
 			ctx.font = "30px Arial";
 			ctx.shadowColor="black";
 			ctx.shadowBlur=3;
@@ -319,7 +319,7 @@ function drawBB(){
 			ctx.fillText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
 		}
 		else if(hitMonster[i].hitCounts){
-			ctx.globalAlpha = hitMonster[i].hitCounts/200;
+			ctx.globalAlpha = hitMonster[i].hitCounts/100;
 			ctx.font = "30px Arial";
 			ctx.shadowColor="black";
 			ctx.shadowBlur=3;
