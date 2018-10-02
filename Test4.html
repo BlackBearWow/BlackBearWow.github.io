@@ -36,7 +36,8 @@ var main={
 	hits:new Array(30),
 	hitsCount:30,
 	maxHp:500,
-	currentHp:500
+	currentHp:500,
+	skillCoolTime:0,
 };
 for(var i=0;i<main.hits.length;i++)main.hits[i]=0;
 var levelUpImage=new Array(21);
@@ -1190,6 +1191,12 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 if(dialogueSet) { Talking(); }<!--drawdialogue
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
+if(!main.skillCoolTime){
+//	if(m/a/p
+}
+else{
+	main.skillCoolTime--;
+}
 ctx.drawImage(whatSkill[0].image[2],0,0,180,180);
 if(map[32]){
 	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
