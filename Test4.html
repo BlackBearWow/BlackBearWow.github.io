@@ -47,11 +47,13 @@ for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i]=new Image();
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
+var itemWindow=new Image(),itemWindowShow=0;
+itemWindow.src="image/itemWindow.png";
 var whatSkill=[
-	new Skill(4,"image/SkillImage/flash/섬광",4.8,42,20,42,42,15,0,3),
-	new Skill(19,"image/SkillImage/apocalypse/apocalypse",7,50,50,50,50,15,8,10),
+	new Skill(3,4,0,"image/SkillImage/flash/섬광",4.8,42,20,42,42,10),
+	new Skill(10,19,8,"image/SkillImage/apocalypse/apocalypse",7,50,50,50,50,10),
 ];
-function Skill(imageQuantity,NoNumberSource,size,xSize,ySize,height,width,speed,imageDelayQuantity,attackQuantity){
+function Skill(attackQuantity,imageQuantity,imageDelayQuantity,NoNumberSource,size,xSize,ySize,height,width,speed){
 	this.image=new Array(imageQuantity);
 	this.imageQuantity=imageQuantity;
 	this.attackQuantity=attackQuantity;
@@ -698,7 +700,10 @@ function mapMove(key){
 		makeMonster0map();
 	}
 }
-
+function fitemWindow(){
+	if(itemWindowShow) itemWindowShow=0;
+	else itemWindowShow=1;
+}
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
@@ -1242,7 +1247,6 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 	ctx.drawImage(levelUpImage[20-Math.floor(main.levelImageCount/10)],charx-180,chary-220,400,400);
 }
 if(dialogueSet) { Talking(); }<!--drawdialogue
-ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
 if(!main.skillCoolTime){//스킬
 if(keyBoard[49]){
@@ -1285,12 +1289,14 @@ if(keyBoard[32]){
 	else{ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]%1000)}}
 }<!--spacebar-->
 drawBB();
+if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
+ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 </script>
 <center>
 <button ></button>
 <button ></button>
-<button >아이템창</button>
+<button onclick="fitemWindow()">아이템창</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
 </body>
