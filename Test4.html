@@ -1,6 +1,3 @@
-
-
-
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -334,25 +331,6 @@ function drawBB(){
 			ctx.globalAlpha = 1;
 		}
 		else{hitMonster.splice(i,1);i--;}
-	}
-}
-function drawBB2(){
-	for(var i=0;i<hitMonster.length;i++){
-		hitMonster[i].hitCounts--;
-		if(hitMonster[i].hitCounts>200){}
-		else if(hitMonster[i].hitCounts){
-			ctx.font = "30px Arial";
-			ctx.shadowColor="black";
-			ctx.shadowBlur=3;
-			ctx.lineWidth=3;
-			ctx.strokeText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
-			ctx.shadowBlur=0;
-			ctx.fillStyle="yellow";
-			ctx.fillText(hitMonster[i].damageValue,backgroundx+hitMonster[i].startX,backgroundy+hitMonster[i].startY);
-		}
-		else{
-			hitMonster.splice(i,1);
-		}
 	}
 }
 function makeMonster0map() {
@@ -735,7 +713,7 @@ function drawStatus(){
 }
 function start(){
 	blockMap[0][10][12]=50100;
-	setInterval(update,20);
+	setInterval(update,4);
 	window.addEventListener('keydown',function(e){ keyBoard[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ keyBoard[e.keyCode]=false; })
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
