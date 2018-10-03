@@ -47,19 +47,24 @@ for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
 var whatSkill=[
-	new Skill("image/SkillImage/flash/섬광",4),
-	new Skill("image/SkillImage/apocalypse/apocalypse",19),
+	new Skill("image/SkillImage/flash/섬광",4,5,42,20,42,42),
+	new Skill("image/SkillImage/apocalypse/apocalypse",19,7,50,50,50,50),
 ];
-function Skill(NoNumberSource,imageQuantity){
+function Skill(NoNumberSource,imageQuantity,size,xSize,ySize,height,width){
 	this.image=new Array(imageQuantity);
+	this.size=size;
+	this.height=height*size;
+	this.width=width*size;
+	this.startX=xSize*size;
+	this.startY=ySize*(size-1);
 	for(var i=0;i<imageQuantity;i++){
 		this.image[i]=new Image();
 		this.image[i].src=NoNumberSource+i+".png";
 	}
 }
 var halfBlock=oneBlock/2;
-var x = [oneBlock*2, 1080];//캐릭터의 x와 y설정.
-var y = [oneBlock*1, 480];
+var x = [oneBlock*(5+2), 1080];//캐릭터의 x와 y설정.
+var y = [oneBlock*5, 480];
 var situation=0;<!--대화의 상황 순서-->
 var dialogueSet=0;<!--0이라면 대화중이 아님.-->
 var dialogueCount=-2;<!--대화중 필요한 변수-->
@@ -362,6 +367,8 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,source){//몬스터 만들기
     this.y=y;
 	this.maxHp=maxHp;
 	this.hp=hp;
+	this.width=40;
+	this.height=40;
 	this.hits=new Array(20);
 	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
 	this.hitsCount=0;//default=20
@@ -1248,7 +1255,7 @@ if(keyBoard[49]){
 			for(var j=0;j<3;j++){
 			var ran=Math.floor(Math.random()*5+1);
 			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(10,50,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+			hitMonster[hitMonster.length]=new addHitMonster(0,16,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 		}
 		}
 	}
@@ -1256,7 +1263,7 @@ if(keyBoard[49]){
 else if(keyBoard[50]){main.skillCoolTime=180; main.selectSkill=1;}
 }
 else{
-	if(main.selectSkill==0)ctx.drawImage(whatSkill[main.selectSkill].image[3-Math.floor(main.skillCoolTime/16)],charx-90,chary-50,100,100);
+	if(main.selectSkill==0)ctx.drawImage(whatSkill[main.selectSkill].image[3-Math.floor(main.skillCoolTime/16)],charx-whatSkill[0].startX,chary-whatSkill[0].startY,whatSkill[0].width,whatSkill[0].height);
 	if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 	main.skillCoolTime--;
 }
