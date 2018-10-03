@@ -48,16 +48,16 @@ for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
 var whatSkill=[
-	new Skill(4,"image/SkillImage/flash/섬광",4.8,42,20,42,42,10,0,3),
-	new Skill(19,"image/SkillImage/apocalypse/apocalypse",7,50,50,50,50,10,80,10),
+	new Skill(4,"image/SkillImage/flash/섬광",4.8,42,20,42,42,15,0,3),
+	new Skill(19,"image/SkillImage/apocalypse/apocalypse",7,50,50,50,50,15,8,10),
 ];
-function Skill(imageQuantity,NoNumberSource,size,xSize,ySize,height,width,speed,delayTime,attackQuantity){
+function Skill(imageQuantity,NoNumberSource,size,xSize,ySize,height,width,speed,imageDelayQuantity,attackQuantity){
 	this.image=new Array(imageQuantity);
 	this.imageQuantity=imageQuantity;
 	this.attackQuantity=attackQuantity;
 	this.size=size;
 	this.speed=speed;
-	this.delayTime=delayTime;
+	this.delayTime=speed*imageDelayQuantity;
 	this.height=height*size;
 	this.width=width*size;
 	this.startX=xSize*size;
@@ -238,7 +238,6 @@ obstacleMap[0] = [
 	new makeObstacle("통",6,6,"image/tong.png"),
 	new makeObstacle("통",7,6,"image/tong.png"),
 	new makeObstacle("통",6,7,"image/tong.png"),
-	
 	new makeObstacle("통",8,8,"image/tong.png"),
 ];
 if(1){//크아 라면.
@@ -1275,7 +1274,7 @@ else if(keyBoard[50]){
 }
 }
 else{
-	ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[0].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+	ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
 	//if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 	main.skillCoolTime--;
 }
