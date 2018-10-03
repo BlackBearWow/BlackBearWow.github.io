@@ -1278,7 +1278,14 @@ else if(keyBoard[50]){
 }
 }
 else{
-	ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+	if(sight[0]==2)ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx+40,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+	else {
+		ctx.save();
+		ctx.translate(can.width/2,can.height/2);
+		ctx.rotate(10);
+		ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+		ctx.restore();
+	}
 	//if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 	main.skillCoolTime--;
 }
