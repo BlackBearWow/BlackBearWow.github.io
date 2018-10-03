@@ -47,12 +47,14 @@ for(var i=0;i<levelUpImage.length;i++){
 	levelUpImage[i].src="image/LevelUp/levelUp["+i+"].png";
 }
 var whatSkill=[
-	new Skill("image/SkillImage/flash/섬광",4,5,42,20,42,42),
-	new Skill("image/SkillImage/apocalypse/apocalypse",19,7,50,50,50,50),
+	new Skill("image/SkillImage/flash/섬광",4,4.8,42,20,42,42,10),
+	new Skill("image/SkillImage/apocalypse/apocalypse",19,7,50,50,50,50,10),
 ];
-function Skill(NoNumberSource,imageQuantity,size,xSize,ySize,height,width){
+function Skill(NoNumberSource,imageQuantity,size,xSize,ySize,height,width,speed){
 	this.image=new Array(imageQuantity);
+	this.imageQuantity=imageQuantity;
 	this.size=size;
+	this.speed=speed;
 	this.height=height*size;
 	this.width=width*size;
 	this.startX=xSize*size;
@@ -1248,23 +1250,24 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 drawStatus();
 if(!main.skillCoolTime){//스킬
 if(keyBoard[49]){
-	main.skillCoolTime=48; main.selectSkill=0;
 	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if(((Math.floor(y[0]/oneBlock-1)==monsterMap[mapCount][i].y)||(Math.floor(y[0]/oneBlock)==monsterMap[mapCount][i].y))&&((Math.floor(x[0]/oneBlock)-1==monsterMap[mapCount][i].x)||(Math.floor(x[0]/oneBlock)-2==monsterMap[mapCount][i].x))){
+		if((y[0]-whatSkill[0].startY+whatSkill[0].height>monsterMap[mapCount][i].y*40)&&(y[0]-whatSkill[0].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-whatSkill[0].startX+whatSkill[0].width>monsterMap[mapCount][i].x*40)&&(x[0]-whatSkill[0].startX<monsterMap[mapCount][i].x*40+40)){
+		//if(((Math.floor(y[0]/oneBlock-1)==monsterMap[mapCount][i].y)||(Math.floor(y[0]/oneBlock)==monsterMap[mapCount][i].y))&&((Math.floor(x[0]/oneBlock)-1==monsterMap[mapCount][i].x)||(Math.floor(x[0]/oneBlock)-2==monsterMap[mapCount][i].x))){
 		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
 			for(var j=0;j<3;j++){
 			var ran=Math.floor(Math.random()*5+1);
 			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(0,16,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+			hitMonster[hitMonster.length]=new addHitMonster(0,whatSkill[0].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 		}
 		}
 	}
+	main.skillCoolTime=(whatSkill[0].imageQuantity-1)*whatSkill[0].speed; main.selectSkill=0;
 }
 else if(keyBoard[50]){main.skillCoolTime=180; main.selectSkill=1;}
 }
 else{
-	if(main.selectSkill==0)ctx.drawImage(whatSkill[main.selectSkill].image[3-Math.floor(main.skillCoolTime/16)],charx-whatSkill[0].startX,chary-whatSkill[0].startY,whatSkill[0].width,whatSkill[0].height);
-	if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
+	ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[0].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+	//if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 	main.skillCoolTime--;
 }
 if(keyBoard[32]){
