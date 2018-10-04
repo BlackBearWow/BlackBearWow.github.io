@@ -49,19 +49,21 @@ for(var i=0;i<levelUpImage.length;i++){
 }
 var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
-var whatSkill=[
-	new Skill(3,4,0,"image/SkillImage/flash/섬광",4.8,42,20,42,42,10),
-	new Skill(10,19,8,"image/SkillImage/apocalypse/apocalypse",7,50,50,50,50,10),
+var Skill=[
+	new makeSkill(4,0,"image/SkillImage/flash/섬광",3,4.8,42,20,42,42,10,49),
+	new makeSkill(19,8,"image/SkillImage/apocalypse/apocalypse",10,7,50,50,50,50,10,50),
 ];
-function Skill(attackQuantity,imageQuantity,imageDelayQuantity,NoNumberSource,size,xSize,ySize,height,width,speed){
+function makeSkill(imageQuantity,imageDelayQuantity,NoNumberSource,attackQuantity,size,xSize,ySize,height,width,speed,keyBoardNum){
+	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
 	this.image=new Array(imageQuantity);
 	this.imageQuantity=imageQuantity;
-	this.attackQuantity=attackQuantity;
-	this.size=size;
-	this.speed=speed;
-	this.delayTime=speed*imageDelayQuantity;
+	this.attackQuantity=attackQuantity;//공격횟수 변경 가능 
+	this.keyBoardNum=keyBoardNum;//키보드 셋팅으로 변경 가능하게 할거임 
+	this.size=size;//공격 범위 변경 가능 
 	this.height=height*size;
 	this.width=width*size;
+	this.speed=speed;//공격 속도 변경가능 
+	this.delayTime=speed*imageDelayQuantity;
 	this.startX=xSize*size;
 	this.startY=ySize*(size-1);
 	for(var i=0;i<imageQuantity;i++){
@@ -1249,46 +1251,53 @@ if(main.levelImageCount){//레벨업했을때 이펙트
 if(dialogueSet) { Talking(); }<!--drawdialogue
 drawStatus();
 if(!main.skillCoolTime){//스킬
-if(keyBoard[49]){
+if(keyBoard[Skill[0].keyBoardNum]){
 	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if((y[0]-whatSkill[0].startY+whatSkill[0].height>monsterMap[mapCount][i].y*40)&&(y[0]-whatSkill[0].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-whatSkill[0].startX+whatSkill[0].width>monsterMap[mapCount][i].x*40)&&(x[0]-whatSkill[0].startX<monsterMap[mapCount][i].x*40+40)){
+		if((y[0]-Skill[0].startY+Skill[0].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[0].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[0].startX+Skill[0].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[0].startX<monsterMap[mapCount][i].x*40+40)){
 		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
-			for(var j=0;j<whatSkill[0].attackQuantity;j++){
+			for(var j=0;j<Skill[0].attackQuantity;j++){
 			var ran=Math.floor(Math.random()*5+1);
 			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(whatSkill[0].delayTime,whatSkill[0].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+			hitMonster[hitMonster.length]=new addHitMonster(Skill[0].delayTime,Skill[0].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 		}
 		}
 	}
-	main.skillCoolTime=(whatSkill[0].imageQuantity-1)*whatSkill[0].speed; main.selectSkill=0;
+	main.skillCoolTime=(Skill[0].imageQuantity-1)*Skill[0].speed; main.selectSkill=0;
 }
-else if(keyBoard[50]){
+else if(keyBoard[Skill[1].keyBoardNum]){
 //main.skillCoolTime=180; main.selectSkill=1;
 	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if((y[0]-whatSkill[1].startY+whatSkill[1].height>monsterMap[mapCount][i].y*40)&&(y[0]-whatSkill[1].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-whatSkill[1].startX+whatSkill[1].width>monsterMap[mapCount][i].x*40)&&(x[0]-whatSkill[1].startX<monsterMap[mapCount][i].x*40+40)){
+		if((y[0]-Skill[1].startY+Skill[1].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[1].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[1].startX+Skill[1].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[1].startX<monsterMap[mapCount][i].x*40+40)){
 		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
-			for(var j=0;j<whatSkill[1].attackQuantity;j++){
+			for(var j=0;j<Skill[1].attackQuantity;j++){
 			var ran=Math.floor(Math.random()*5+1);
 			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(whatSkill[1].delayTime,whatSkill[1].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+			hitMonster[hitMonster.length]=new addHitMonster(Skill[1].delayTime,Skill[1].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 		}
 		}
 	}
-	main.skillCoolTime=(whatSkill[1].imageQuantity-1)*whatSkill[1].speed; main.selectSkill=1;
+	main.skillCoolTime=(Skill[1].imageQuantity-1)*Skill[1].speed; main.selectSkill=1;
 }
 }
 else{
-	if(sight[0]==2)ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx+40,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+	if(sight[0]==0)ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx-Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+	else if(sight[0]==2){
+		ctx.save();
+		ctx.scale(-1,1);
+		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx+40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		ctx.restore();
+	}
 	else {
 		ctx.save();
 		//ctx.translate(can.width/2,can.height/2);
 		//ctx.translate(0,100);
 		ctx.rotate(180 * Math.PI / 180);
-		//ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],charx-whatSkill[main.selectSkill].startX,chary-whatSkill[main.selectSkill].startY,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
-		ctx.drawImage(whatSkill[main.selectSkill].image[whatSkill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/whatSkill[main.selectSkill].speed)],-charx+whatSkill[main.selectSkill].startX-whatSkill[main.selectSkill].width,-chary+whatSkill[main.selectSkill].startY-whatSkill[main.selectSkill].height,whatSkill[main.selectSkill].width,whatSkill[main.selectSkill].height);
+		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx-Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX-Skill[main.selectSkill].width,-chary+Skill[main.selectSkill].startY-Skill[main.selectSkill].height,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
 		ctx.restore();
 	}
-	//if(main.selectSkill==1)ctx.drawImage(whatSkill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
+	//if(main.selectSkill==1)ctx.drawImage(Skill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
 	main.skillCoolTime--;
 }
 if(keyBoard[32]){
