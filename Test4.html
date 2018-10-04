@@ -50,22 +50,22 @@ for(var i=0;i<levelUpImage.length;i++){
 var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
-	new makeSkill(4,0,"image/SkillImage/flash/섬광",3,4.8,42,20,42,42,10,49),
-	new makeSkill(19,8,"image/SkillImage/apocalypse/apocalypse",10,7,50,50,50,50,10,50),
+	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,7,40,10,50),
 ];
-function makeSkill(imageQuantity,imageDelayQuantity,NoNumberSource,attackQuantity,size,xSize,ySize,height,width,speed,keyBoardNum){
+function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
 	this.image=new Array(imageQuantity);
 	this.imageQuantity=imageQuantity;
 	this.attackQuantity=attackQuantity;//공격횟수 변경 가능 
 	this.keyBoardNum=keyBoardNum;//키보드 셋팅으로 변경 가능하게 할거임 
 	this.size=size;//공격 범위 변경 가능 
-	this.height=height*size;
-	this.width=width*size;
+	this.height=fullSize*size;
+	this.width=imgHdivW*fullSize*size;
 	this.speed=speed;//공격 속도 변경가능 
 	this.delayTime=speed*imageDelayQuantity;
-	this.startX=xSize*size;
-	this.startY=ySize*(size-1);
+	this.startX=imgHdivW*fullSize*size;
+	this.startY=fullSize/2*(size-1);
 	for(var i=0;i<imageQuantity;i++){
 		this.image[i]=new Image();
 		this.image[i].src=NoNumberSource+i+".png";
@@ -1285,16 +1285,16 @@ else{
 		ctx.save();
 		ctx.scale(-1,1);
 		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx+40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX-2*Skill[main.selectSkill].width-40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
 		ctx.restore();
 	}
 	else {
 		ctx.save();
 		//ctx.translate(can.width/2,can.height/2);
 		//ctx.translate(0,100);
-		ctx.rotate(180 * Math.PI / 180);
-		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx-Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX-Skill[main.selectSkill].width,-chary+Skill[main.selectSkill].startY-Skill[main.selectSkill].height,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		ctx.rotate(90 * Math.PI / 180);
+		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],chary-Skill[main.selectSkill].startX,-charx-40-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-chary+Skill[main.selectSkill].startY,charx-Skill[main.selectSkill].startX+Skill[main.selectSkill].width,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
 		ctx.restore();
 	}
 	//if(main.selectSkill==1)ctx.drawImage(Skill[main.selectSkill].image[18-Math.floor(main.skillCoolTime/10)],charx-440,chary-200,500,300);
