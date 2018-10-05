@@ -1259,9 +1259,9 @@ if(!main.skillCoolTime){//스킬
 					monsterMap[mapCount][i].hp-=ran;
 					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 				}
-				main.skillCoolTime=(Skill[main.selectSkill].imageQuantity-1)*Skill[main.selectSkill].speed; break;
 				}
 			}
+			main.skillCoolTime=(Skill[main.selectSkill].imageQuantity-1)*Skill[main.selectSkill].speed; break;
 		}
 }
 }
