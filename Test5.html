@@ -51,7 +51,7 @@ itemWindow.src="image/itemWindow.png";
 var Skill=[
 	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
 	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,4,40,10,50),
-	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,6,51)
+	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,3,51)
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
@@ -293,7 +293,7 @@ function obstacleBoom(a){
 }
 //몬스터
 monsterMap[0]=[
-	new makeMonster("몬스터",0,3,3,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
+	new makeMonster("몬스터",0,3,3,200,200,"image/monster/snail/snail",10)
 ];
 monsterMap[1]=[];
 hitMonster=[];
@@ -346,7 +346,7 @@ function makeMonster0map() {
 		for(b=3;b<mwBlock[0];b++){
 			if(Math.floor(Math.random() * 70)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10);
 				if(monsterMap[0][monsterMap[0].length-1].existence==0) monsterMap[0].splice(monsterMap[1].length-1,1);
 			}
 		}
@@ -357,13 +357,13 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 20)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20);
 				if(monsterMap[1][monsterMap[1].length-1].existence==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
 	}
 }
-function makeMonster(name,whatMap,x,y,maxHp,hp,source){//몬스터 만들기
+function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity){//몬스터 만들기
 	this.name=name;
 	this.existence=1;
 	this.x=x;
@@ -375,16 +375,13 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,source){//몬스터 만들기
 	this.hits=new Array(20);
 	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
 	this.hitsCount=0;//default=20
-	this.state=0;
-	this.item=Math.floor(Math.random() * 6);
-	this.image=new Array(2);
-    this.image[0]=new Image();
-    this.image[0].src=source;	//장애물 이미지
-	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
-	this.itemExistence=(this.item<=2);
+	this.imageCount=0;
+	this.imageQuantity=imageQuantity;
+	this.image=new Array(imageQuantity);
+    for(var i=0;i<imageQuantity;i++){
+		this.image[i]=new Image();
+		this.image[i].src=NoNumberSource+i+".png";
+	}
 	if((x>=mwBlock[whatMap])||(x<0)||(y>=mhBlock[whatMap])||(y<0)||(blockMap[whatMap][y][x]!=0)){
 		this.existence=0;//existence가 0이라면 splice로 지우기.
 		return;
@@ -394,11 +391,16 @@ function drawMonsters(){//existence는 이제 상관없어짐.
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
+		if(monsterMap[mapCount][a].imageCount==0){
+			monsterMap[mapCount][a].imageCount=(monsterMap[mapCount][a].imageQuantity-1)*20;
+		}
 		ctx.fillStyle="black";
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,oneBlock+7,10);
 		ctx.fillStyle="red";
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(oneBlock+3),6);
-		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].state],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
+		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].imageQuantity-1-Math.floor(monsterMap[mapCount][a].imageCount/20)],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
+		monsterMap[mapCount][a].imageCount--;
+		//Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)]
 	}
 }
 function drawMonstersHit(){ 
@@ -710,7 +712,7 @@ function fitemWindow(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+hitMonster.length+" "+obstacleMap[0].length,10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+monsterMap[0][0].imageCount+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
