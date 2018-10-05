@@ -1252,7 +1252,28 @@ if(!main.skillCoolTime){//스킬
 		if(keyBoard[Skill[v].keyBoardNum]){
 			main.selectSkill=v;
 			for(var i=0;i<monsterMap[mapCount].length;i++){
-				if((y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+40)){
+				if((sight[0]==0)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+40)){
+					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+					var ran=Math.floor(Math.random()*5+1);
+					monsterMap[mapCount][i].hp-=ran;
+					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+					}
+				}
+				else if((sight[0]==2)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(x[0]+40<monsterMap[mapCount][i].x*40+40)){
+					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+					var ran=Math.floor(Math.random()*5+1);
+					monsterMap[mapCount][i].hp-=ran;
+					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+					}
+				}
+				else if((sight[0]==1)&&(y[0]>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+40)){
+					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+					var ran=Math.floor(Math.random()*5+1);
+					monsterMap[mapCount][i].hp-=ran;
+					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+					}
+				}
+				else if((sight[0]==3)&&(y[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].y*40)&&(y[0]+40<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+40)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
