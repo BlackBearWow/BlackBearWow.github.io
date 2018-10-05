@@ -50,8 +50,8 @@ var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
 	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
-	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,4,40,10,50),
-	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,3,51)
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,8,40,10,50),
+	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,8,51)
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
@@ -293,7 +293,7 @@ function obstacleBoom(a){
 }
 //몬스터
 monsterMap[0]=[
-	new makeMonster("몬스터",0,3,3,200,200,"image/monster/snail/snail",10)
+	new makeMonster("몬스터",0,3,3,200,200,"image/monster/snail/snail",10,40,40)
 ];
 monsterMap[1]=[];
 hitMonster=[];
@@ -346,7 +346,7 @@ function makeMonster0map() {
 		for(b=3;b<mwBlock[0];b++){
 			if(Math.floor(Math.random() * 70)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10);
+				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,40,40);
 				if(monsterMap[0][monsterMap[0].length-1].existence==0) monsterMap[0].splice(monsterMap[1].length-1,1);
 			}
 		}
@@ -357,21 +357,21 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 20)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20);
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,200,160);
 				if(monsterMap[1][monsterMap[1].length-1].existence==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
 	}
 }
-function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity){//몬스터 만들기
+function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,width,height){//몬스터 만들기
 	this.name=name;
 	this.existence=1;
 	this.x=x;
     this.y=y;
 	this.maxHp=maxHp;
 	this.hp=hp;
-	this.width=40;
-	this.height=40;
+	this.width=width;
+	this.height=height;
 	this.hits=new Array(20);
 	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
 	this.hitsCount=0;//default=20
@@ -398,7 +398,7 @@ function drawMonsters(){//existence는 이제 상관없어짐.
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,oneBlock+7,10);
 		ctx.fillStyle="red";
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(oneBlock+3),6);
-		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].imageQuantity-1-Math.floor(monsterMap[mapCount][a].imageCount/20)],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
+		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].imageQuantity-1-Math.floor(monsterMap[mapCount][a].imageCount/20)],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,monsterMap[mapCount][a].width,monsterMap[mapCount][a].height);
 		monsterMap[mapCount][a].imageCount--;
 		//Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)]
 	}
@@ -712,7 +712,7 @@ function fitemWindow(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+monsterMap[0][0].imageCount+" "+obstacleMap[0].length,10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -1254,28 +1254,28 @@ if(!main.skillCoolTime){//스킬
 		if(keyBoard[Skill[v].keyBoardNum]){
 			main.selectSkill=v;
 			for(var i=0;i<monsterMap[mapCount].length;i++){
-				if((sight[0]==0)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+40)){
+				if((sight[0]==0)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(x[0]>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
 					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 					}
 				}
-				else if((sight[0]==2)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(x[0]+40<monsterMap[mapCount][i].x*40+40)){
+				else if((sight[0]==2)&&(y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(x[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(x[0]+40<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
 					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 					}
 				}
-				else if((sight[0]==1)&&(y[0]>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+40)){
+				else if((sight[0]==1)&&(y[0]>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
 					hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 					}
 				}
-				else if((sight[0]==3)&&(y[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].y*40)&&(y[0]+40<monsterMap[mapCount][i].y*40+40)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+40)){
+				else if((sight[0]==3)&&(y[0]+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].y*40)&&(y[0]+40<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(x[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
