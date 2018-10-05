@@ -51,8 +51,8 @@ var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
 	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
-	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,7,40,10,50),
-	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,7,40,6,51),
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,4,40,10,50),
+	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,6,51),
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
@@ -1253,7 +1253,7 @@ if(!main.skillCoolTime){//스킬
 		if(keyBoard[Skill[v].keyBoardNum]){
 			main.selectSkill=v;
 			for(var i=main.selectSkill;i<monsterMap[mapCount].length;i++){
-				if((y[0]-Skill[main.selectSkill].startY+Skill[main.selectSkill].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[main.selectSkill].startX+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].startX<monsterMap[mapCount][i].x*40+40)){
+				if((y[0]+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+40)&&(x[0]>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+40)){
 					for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
 					var ran=Math.floor(Math.random()*5+1);
 					monsterMap[mapCount][i].hp-=ran;
