@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -20,6 +21,15 @@
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
 </div>
 <script>
+function saveGame() {
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    alert("저장했어!");
+};
+xhttp.open("POST", "https://potent-poetry-214213.appspot.com/saveGameUserData", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send("name="+username+"&level="+main.charLevel);
+}
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
 var ctx=can.getContext("2d");
