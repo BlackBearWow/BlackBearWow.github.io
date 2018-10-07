@@ -21,14 +21,25 @@
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
 </div>
 <script>
+function loadGame(){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		setMain(1,1);
+		alert(this.responseText);
+	}
+	xhttp.open("GET", "https://potent-poetry-214213.appspot.com/loadGameUserData?name="+username, true);
+	//xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	//xhttp.send("name="+username);
+	xhttp.send();
+}
 function saveGame() {
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    alert("저장했어!");
-};
-xhttp.open("POST", "https://potent-poetry-214213.appspot.com/saveGameUserData", true);
-xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xhttp.send("name="+username+"&level="+main.charLevel);
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    alert("저장했어!");
+	};
+	xhttp.open("POST", "https://potent-poetry-214213.appspot.com/saveGameUserData", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("name="+username+"&level="+main.charLevel+"&exp="+main.exp);
 }
 var username=prompt("당신의 이름을 입력해주세요");
 var can=document.getElementById("can");
@@ -45,7 +56,7 @@ var main={
 	levelImageCount:0,
 	hits:new Array(30),
 	hitsCount:30,
-	maxHp:500,
+	maxHp:10,
 	currentHp:500,
 	skillCoolTime:0,
 	selectSkill:0,
@@ -83,8 +94,8 @@ function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,atta
 	}
 }
 var Attack={
-	min:3,
-	max:10,
+	min:10000,
+	max:80000,
 	balloonMin:1,
 	balloonMax:3,
 };
@@ -353,7 +364,7 @@ function drawDamage(){
 function makeMonster0map() {
 	for(a=3;a<mhBlock[0];a++){
 		for(b=3;b<mwBlock[0];b++){
-			if(Math.floor(Math.random() * 70)<1){
+			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 300);
 				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,40,40);
 				if(monsterMap[0][monsterMap[0].length-1].existence==0) monsterMap[0].splice(monsterMap[1].length-1,1);
@@ -463,8 +474,11 @@ function monsterDie(){
 	for(a=0;a<b;a++)
 	if(monsterMap[mapCount][a].hp<=0) {
 		monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
-		if(main.exp>=main.maxExp){playMusic2('levelUp'); main.exp=0; main.charLevel+=1; main.levelImageCount=210;}
+		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(0,main.charLevel+1); }
 	}
+}
+function setMain(exp,level){
+	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=level*level; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
 }
 <!--npc들
 var npcCount=0;
@@ -1335,8 +1349,8 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 </script>
 <center>
-<button ></button>
-<button ></button>
+<button onclick="loadGame()">로드하기</button>
+<button onclick="saveGame()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
