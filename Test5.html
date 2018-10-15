@@ -8,7 +8,7 @@
 <!--0~800화면. ~828에이치피 ~856exp-->
 </center>
 <div style='display:block;'>
-<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
+<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3">
 <audio id="Fade" src="Music/Fade.mp3"/>
 <audio id="Camp" src="Music/CAMP.mp3"/>
 <audio id="balloonBoom" src="Music/sports-sound13.ogg"/>
@@ -18,7 +18,7 @@
 <audio id="levelUp" src="Music/렙업.wav"/>
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
-<audio id="Ib" src="Music/Ib OST -.mp3"/>
+<audio id="Ib" src="Music/Ib OST -.mp3">
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -213,20 +213,11 @@ var mouse=new Image();
 mouse.src=("image/cursor.png");
 
 var mainChar=[
-	[//원래캐릭터
-		new makechar("image/left.png"),
-		new makechar("image/back.png"),
-		new makechar("image/right.png"),
-		new makechar("image/front.png"),
-		new makechar("image/물속.png")
-	],
-	[//2p 캐릭터
-		new makechar("image/left.png"),
-		new makechar("image/back.png"),
-		new makechar("image/right.png"),
-		new makechar("image/front.png"),
-		new makechar("image/물속.png")
-	]
+	new makechar("image/left.png"),
+	new makechar("image/back.png"),
+	new makechar("image/right.png"),
+	new makechar("image/front.png"),
+	new makechar("image/물속.png")
 ];
 function makechar(source){
 	this.image=new Image();
@@ -260,8 +251,7 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 		for(b=0;b<sizex;b++)
 			blockMap[0][y+a][x+b]=30000;
 }
-//빌딩 그리기
-function drawBuildings(){
+function drawBuildings(){//빌딩 그리기
 	if(buildingMap[mapCount]==undefined) return;
 	var a,b=buildingMap[0].length;
 	for(a=0;a<b;a++)
@@ -419,7 +409,7 @@ function drawMonsters(){
 	}
 }
 function drawMonstersHit(){ 
-if(monsterMap[mapCount]==undefined) return;
+	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
 		if(monsterMap[mapCount][a].hitsCount){
@@ -741,15 +731,14 @@ else if(mapCount==1) {playMusic("mapp");aud_stop("Ib");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 ctx.fillStyle='#000000';
 ctx.fillRect(0,0,1200,856);
-<!--배경이미지 좌표 설정
+//배경이미지 좌표 설정
 if(main.x<=600-halfBlock){ backgroundx=0; charx=main.x; }
 else if(main.x>600-halfBlock&&main.x<=mw[mapCount]-(600+halfBlock)){ backgroundx=-main.x+600-halfBlock; charx=600-halfBlock; }
 else if(main.x>mw[mapCount]-(600+halfBlock)){ backgroundx=-mw[mapCount]+1200; charx=main.x-mw[mapCount]+1200; }
 if(main.y<=400-halfBlock){ backgroundy=0; chary=main.y; }
 else if(main.y>400-halfBlock&&main.y<=mh[mapCount]-(400+halfBlock)){ backgroundy=-main.y+400-halfBlock; chary=400-halfBlock; }
 else if(main.y>mh[mapCount]-(400+halfBlock)){ backgroundy=-mh[mapCount]+800; chary=main.y-mh[mapCount]+800; }
-
-<!--대화중이라면 움직일 수 없음 & 맵 움직이기 &스킬사용중이면 움직일 수 없음
+//대화중이라면 움직일 수 없음 & 맵 움직이기 &스킬사용중이면 움직일 수 없음
 if((dialogueSet==0)&&(!main.skillCoolTime)){
 	if((main.x%oneBlock==0)&&(main.y%oneBlock)==0){
 		if(keyBoard[37]&&(charBlock(0,-1)>=50000)&&(charBlock(0,-1)<60000)){ mapMove(charBlock(0,-1));}
@@ -892,13 +881,13 @@ drawNpcs();
 if(dialogueSet==0){
 	if(keyBoard[188]){
 		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
-	}<!--<-->
+	}// <
 	if(keyBoard[190]&&(w[0].inBalloon==0)){
 		if((w[0].count[w[0].order]==0)&&(blockMap[mapCount][Math.round(main.y/oneBlock)][Math.round(main.x/oneBlock)]==0)){
 			waterBallon(w[0].order,main.x,main.y);
 		}
-	}<!-->-->
-	if(keyBoard[191]){ w[0].inBalloon=0; }<!--?-->
+	}// >
+	if(keyBoard[191]){ w[0].inBalloon=0; }// ?
 }
 for(var i=0;i<w[0].possibleCount;i++){//물풍선 각각 시간초 증가
 	if(w[0].count[i]) { w[0].countTime[i]+=10;}
@@ -1146,8 +1135,8 @@ if(keyBoard[32]){
 	else if(sight==2){ if(main.x%oneBlock==0) { if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]%1000)}}
 	else{ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]%1000)}}
 }<!--spacebar-->
-if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
-else ctx.drawImage(mainChar[0][sight].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+if(w[0].inBalloon) ctx.drawImage(mainChar[4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+else ctx.drawImage(mainChar[sight].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
 drawDamage();
 if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
 ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
