@@ -262,12 +262,18 @@ obstacleMap[0] = [];
 function makeObstacle0map() {
 	for(a=3;a<mhBlock[0];a++){
 		for(b=3;b<mwBlock[0];b++){
-			if(Math.floor(Math.random() * 100)<1){
+			if(Math.floor(Math.random() * 10)<1){
 				obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",b,a,"image/tong.png");
 				if(obstacleMap[0][obstacleMap[0].length-1].delete==0) obstacleMap[0].splice(obstacleMap[0].length-1,1);
 			}
 		}
 	}
+}
+function removeObstacle0map(){
+	for (var i=0;i<obstacleMap[0].length;i++){
+		blockMap[0][obstacleMap[0].y][obstacleMap[0].x]=0;
+	}
+	monsterMap[0].splice(0,monsterMap[0].length); obstacleMap[0].splice(0,obstacleMap[0].length);
 }
 //장애물 만들기
 function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
@@ -691,8 +697,7 @@ function mapMove(key){//맵 이동
 	else if(key==50000){//0번맵 0번 지역.
 		mapCount=0;
 		main.x=12*40; main.y=10*40;
-		monsterMap[0].splice(0,monsterMap[0].length); obstacleMap[0].splice(0,obstacleMap[0].length);
-		makeObstacle0map(); makeMonster0map();
+		removeObstacle0map(); makeObstacle0map(); makeMonster0map();
 	}
 }
 function fitemWindow(){
