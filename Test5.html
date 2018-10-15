@@ -19,6 +19,7 @@
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
 <audio id="mapp" src="Music/커닝스퀘어.mp3"/>
 <audio id="Ib" src="Music/Ib OST -.mp3">
+<audio id="oneMissedCall" src="Music/oneMissedCall.mp3">
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -41,6 +42,17 @@ function saveGame() {
 	xhttp.open("POST", "https://potent-poetry-214213.appspot.com/saveGameUserData", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("name="+username+"&level="+main.charLevel+"&exp="+main.exp);
+}
+function saveGame2(){
+    $.post("https://potent-poetry-214213.appspot.com/saveGameUserData",
+    {
+      name: username,
+      city: main.charLevel,
+      exp: main.exp
+    },
+    function(data,status){
+        alert("Data: " + data + "\nStatus: " + status);
+    });
 }
 function akakak(){
 	$.ajax({
@@ -731,8 +743,8 @@ function start(){
 var preB=1;
 function update(){
 <!--배경음악 설정.
-if(mapCount==0) {playMusic("Ib");aud_stop("mapp");}
-else if(mapCount==1) {playMusic("mapp");aud_stop("Ib");}
+if(mapCount==0) {playMusic("Ib");aud_stop("oneMissedCall");}
+else if(mapCount==1) {playMusic("oneMissedCall");aud_stop("Ib");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 ctx.fillStyle='#000000';
 ctx.fillRect(0,0,1200,856);
@@ -1149,7 +1161,7 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 </script>
 <center>
 <button onclick="loadGame()">로드하기</button>
-<button onclick="akakak()">저장하기</button>
+<button onclick="saveGame2()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
