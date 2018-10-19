@@ -48,23 +48,29 @@ function saveGame2(){
     $.post("https://potent-poetry-214213.appspot.com/saveGameUserData",
     {
       name: username,
-      city: main.charLevel,
+      level: main.charLevel,
       exp: main.exp
     },
-    function(data,status){
-        alert("Data: " + data + "\nStatus: " + status);
+    function(data){
+        alert("success");
     });
 }
 function akakak(){
 	$.ajax({
-  type: "POST",
-  url: "https://potent-poetry-214213.appspot.com/saveGameUserData",
-  data: data,
-  success: function(){alert("success")},
-  dataType: 'json'
-});
+		type: "POST",
+		url: "https://potent-poetry-214213.appspot.com/saveGameUserData",
+		dataType: 'json',
+		data: {
+	      	name: username,
+	      	level: main.charLevel,
+	      	exp: main.exp
+    	},
+		success: function(){alert("success")},
+		error: function(){alert("error")}
+	});
 }
 var username=prompt("당신의 이름을 입력해주세요");
+if(!username) username='김태연';
 var can=document.getElementById("can");
 var ctx=can.getContext("2d");
 var keyBoard={};
@@ -1162,7 +1168,7 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 </script>
 <center>
 <button onclick="loadGame()">로드하기</button>
-<button onclick="saveGame2()">저장하기</button>
+<button onclick="akakak()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
