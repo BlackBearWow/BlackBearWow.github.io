@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -18,23 +17,18 @@
 <audio id="door" src="Music/문소리.mp3"/>
 <audio id="levelUp" src="Music/렙업.wav"/>
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
-<audio id="mapp" src="Music/커닝스퀘어.mp3"/>
+<audio id="KerningSquare" src="Music/커닝스퀘어.mp3"/>
 <audio id="Ib" src="Music/Ib OST -.mp3">
 <audio id="oneMissedCall" src="Music/oneMissedCall.mp3">
 </div>
+<div style="display:none">
+	<form id='mymymyform' action='https://potent-poetry-214213.appspot.com/game' method='post'>
+	<input id='UUname' type='text' name='name' value='https://www.google.co.kr/'>
+	</form>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-function loadGame(){
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		setMain(1,1);
-		alert(this.responseText);
-	}
-	xhttp.open("GET", "https://potent-poetry-214213.appspot.com/loadGameUserData?name="+username, true);
-	//xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	//xhttp.send("name="+username);
-	xhttp.send();
-}
+function loadGame(){document.getElementById('UUname').value=username; document.getElementById('mymymyform').submit();}
 function saveGame() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -65,9 +59,43 @@ function akakak(){
 	      	level: main.charLevel,
 	      	exp: main.exp
     	},
-		success: function(){alert("success")},
-		error: function(){alert("error")}
+		success: function(){alert("저장 ")},
+		error: function(){alert("저장 ")}
 	});
+}
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function checkCookie() {
+    var user=getCookie("whatissnowmanuserdata");
+    if (user != "") {
+    	var userdata=user.split(' ');
+    	setMain(parseInt(userdata[3]),parseInt(userdata[2]));
+        username=userdata[1];
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("whatissnowmanuserdata", user, 30);
+       }
+    }
 }
 var username=prompt("당신의 이름을 입력해주세요");
 if(!username) username='김태연';
@@ -749,9 +777,9 @@ function start(){
 }
 var preB=1;
 function update(){
-<!--배경음악 설정.
-if(mapCount==0) {playMusic("Ib");aud_stop("oneMissedCall");}
-else if(mapCount==1) {playMusic("oneMissedCall");aud_stop("Ib");}
+//배경음악 설정.
+//if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");}
+//else if(mapCount==1) {playMusic("oneMissedCall");aud_stop("KerningSquare");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 ctx.fillStyle='#000000';
 ctx.fillRect(0,0,1200,856);
@@ -1167,6 +1195,7 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 </script>
 <center>
+<button onclick="checkCookie()">로드하기</button>
 <button onclick="loadGame()">로드하기</button>
 <button onclick="akakak()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
