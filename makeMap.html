@@ -50,10 +50,12 @@ window.addEventListener('keyup',function(e){ map[e.keyCode]=false; })
 document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
 document.getElementById("can").addEventListener('wheel', function (e) { y-=e.deltaY/2.5; })
 document.getElementById("can").addEventListener("dblclick", function(e) {
-	var inf=prompt("50000:5+00(이동하려는맵)+00(이동하려는곳)");
-	if((inf>=50000)&&(inf<60000)) blockMap3[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=inf;
-	else if(inf==0)blockMap3[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=0;
-	else alert("wrong input");
+	if(blockMap3[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]!=undefined){
+		var inf=prompt("50000:5+00(이동하려는맵)+00(이동하려는곳)");
+		if((inf>=50000)&&(inf<60000)) blockMap3[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=inf;
+		else if(inf==0)blockMap3[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=0;
+		else alert("wrong input");
+	}
 })
 document.getElementById("can").addEventListener("mousedown", function(e) {
 	ifset=1;
