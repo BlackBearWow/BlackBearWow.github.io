@@ -21,14 +21,8 @@
 <audio id="Ib" src="Music/Ib OST -.mp3">
 <audio id="oneMissedCall" src="Music/oneMissedCall.mp3">
 </div>
-<div style="display:none">
-	<form id='mymymyform' action='https://potent-poetry-214213.appspot.com/game' method='post'>
-	<input id='UUname' type='text' name='name' value='https://www.google.co.kr/'>
-	</form>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-function loadGame(){document.getElementById('UUname').value=username; document.getElementById('mymymyform').submit();}
 function saveGame() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -89,7 +83,7 @@ function checkCookie() {
     if (user != "") {
     	var userdata=user.split(' ');
     	setMain(parseInt(userdata[3]),parseInt(userdata[2]));
-        username=userdata[1];
+        username=document.getElementById('thisisname').value;
     } else {
        user = prompt("Please enter your name:","");
        if (user != "" && user != null) {
@@ -512,7 +506,7 @@ function monsterDie(){
 	for(a=0;a<b;a++)
 	if(monsterMap[mapCount][a].hp<=0) {
 		monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
-		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(0,main.charLevel+1); }
+		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(main.exp-main.maxExp,main.charLevel+1); }
 	}
 }
 function setMain(exp,level){
@@ -768,6 +762,7 @@ function drawStatus(){
 	ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+main.exp+'/'+main.maxExp,220,850); 
 	ctx.fillText('Level:'+main.charLevel,30,850);
 }
+//checkCookie();
 function start(){
 	blockMap[0][10][12]=50100;
 	setInterval(update,4);
@@ -1195,8 +1190,7 @@ ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 </script>
 <center>
-<button onclick="checkCookie()">로드하기</button>
-<button onclick="loadGame()">로드하기</button>
+<button onclick="window.open('https://diotheworld.github.io/loadGame.html')">로드하기</button>
 <button onclick="akakak()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
