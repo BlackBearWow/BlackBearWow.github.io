@@ -1,3 +1,4 @@
+
 <html>
 <body style="background-color:black">
 <center>
@@ -27,6 +28,7 @@ var Img=[
 	new addImage("https://opengameart.org/sites/default/files/styles/medium/public/Wooden%20Crate%20Texture_0.png"),
 ],
 [
+	new addImage("https://5.imimg.com/data5/DF/LJ/MY-58511633/eraser-500x500.jpg"),
 	new addImage("https://diotheworld.github.io/image/Obstacle/문.png"),
 	new addImage("https://diotheworld.github.io/image/계단1.png"),
 	new addImage("https://diotheworld.github.io/image/계단1_2.png"),
@@ -329,7 +331,8 @@ if(mousepress){
 	else if((y<=mouseY)&&(mouseY<y+mh*40)&&(mouseX>=x+mw*40)&&(mouseX<x+mw*40+40)) increaseRight();
 	else if((y-40<=mouseY)&&(mouseY<y)&&(mouseX>=x)&&(mouseX<x+mw*40)) {y-=40; increaseUp();}
 	else if((y+mh*40<=mouseY)&&(mouseY<y+mh*40+40)&&(mouseX>=x)&&(mouseX<x+mw*40)) increaseDown();
-	if(((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
+	if((imageSet==0)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
+	else if((imageSet==1)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap2[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
 }
 for(yy=0;yy<mh;yy++){
 	ctx.fillStyle="tomato";
@@ -349,19 +352,19 @@ for(xx=0;xx<mw;xx++){
 }
 for(yy=0;yy<mh;yy++)//blockMap2
 for(xx=0;xx<mw;xx++){
-	if(blockMap2[yy][xx]==0){//문
+	if(blockMap2[yy][xx]==1){//문
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y-40,40,80);
 	}
-	if((blockMap2[yy][xx]==1)||(blockMap2[yy][xx]==3)){//계단 위로
+	if((blockMap2[yy][xx]==2)||(blockMap2[yy][xx]==4)){//계단 위로
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y,160,160);
 	}
-	if((blockMap2[yy][xx]==2)||(blockMap2[yy][xx]==4)){//계단 아래로
+	if((blockMap2[yy][xx]==3)||(blockMap2[yy][xx]==5)){//계단 아래로
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y,160,80);
 	}
-	if(blockMap2[yy][xx]==5){//나무
+	if(blockMap2[yy][xx]==6){//나무
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y-40,40,80);
 	}
-	if(blockMap2[yy][xx]==6){//풀
+	if(blockMap2[yy][xx]==7){//풀
 		ctx.drawImage(Img[1][blockMap2[yy][xx]].image,xx*40+x,yy*40+y-5,40,45);
 	}
 }
