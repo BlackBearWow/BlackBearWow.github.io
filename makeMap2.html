@@ -327,22 +327,6 @@ if(map[38]) y+=4; else if(map[40]) y-=4;
 for(a=0;a<10;a++){if(map[48+a]) {blockSet=a; break;}}
 ctx.fillStyle='#aaaaaa';
 ctx.fillRect(0,0,1600,1600);
-if(mousepress){
-	if((y<=mouseY)&&(mouseY<y+mh*40)&&(mouseX>=x-40)&&(mouseX<x)) {x-=40; increaseLeft();}
-	else if((y<=mouseY)&&(mouseY<y+mh*40)&&(mouseX>=x+mw*40)&&(mouseX<x+mw*40+40)) increaseRight();
-	else if((y-40<=mouseY)&&(mouseY<y)&&(mouseX>=x)&&(mouseX<x+mw*40)) {y-=40; increaseUp();}
-	else if((y+mh*40<=mouseY)&&(mouseY<y+mh*40+40)&&(mouseX>=x)&&(mouseX<x+mw*40)) increaseDown();
-	if((imageSet==0)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
-	//else if((imageSet==1)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap2[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
-	if(mousepress&&(imageSet==1)&&(!clicking)){
-		startX=(mouseX-x); startY=(mouseY-y); clicking=1;
-	}
-	else if(clicking){
-		endX=(mouseX-x); endY=(mouseY-y); //clicking=0;
-		ctx.drawImage(Img[1][blockSet].image,Math.floor((mouseX-x)/40)*40+x,Math.floor((mouseY-y)/40)*40+y,40,40);
-	}
-}
-else if(clicking){	clicking=0;blockMap2[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;}
 for(yy=0;yy<mh;yy++){
 	ctx.fillStyle="tomato";
 	ctx.fillRect(-40+x,yy*40+y,40,40);
@@ -389,6 +373,23 @@ for(xx=0;xx<mw;xx++){
 }
 //2맵에서 1맵으로: 50100->5는 맵 이동이라는 뜻 01는 데스티네이션맵 00은 위치.
 drawInformation();
+if(mousepress){
+	if((y<=mouseY)&&(mouseY<y+mh*40)&&(mouseX>=x-40)&&(mouseX<x)) {x-=40; increaseLeft();}
+	else if((y<=mouseY)&&(mouseY<y+mh*40)&&(mouseX>=x+mw*40)&&(mouseX<x+mw*40+40)) increaseRight();
+	else if((y-40<=mouseY)&&(mouseY<y)&&(mouseX>=x)&&(mouseX<x+mw*40)) {y-=40; increaseUp();}
+	else if((y+mh*40<=mouseY)&&(mouseY<y+mh*40+40)&&(mouseX>=x)&&(mouseX<x+mw*40)) increaseDown();
+	if((imageSet==0)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
+	//else if((imageSet==1)&&((mouseY-y)>0)&&((mouseY-y)<mh*40)&&((mouseX-x)>0)&&((mouseX-x)<mw*40))blockMap2[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;
+	if(mousepress&&(imageSet==1)&&(!clicking)){
+		startX=(mouseX-x); startY=(mouseY-y); clicking=1;
+	}
+	else if(clicking){
+		endX=(mouseX-x); endY=(mouseY-y); //clicking=0;
+		ctx.drawImage(Img[1][blockSet].image,Math.floor((mouseX-x)/40)*40+x,Math.floor((mouseY-y)/40)*40+y,40,40);
+		//ctx.drawImage(Img[1][blockSet].image,100,Math.floor((mouseY-y)/40)*40+y,40,40);
+	}
+}
+else if(clicking){	clicking=0;blockMap2[Math.floor((mouseY-y)/40)][Math.floor((mouseX-x)/40)]=blockSet;}
 for(a=0;a<Img[0].length;a++)
 	ctx.drawImage(Img[0][a].image,a*40,0,40,40);
 for(a=0;a<Img[1].length;a++)
