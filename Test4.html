@@ -91,10 +91,14 @@ function checkCookie() {
        }
     }
 }
-var administrator=0;
+var admin={
+	administrator:0,
+	x:0,
+	y:0
+};
 function administratorS(){
-	if(administrator) administrator=0;
-	else administrator=1;
+	if(admin.administrator) admin.administrator=0;
+	else admin.administrator=1;
 }
 var username=prompt("당신의 이름을 입력해주세요");
 if(!username) username='김태연';
@@ -855,7 +859,7 @@ if(keyBoard[32]){
 	else{ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]%1000)}}
 }//spacebar
 drawBuildings();
-if(!administrator){
+if(!admin.administrator){
 	//배경이미지 좌표 설정
 	if(main.x<=600-halfBlock){ backgroundx=0; charx=main.x; }
 	else if(main.x>600-halfBlock&&main.x<=mw[mapCount]-(600+halfBlock)){ backgroundx=-main.x+600-halfBlock; charx=600-halfBlock; }
@@ -1193,6 +1197,10 @@ if(!administrator){
 	drawStatus();
 	if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
 	ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
+}
+else{
+	if(keyBoard[37]) administrator.x+=4; else if(keyBoard[39]) administrator.x-=4;
+	if(keyBoard[38]) administrator.y+=4; else if(keyBoard[40]) administrator.y-=4;
 }
 }
 </script>
