@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -6,10 +5,10 @@
 <body onload="start()" style="background-color:black">
 <center>
 <canvas id="can" width="1200" height="856" style="border:1px solid #c3c3c3; cursor:none;"/>
-<!--0~800화면. ~828에이치피 ~856exp-->
+<!--0~800화면. ~828에이치피 ~856exp  1200 856-->
 </center>
 <div style='display:block;'>
-<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3"/>
+<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3">
 <audio id="Fade" src="Music/Fade.mp3"/>
 <audio id="Camp" src="Music/CAMP.mp3"/>
 <audio id="balloonBoom" src="Music/sports-sound13.ogg"/>
@@ -18,13 +17,90 @@
 <audio id="door" src="Music/문소리.mp3"/>
 <audio id="levelUp" src="Music/렙업.wav"/>
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
-<audio id="mapp" src="Music/커닝스퀘어.mp3"/>
+<audio id="KerningSquare" src="Music/커닝스퀘어.mp3"/>
+<audio id="Ib" src="Music/Ib OST -.mp3">
+<audio id="oneMissedCall" src="Music/oneMissedCall.mp3">
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+function saveGame() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    alert("저장했어!");
+	};
+	xhttp.open("POST", "https://potent-poetry-214213.appspot.com/saveGameUserData", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("name="+username+"&level="+main.charLevel+"&exp="+main.exp);
+}
+function saveGame2(){
+    $.post("https://potent-poetry-214213.appspot.com/saveGameUserData",
+    {
+      name: username,
+      level: main.charLevel,
+      exp: main.exp
+    },
+    function(data){
+        alert("success");
+    });
+}
+function akakak(){
+	$.ajax({
+		type: "POST",
+		url: "https://potent-poetry-214213.appspot.com/saveGameUserData",
+		dataType: 'json',
+		data: {
+	      	name: username,
+	      	level: main.charLevel,
+	      	exp: main.exp
+    	},
+		success: function(){alert("저장 ")},
+		error: function(){alert("저장 ")}
+	});
+}
+function setCookie(cname,cvalue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function checkCookie() {
+    var user=getCookie("whatissnowmanuserdata");
+    if (user != "") {
+    	var userdata=user.split(' ');
+    	setMain(parseInt(userdata[3]),parseInt(userdata[2]));
+        username=document.getElementById('thisisname').value;
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("whatissnowmanuserdata", user, 30);
+       }
+    }
+}
+var administrator=0;
+function administratorS(){
+	if(administrator) administrator=0;
+	else administrator=1;
+}
 var username=prompt("당신의 이름을 입력해주세요");
+if(!username) username='김태연';
 var can=document.getElementById("can");
+canvasWidth=can.width; canvasHeight=can.height;
 var ctx=can.getContext("2d");
-var keyBoard={};
 var keyBoard={};
 ctx.fillStyle='yellow'; ctx.font = "50px Arial";
 ctx.fillText('Loading...',200,200);
@@ -36,10 +112,12 @@ var main={
 	levelImageCount:0,
 	hits:new Array(30),
 	hitsCount:30,
-	maxHp:500,
+	maxHp:10,
 	currentHp:500,
 	skillCoolTime:0,
 	selectSkill:0,
+	x:oneBlock*(5+2),
+	y:oneBlock*5
 };
 for(var i=0;i<main.hits.length;i++)main.hits[i]=0;
 var levelUpImage=new Array(21);
@@ -51,8 +129,8 @@ var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
 	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
-	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,7,40,10,50),
-	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,7,40,6,51),
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,8,40,10,50),
+	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,8,51)
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
@@ -67,19 +145,24 @@ function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,atta
 	this.delayTime=speed*imageDelayQuantity;
 	this.startX=imgHdivW*fullSize*size;
 	this.startY=fullSize/2*(size-1);
+	this.alpha=fullSize/2*(size-1);
 	for(var i=0;i<imageQuantity;i++){
 		this.image[i]=new Image();
 		this.image[i].src=NoNumberSource+i+".png";
 	}
 }
+var Attack={
+	min:10000,
+	max:80000,
+	balloonMin:1,
+	balloonMax:3,
+};
 var halfBlock=oneBlock/2;
-var x = [oneBlock*(5+2), 1080];//캐릭터의 x와 y설정.
-var y = [oneBlock*5, 480];
-var situation=0;<!--대화의 상황 순서-->
-var dialogueSet=0;<!--0이라면 대화중이 아님.-->
-var dialogueCount=-2;<!--대화중 필요한 변수-->
-var dialogueNpc=0;<!--대화중인 npc-->
-var sight=[3,3];<!--좌:0 상:1 우:2 하: 3-->
+var situation=0;//대화의 상황 순서
+var dialogueSet=0;//0이라면 대화중이 아님.
+var dialogueCount=-2;//대화중 필요한 변수
+var dialogueNpc=0;//대화중인 npc
+var sight=3;//좌:0 상:1 우:2 하:3
 var backgroundx,backgroundy,charx,chary;
 var background=[
 	new makeBackground("image/background0.png"),
@@ -176,20 +259,11 @@ var mouse=new Image();
 mouse.src=("image/cursor.png");
 
 var mainChar=[
-	[//원래캐릭터
-		new makechar("image/left.png"),
-		new makechar("image/back.png"),
-		new makechar("image/right.png"),
-		new makechar("image/front.png"),
-		new makechar("image/물속.png")
-	],
-	[//2p 캐릭터
-		new makechar("image/left.png"),
-		new makechar("image/back.png"),
-		new makechar("image/right.png"),
-		new makechar("image/front.png"),
-		new makechar("image/물속.png")
-	]
+	new makechar("image/left.png"),
+	new makechar("image/back.png"),
+	new makechar("image/right.png"),
+	new makechar("image/front.png"),
+	new makechar("image/물속.png")
 ];
 function makechar(source){
 	this.image=new Image();
@@ -212,12 +286,9 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
     this.y=y;
 	this.sizex=sizex;
 	this.sizey=sizey;
-	this.state=0;
 	this.image=new Array(2);
     this.image[0]=new Image();
     this.image[0].src=source;	//장애물 이미지
-	this.image[1]=new Image();	//아이템 이미지
-	this.image[1].src="image/Item/Roller.png"; //롤러스테이트
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
 		this.existence=0;
 		return;
@@ -226,41 +297,34 @@ function makeBuilding(name,x,y,sizex,sizey,source){//겹치는 장애물 있으�
 		for(b=0;b<sizex;b++)
 			blockMap[0][y+a][x+b]=30000;
 }
-//빌딩 그리기
-function drawBuildings(){
+function drawBuildings(){//빌딩 그리기
 	if(buildingMap[mapCount]==undefined) return;
 	var a,b=buildingMap[0].length;
 	for(a=0;a<b;a++)
-	if(buildingMap[0][a].existence) ctx.drawImage(buildingMap[0][a].image[buildingMap[0][a].state],backgroundx+(buildingMap[0][a].x)*oneBlock,backgroundy+(buildingMap[0][a].y)*oneBlock,buildingMap[0][a].sizex*oneBlock,buildingMap[0][a].sizey*oneBlock);
+	if(buildingMap[0][a].existence) ctx.drawImage(buildingMap[0][a].image[0],backgroundx+(buildingMap[0][a].x)*oneBlock,backgroundy+(buildingMap[0][a].y)*oneBlock,buildingMap[0][a].sizex*oneBlock,buildingMap[0][a].sizey*oneBlock);
 }
-<!--장애물들
-obstacleMap[0] = [
-	new makeObstacle("통",3,4,"image/tong.png"),
-	new makeObstacle("통",3,6,"image/tong.png"),
-	new makeObstacle("통",4,6,"image/tong.png"),
-	new makeObstacle("통",6,4,"image/tong.png"),
-	new makeObstacle("통",7,4,"image/tong.png"),
-	new makeObstacle("통",6,6,"image/tong.png"),
-	new makeObstacle("통",7,6,"image/tong.png"),
-	new makeObstacle("통",6,7,"image/tong.png"),
-	new makeObstacle("통",8,8,"image/tong.png"),
-];
-if(0){//크아 라면.
-	for(var i=0;i<40;i++){
-		for(var n=0;n<23;n++)
-		obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",2*i,2*n,"image/tong.png");
-	}
-	for(var i=0;i<25;i++){
-		for(var n=0;n<16;n++){
-			if(Math.floor(Math.random() * 4)<1)
-			obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",i+4,n+4,"image/tong.png");
+//장애물들
+obstacleMap[0] = [];
+function makeObstacle0map() {
+	for(a=3;a<mhBlock[0];a++){
+		for(b=3;b<mwBlock[0];b++){
+			if(Math.floor(Math.random() * 10)<1){
+				obstacleMap[0][obstacleMap[0].length]=new makeObstacle("통",b,a,"image/tong.png");
+				if(obstacleMap[0][obstacleMap[0].length-1].delete==0) obstacleMap[0].splice(obstacleMap[0].length-1,1);
+			}
 		}
 	}
 }
-<!--장애물 만들기
+function removeObstacle0map(){
+	for (var i=0;i<obstacleMap[0].length;i++){
+		blockMap[0][obstacleMap[0].y][obstacleMap[0].x]=0;
+	}
+	monsterMap[0].splice(0,monsterMap[0].length); obstacleMap[0].splice(0,obstacleMap[0].length);
+}
+//장애물 만들기
 function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들어지게 만들어야됨.
 	this.name=name;
-	this.existence=1;
+	this.delete=1;
 	this.x=x;
     this.y=y;
 	this.state=0;
@@ -274,36 +338,29 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
 	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
-		this.existence=0;
+		this.delete=0;
 		return;
 	}
 	blockMap[0][y][x]=10000;
 }
-<!--장애물 그리기
+//장애물 그리기
 function drawObstacles(){
 	if(obstacleMap[mapCount]==undefined) return;
 	var a,b=obstacleMap[0].length;
 	for(a=0;a<b;a++)
-	if(obstacleMap[0][a].existence) ctx.drawImage(obstacleMap[0][a].image[obstacleMap[0][a].state],backgroundx+(obstacleMap[0][a].x)*oneBlock,backgroundy+(obstacleMap[0][a].y)*oneBlock,oneBlock,oneBlock);
+	ctx.drawImage(obstacleMap[0][a].image[obstacleMap[0][a].state],backgroundx+(obstacleMap[0][a].x)*oneBlock,backgroundy+(obstacleMap[0][a].y)*oneBlock,oneBlock,oneBlock);
 }
-<!--장애물, 아이템 물풍선에 맞았을 때
+//장애물, 아이템 물풍선에 맞았을 때
 function obstacleBoom(a){
-	if((obstacleMap[0][a].itemExistence==0)||(obstacleMap[0][a].state)){ obstacleMap[0][a].existence=0; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=0; }
+	if((obstacleMap[0][a].itemExistence==0)||(obstacleMap[0][a].state)){ blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=0; obstacleMap[0].splice(a,1);}
 	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
 }
 //몬스터
 monsterMap[0]=[
-	new makeMonster("몬스터",0,3,3,200,200,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true")
+	new makeMonster("몬스터",0,3,3,200,200,"image/monster/snail/snail",10,40,40)
 ];
 monsterMap[1]=[];
 hitMonster=[];
-basdf(3,0,100,0,500,500);
-function basdf(attackQuantity,delayTime,betweenAttackTime,damageValue,startX,startY){
-	for(var i=0;i<attackQuantity;i++){
-		var ran=Math.floor(Math.random()*5+1);
-		hitMonster[hitMonster.length]=new addHitMonster(delayTime,betweenAttackTime,ran,startX,startY-25*i,i);
-	}
-}
 function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
 	this.hitCounts=200+delayTime+i*betweenAttackTime;
 	this.damageValue=damageValue;
@@ -312,7 +369,7 @@ function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
 	this.betweenAttackTime=betweenAttackTime;
 	this.delayTime=delayTime;
 }
-function drawBB(){
+function drawDamage(){
 	for(var i=0;i<hitMonster.length;i++){
 		hitMonster[i].hitCounts--;
 		if(hitMonster[i].hitCounts>200){}
@@ -344,10 +401,10 @@ function drawBB(){
 function makeMonster0map() {
 	for(a=3;a<mhBlock[0];a++){
 		for(b=3;b<mwBlock[0];b++){
-			if(Math.floor(Math.random() * 70)<1){
+			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
-				if(monsterMap[0][monsterMap[0].length-1].existence==0) monsterMap[0].splice(monsterMap[1].length-1,1);
+				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,40,40);
+				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 		}
 	}
@@ -357,52 +414,54 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 20)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"https://stickershop.line-scdn.net/stickershop/v1/product/1043/LINEStorePC/main@2x.png;compress=true");
-				if(monsterMap[1][monsterMap[1].length-1].existence==0) monsterMap[1].splice(monsterMap[1].length-1,1);
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,200,160);
+				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
 	}
 }
-function makeMonster(name,whatMap,x,y,maxHp,hp,source){//몬스터 만들기
+function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,width,height){//몬스터 만들기
 	this.name=name;
-	this.existence=1;
+	this.delete=1;
 	this.x=x;
     this.y=y;
 	this.maxHp=maxHp;
 	this.hp=hp;
-	this.width=40;
-	this.height=40;
+	this.width=width;
+	this.height=height;
 	this.hits=new Array(20);
 	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
 	this.hitsCount=0;//default=20
-	this.state=0;
-	this.item=Math.floor(Math.random() * 6);
-	this.image=new Array(2);
-    this.image[0]=new Image();
-    this.image[0].src=source;	//장애물 이미지
-	this.image[1]=new Image();	//아이템 이미지
-	if(this.item==0){ this.image[1].src="image/Item/Roller.png"; }//롤러스테이트
-	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
-	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
-	this.itemExistence=(this.item<=2);
+	this.imageCount=0;
+	this.imageQuantity=imageQuantity;
+	this.image=new Array(imageQuantity);
+    for(var i=0;i<imageQuantity;i++){
+		this.image[i]=new Image();
+		this.image[i].src=NoNumberSource+i+".png";
+	}
 	if((x>=mwBlock[whatMap])||(x<0)||(y>=mhBlock[whatMap])||(y<0)||(blockMap[whatMap][y][x]!=0)){
-		this.existence=0;//existence가 0이라면 splice로 지우기.
+		this.delete=0;//delete가 0이라면 splice로 지우기.
 		return;
 	}
 }
-function drawMonsters(){//existence는 이제 상관없어짐. 
+function drawMonsters(){
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
+		if(monsterMap[mapCount][a].imageCount==0){
+			monsterMap[mapCount][a].imageCount=(monsterMap[mapCount][a].imageQuantity-1)*20;
+		}
 		ctx.fillStyle="black";
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,oneBlock+7,10);
 		ctx.fillStyle="red";
 		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(oneBlock+3),6);
-		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].state],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,oneBlock,oneBlock);
+		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].imageQuantity-1-Math.floor(monsterMap[mapCount][a].imageCount/20)],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,monsterMap[mapCount][a].width,monsterMap[mapCount][a].height);
+		monsterMap[mapCount][a].imageCount--;
+		//Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)]
 	}
 }
 function drawMonstersHit(){ 
-if(monsterMap[mapCount]==undefined) return;
+	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
 		if(monsterMap[mapCount][a].hitsCount){
@@ -429,7 +488,7 @@ function monsterHit(){//캐릭터가 몬스터를 공격함
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
 		if(blockMap[mapCount][monsterMap[mapCount][a].y][monsterMap[mapCount][a].x]==1){
-			monsterMap[mapCount][a].hits[0]=Math.floor(Math.random()*2+1);//이 칸에 이제 캐릭터의 공격력을 넣어야됨.
+			monsterMap[mapCount][a].hits[0]=Math.floor(Math.random()*(Attack.balloonMax-Attack.balloonMin)+Attack.balloonMin+1);//이 칸에 이제 캐릭터의 공격력을 넣어야됨.
 			monsterMap[mapCount][a].hitsCount=monsterMap[mapCount][a].hits.length;
 			monsterMap[mapCount][a].hp-=monsterMap[mapCount][a].hits[0];
 		}
@@ -439,7 +498,7 @@ function monsterAttack(){//몬스터가 캐릭터를 공격함
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
-		if((monsterMap[mapCount][a].y==y[0]/40)&&(monsterMap[mapCount][a].x==x[0]/40)){
+		if((monsterMap[mapCount][a].y==main.y/40)&&(monsterMap[mapCount][a].x==main.x/40)){
 			main.hits[0]=Math.floor(Math.random()*3+1);
 			main.hitsCount=main.hits.length;
 			main.currentHp-=main.hits[0];
@@ -452,10 +511,13 @@ function monsterDie(){
 	for(a=0;a<b;a++)
 	if(monsterMap[mapCount][a].hp<=0) {
 		monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
-		if(main.exp>=main.maxExp){playMusic2('levelUp'); main.exp=0; main.charLevel+=1; main.levelImageCount=210;}
+		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(main.exp-main.maxExp,main.charLevel+1); }
 	}
 }
-<!--npc들
+function setMain(exp,level){
+	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=level*level; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
+}
+//npc들
 var npcCount=0;
 npcMap[0] = [<!--x는 최대 100, y는 최대 50
   new makeNpc("김 상병",4,4,"image/Npc/김상병.png"), 
@@ -578,12 +640,12 @@ function Talking(){
 	else
 		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
 }
-var w=[0,0];
-for(k=0;k<2;k++){//물풍선
-	w[k]={
-		maxPossibleCount:100, possibleCount:10,<!--물풍선 쓸 수 있는 개수
-		maxLen:50, len:10,<!--물줄기
-		speedCount:10, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],<!--롤러스테이트
+if(1){ //물풍선
+	var w=[0];
+	w[0]={
+		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
+		maxLen:50, len:1,//물줄기
+		speedCount:3, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -593,114 +655,95 @@ for(k=0;k<2;k++){//물풍선
 		countTime:1,
 		inBalloon:0, inBalloonSpeed:0.1,
 		order:0,<!--
-		image:1, //물풍선 이미지
-		image2:1 //물풍선 터졌을때 이미지
+		waterBallonImage:1, //물풍선 이미지
+		waterBallonImage2:1 //물풍선 터졌을때 이미지
 	};
-	w[k].leftLen=new Array(w.possibleCount);
-	w[k].rightLen=new Array(w.possibleCount);
-	w[k].upLen=new Array(w.possibleCount);
-	w[k].downLen=new Array(w.possibleCount);
-	w[k].leftBlock=new Array(w.possibleCount);
-	w[k].rightBlock=new Array(w.possibleCount);
-	w[k].upBlock=new Array(w.possibleCount);
-	w[k].downBlock=new Array(w.possibleCount);
-	w[k].x=new Array(w.possibleCount);
-	w[k].y=new Array(w.possibleCount);
-	w[k].count=new Array(w.possibleCount);
-	w[k].countTime=new Array(w.possibleCount);
-	w[k].InMap=new Array(w.possibleCount);
-	for(var a=0;a<w[k].maxPossibleCount;a++){
-		w[k].leftLen[a]=0;
-		w[k].rightLen[a]=0;
-		w[k].upLen[a]=0;
-		w[k].downLen[a]=0;
-		w[k].leftBlock[a]=0;
-		w[k].rightBlock[a]=0;
-		w[k].upBlock[a]=0;
-		w[k].downBlock[a]=0;
-		w[k].x[a]=0;
-		w[k].y[a]=0;
-		w[k].count[a]=0;
-		w[k].countTime[a]=0;
-		w[k].InMap[a]=0;
+	w[0].leftLen=new Array(w.possibleCount);
+	w[0].rightLen=new Array(w.possibleCount);
+	w[0].upLen=new Array(w.possibleCount);
+	w[0].downLen=new Array(w.possibleCount);
+	w[0].leftBlock=new Array(w.possibleCount);
+	w[0].rightBlock=new Array(w.possibleCount);
+	w[0].upBlock=new Array(w.possibleCount);
+	w[0].downBlock=new Array(w.possibleCount);
+	w[0].x=new Array(w.possibleCount);
+	w[0].y=new Array(w.possibleCount);
+	w[0].count=new Array(w.possibleCount);
+	w[0].countTime=new Array(w.possibleCount);
+	w[0].InMap=new Array(w.possibleCount);
+	for(var a=0;a<w[0].maxPossibleCount;a++){
+		w[0].leftLen[a]=0;
+		w[0].rightLen[a]=0;
+		w[0].upLen[a]=0;
+		w[0].downLen[a]=0;
+		w[0].leftBlock[a]=0;
+		w[0].rightBlock[a]=0;
+		w[0].upBlock[a]=0;
+		w[0].downBlock[a]=0;
+		w[0].x[a]=0;
+		w[0].y[a]=0;
+		w[0].count[a]=0;
+		w[0].countTime[a]=0;
+		w[0].InMap[a]=0;
 	}
-	for(var a=0;a<w[k].maxLen;a++){
-		w[k].leftLen[a]=0;
-		w[k].rightLen[a]=0;
-		w[k].upLen[a]=0;
-		w[k].downLen[a]=0;
+	for(var a=0;a<w[0].maxLen;a++){
+		w[0].leftLen[a]=0;
+		w[0].rightLen[a]=0;
+		w[0].upLen[a]=0;
+		w[0].downLen[a]=0;
 	}
-	w[k].image=new Image();
-	w[k].image.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
-	w[k].image2=new Image();
-	w[k].image2.src=("image/water.jpg");
+	w[0].waterBallonImage=new Image();
+	w[0].waterBallonImage.src=("http://s.nx.com/S2/game/ca/2009/event/130626_make/img1.gif");
+	w[0].waterBallonImage2=new Image();
+	w[0].waterBallonImage2.src=("image/water.jpg");
 }
+function charBlock(Y,X,k,m){ return blockMap[mapCount][main.y/oneBlock+Y][main.x/oneBlock+X]; }
+function balloonBlock(m,Y,X,k){ return blockMap[m][w[0].y[k]+Y][w[0].x[k]+X]; }
 
-function charBlock(Y,X,k,m){ return blockMap[m][y[k]/oneBlock+Y][x[k]/oneBlock+X]; }
-function balloonBlock(m,Y,X,k,j){ return blockMap[m][w[j].y[k]+Y][w[j].x[k]+X]; }
-
-function waterBallon(k,x,y,j){
+function waterBallon(k,x,y){
 	playMusic2("balloonSet");
-	w[j].InMap[k]=mapCount;
-	w[j].count[k]=1;
-	w[j].x[k]=Math.round(x/oneBlock);
-	w[j].y[k]=Math.round(y/oneBlock);
-	blockMap[mapCount][w[j].y[k]][w[j].x[k]]=(10000*(j+1)+1+w[j].order);
-	w[j].leftBlock[k]=0;
-	w[j].rightBlock[k]=0;
-	w[j].upBlock[k]=0;
-	w[j].downBlock[k]=0;
-	w[j].order=w[j].order+1;
-	if(w[j].order==w[j].possibleCount) w[j].order=0;
+	w[0].InMap[k]=mapCount;
+	w[0].count[k]=1;
+	w[0].x[k]=Math.round(x/oneBlock);
+	w[0].y[k]=Math.round(y/oneBlock);
+	blockMap[mapCount][w[0].y[k]][w[0].x[k]]=(10000*(0+1)+1+w[0].order);
+	w[0].leftBlock[k]=0;
+	w[0].rightBlock[k]=0;
+	w[0].upBlock[k]=0;
+	w[0].downBlock[k]=0;
+	w[0].order=w[0].order+1;
+	if(w[0].order==w[0].possibleCount) w[0].order=0;
 }
-var leftSet=[0,0],rightSet=[0,0],upSet=[0,0],downSet=[0,0];
-var llll=[0,0],rrrr=[0,0],uuuu=[0,0],dddd=[0,0];
+var leftSet=0,rightSet=0,upSet=0,downSet=0;
+var llll=0,rrrr=0,uuuu=0,dddd=0;
 function ifLeftKeyDown(){
-	sight[0]=0;
-	if(leftSet[0]==0){	leftSet[0]=1; }
+	sight=0;
+	if(leftSet==0){	leftSet=1; }
 }
 function ifRightKeyDown(){
-	sight[0]=2;
-	if(rightSet[0]==0){ rightSet[0]=1; }
+	sight=2;
+	if(rightSet==0){ rightSet=1; }
 }
 function ifUpKeyDown(){
-	sight[0]=1;
-	if(upSet[0]==0){ upSet[0]=1; }
+	sight=1;
+	if(upSet==0){ upSet=1; }
 }
 function ifDownKeyDown(){
-	sight[0]=3;
-	if(downSet[0]==0){	downSet[0]=1; }
+	sight=3;
+	if(downSet==0){	downSet=1; }
 }
-function ifLeftKeyDown2(){
-	sight[1]=0;
-	if(leftSet[1]==0){	leftSet[1]=1; }
-}
-function ifRightKeyDown2(){
-	sight[1]=2;
-	if(rightSet[1]==0){ rightSet[1]=1; }
-}
-function ifUpKeyDown2(){
-	sight[1]=1;
-	if(upSet[1]==0){ upSet[1]=1; }
-}
-function ifDownKeyDown2(){
-	sight[1]=3;
-	if(downSet[1]==0){	downSet[1]=1; }
-}
-
-function mapMove(key){
+function mapMove(key){//맵 이동 
 	playMusic2("door");
 	if(key==50100){//1번맵 0번 지역.
 		mapCount=1;
-		x[0]=21*40; y[0]=36*40;
-		monsterMap[1].splice(0,monsterMap[1].length);
+		main.x=21*40; main.y=36*40;
+		monsterMap[1].splice(0,monsterMap[1].length); //obstacleMap[1].splice(0,obstacleMap[1].length);
 		makeMonster1map();
 	}
 	else if(key==50000){//0번맵 0번 지역.
 		mapCount=0;
-		x[0]=12*40; y[0]=10*40;
-		monsterMap[0].splice(0,monsterMap[0].length);
-		makeMonster0map();
+		main.x=12*40; main.y=10*40;
+		removeObstacle0map(); makeObstacle0map(); makeMonster0map();
 	}
 }
 function fitemWindow(){
@@ -710,7 +753,7 @@ function fitemWindow(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(monsterMap[mapCount].length+" "+hitMonster.length+" "+obstacleMap[0].length,10,50);
+	ctx.fillText(monsterMap[mapCount].length+" "+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -724,6 +767,7 @@ function drawStatus(){
 	ctx.fillStyle='black'; ctx.font = "20px Arial"; ctx.fillText('Exp:'+main.exp+'/'+main.maxExp,220,850); 
 	ctx.fillText('Level:'+main.charLevel,30,850);
 }
+//checkCookie();
 function start(){
 	blockMap[0][10][12]=50100;
 	setInterval(update,4);
@@ -733,605 +777,430 @@ function start(){
 }
 var preB=1;
 function update(){
-<!--배경음악 설정.
-if(mapCount==0) {playMusic("Camp");aud_stop("mapp");}
-else if(mapCount==1) {playMusic("mapp");aud_stop("Camp");}
+//배경음악 설정.
+//if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");}
+//else if(mapCount==1) {playMusic("oneMissedCall");aud_stop("KerningSquare");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 ctx.fillStyle='#000000';
-ctx.fillRect(0,0,1200,856);
-<!--배경이미지 좌표 설정
-if(x[0]<=600-halfBlock){ backgroundx=0; charx=x[0]; }
-else if(x[0]>600-halfBlock&&x[0]<=mw[mapCount]-(600+halfBlock)){ backgroundx=-x[0]+600-halfBlock; charx=600-halfBlock; }
-else if(x[0]>mw[mapCount]-(600+halfBlock)){ backgroundx=-mw[mapCount]+1200; charx=x[0]-mw[mapCount]+1200; }
-if(y[0]<=400-halfBlock){ backgroundy=0; chary=y[0]; }
-else if(y[0]>400-halfBlock&&y[0]<=mh[mapCount]-(400+halfBlock)){ backgroundy=-y[0]+400-halfBlock; chary=400-halfBlock; }
-else if(y[0]>mh[mapCount]-(400+halfBlock)){ backgroundy=-mh[mapCount]+800; chary=y[0]-mh[mapCount]+800; }
-
-<!--대화중이라면 움직일 수 없음 & 맵 움직이기 &스킬사용중이면 움직일 수 없음
-if((dialogueSet==0)&&(!main.skillCoolTime)){
-	if((x[0]%oneBlock==0)&&(y[0]%oneBlock)==0){
-		if(keyBoard[37]&&(charBlock(0,-1,0,mapCount)>=50000)&&(charBlock(0,-1,0,mapCount)<60000)){ mapMove(charBlock(0,-1,0,mapCount));}
-		else if(keyBoard[39]&&(charBlock(0,1,0,mapCount)>=50000)&&(charBlock(0,1,0,mapCount)<60000)){ mapMove(charBlock(0,1,0,mapCount));}
-		else if(keyBoard[38]&&(charBlock(-1,0,0,mapCount)>=50000)&&(charBlock(-1,0,0,mapCount)<60000)){ mapMove(charBlock(-1,0,0,mapCount));}
-		else if(keyBoard[40]&&(charBlock(1,0,0,mapCount)>=50000)&&(charBlock(1,0,0,mapCount)<60000)){ mapMove(charBlock(1,0,0,mapCount));}
-		if((sight[0]==1)||(sight[0]==3)){
-			if(keyBoard[37]){
-				sight[0]=0;
-				if(keyBoard[38]) {
-					if(((charBlock(-1,-1,0,mapCount)/200)<1)&&((charBlock(-1,0,0,mapCount)/200)<1)&&((charBlock(0,-1,0,mapCount)/200)<1)){ ifLeftKeyDown(); ifUpKeyDown(); }
-					else if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown();
-					else if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown();
-				}
-				else if(keyBoard[40]) {
-					if(((charBlock(0,-1,0,mapCount)/200)<1)&&((charBlock(+1,-1,0,mapCount)/200)<1)&&((charBlock(+1,0,0,mapCount)/200)<1)){ ifLeftKeyDown(); ifDownKeyDown(); }
-					else if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown();
-					else if((charBlock(+1,0,0,mapCount)/200)<1) ifDownKeyDown();
-				}
-				else if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown();
-			}
-			else if(keyBoard[39]){
-				sight[0]=2;
-				if(keyBoard[38]) { 
-					if(((charBlock(-1,0,0,mapCount)/200)<1)&&((charBlock(-1,+1,0,mapCount)/200)<1)&&((charBlock(0,+1,0,mapCount)/200)<1)){ ifRightKeyDown(); ifUpKeyDown(); }
-					else if((charBlock(0,+1,0,mapCount)/200)<1) ifRightKeyDown();
-					else if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown();
-				}
-				else if(keyBoard[40]) { 
-					if(((charBlock(0,+1,0,mapCount)/200)<1)&&((charBlock(+1,0,0,mapCount)/200)<1)&&((charBlock(+1,+1,0,mapCount)/200)<1)){ ifRightKeyDown(); ifDownKeyDown(); }
-					else if((charBlock(0,+1,0,mapCount)/200)<1) ifRightKeyDown();
-					else if((charBlock(+1,0,0,mapCount)/200)<1) ifDownKeyDown();
-				}
-				else if((charBlock(0,+1,0,mapCount)/200)<1) ifRightKeyDown();
-			}
-			else if(keyBoard[38]) { sight[0]=1; if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown(); }
-			else if(keyBoard[40]) { sight[0]=3; if((charBlock(+1,0,0,mapCount)/200)<1) ifDownKeyDown(); }
-		}
-		else if((sight[0]==0)||(sight[0]==2)){
-			if(keyBoard[38]){
-				sight[0]=1;
-				if(keyBoard[37]) {
-					if(((charBlock(-1,-1,0,mapCount)/200)<1)&&((charBlock(-1,0,0,mapCount)/200)<1)&&((charBlock(0,-1,0,mapCount)/200)<1)){ ifUpKeyDown(); ifLeftKeyDown(); }
-					else if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown();
-					else if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown();
-				}
-				else if(keyBoard[39]) {
-					if(((charBlock(-1,0,0,mapCount)/200)<1)&&((charBlock(-1,+1,0,mapCount)/200)<1)&&((charBlock(0,+1,0,mapCount)/200)<1)){ ifUpKeyDown(); ifRightKeyDown(); }
-					else if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown();
-					else if((charBlock(0,+1,0,mapCount)/200)<1) ifRightKeyDown();
-				}
-				else if((charBlock(-1,0,0,mapCount)/200)<1) ifUpKeyDown();
-			}
-			else if(keyBoard[40]){
-				sight[0]=3;
-				if(keyBoard[37]) { 
-					if(((charBlock(0,-1,0,mapCount)/200)<1)&&((charBlock(+1,-1,0,mapCount)/200)<1)&&((charBlock(+1,0,0,mapCount)/200)<1)){ ifDownKeyDown(); ifLeftKeyDown(); }
-					else if((charBlock(+1,0,0,mapCount)/200)<1) ifDownKeyDown();
-					else if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown();
-				}
-				else if(keyBoard[39]) { 
-					if(((charBlock(0,+1,0,mapCount)/200)<1)&&((charBlock(+1,0,0,mapCount)/200)<1)&&((charBlock(+1,+1,0,mapCount)/200)<1)){ ifDownKeyDown(); ifRightKeyDown(); }
-					else if((charBlock(+1,0,0,mapCount)/200<1)) ifDownKeyDown();
-					else if((charBlock(0,+1,0,mapCount)/200<1)) ifRightKeyDown();
-				}
-				else if((charBlock(+1,0,0,mapCount)/200)<1) ifDownKeyDown();
-			}
-			else if(keyBoard[37]) { sight[0]=0; if((charBlock(0,-1,0,mapCount)/200)<1) ifLeftKeyDown(); }
-			else if(keyBoard[39]) { sight[0]=2; if((charBlock(0,+1,0,mapCount)/200)<1) ifRightKeyDown(); }
-		}
+ctx.fillRect(0,0,canvasWidth,canvasHeight);
+//상하좌우 움직이기
+if(leftSet){
+	if(w[0].inBalloon){
+		main.x-=w[0].inBalloonSpeed;
+		llll+=w[0].inBalloonSpeed;
 	}
-	if((x[1]%oneBlock==0)&&(y[1]%oneBlock)==0){
-		if((sight[1]==1)||(sight[1]==3)){
-			if(keyBoard[83]){
-				sight[1]=0;
-				if(keyBoard[69]) {
-					if(((charBlock(-1,-1,1,mapCount)/200)<1)&&((charBlock(-1,0,1,mapCount)/200)<1)&&((charBlock(0,-1,1,mapCount)/200)<1)){ ifLeftKeyDown2(); ifUpKeyDown2(); }
-					else if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2();
-					else if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2();
-				}
-				else if(keyBoard[68]) {
-					if(((charBlock(0,-1,1,mapCount)/200)<1)&&((charBlock(+1,-1,1,mapCount)/200)<1)&&((charBlock(+1,0,1,mapCount)/200)<1)){ ifLeftKeyDown2(); ifDownKeyDown2(); }
-					else if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2();
-					else if((charBlock(+1,0,1,mapCount)/200)<1) ifDownKeyDown2();
-				}
-				else if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2();
-			}
-			else if(keyBoard[70]){
-				sight[1]=2;
-				if(keyBoard[69]) { 
-					if(((charBlock(-1,0,1,mapCount)/200)<1)&&((charBlock(-1,+1,1,mapCount)/200)<1)&&((charBlock(0,+1,1,mapCount)/200)<1)){ ifRightKeyDown2(); ifUpKeyDown2(); }
-					else if((charBlock(0,+1,1,mapCount)/200)<1) ifRightKeyDown2();
-					else if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2();
-				}
-				else if(keyBoard[68]) { 
-					if(((charBlock(0,+1,1,mapCount)/200)<1)&&((charBlock(+1,0,1,mapCount)/200)<1)&&((charBlock(+1,+1,1,mapCount)/200)<1)){ ifRightKeyDown2(); ifDownKeyDown2(); }
-					else if((charBlock(0,+1,1,mapCount)/200)<1) ifRightKeyDown2();
-					else if((charBlock(+1,0,1,mapCount)/200)<1) ifDownKeyDown2();
-				}
-				else if((charBlock(0,+1,1,mapCount)/200)<1) ifRightKeyDown2();
-			}
-			else if(keyBoard[69]) { sight[1]=1; if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2(); }
-			else if(keyBoard[68]) { sight[1]=3; if((charBlock(+1,0,1,mapCount)/200)<1) ifDownKeyDown2(); }
-		}
-		else if((sight[1]==0)||(sight[1]==2)){
-			if(keyBoard[69]){
-				sight[1]=1;
-				if(keyBoard[83]) {
-					if(((charBlock(-1,-1,1,mapCount)/200)<1)&&((charBlock(-1,0,1,mapCount)/200)<1)&&((charBlock(0,-1,1,mapCount)/200)<1)){ ifUpKeyDown2(); ifLeftKeyDown2(); }
-					else if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2();
-					else if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2();
-				}
-				else if(keyBoard[70]) {
-					if(((charBlock(-1,0,1,mapCount)/200)<1)&&((charBlock(-1,+1,1,mapCount)/200)<1)&&((charBlock(0,+1,1,mapCount)/200)<1)){ ifUpKeyDown2(); ifRightKeyDown2(); }
-					else if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2();
-					else if((charBlock(0,+1,1,mapCount)/200)<1) ifRightKeyDown2();
-				}
-				else if((charBlock(-1,0,1,mapCount)/200)<1) ifUpKeyDown2();
-			}
-			else if(keyBoard[68]){
-				sight[1]=3;
-				if(keyBoard[83]) { 
-					if(((charBlock(0,-1,1,mapCount)/200)<1)&&((charBlock(+1,-1,1,mapCount)/200)<1)&&((charBlock(+1,0,1,mapCount)/200)<1)){ ifDownKeyDown2(); ifLeftKeyDown2(); }
-					else if((charBlock(+1,0,1,mapCount)/200)<1) ifDownKeyDown2();
-					else if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2();
-				}
-				else if(keyBoard[70]) { 
-					if(((charBlock(0,+1,1,mapCount)/200)<1)&&((charBlock(+1,0,1,mapCount)/200)<1)&&((charBlock(+1,+1,1,mapCount)/200)<1)){ ifDownKeyDown2(); ifRightKeyDown2(); }
-					else if((charBlock(+1,0,1,mapCount)/200<1)) ifDownKeyDown2();
-					else if((charBlock(0,+1,1,mapCount)/200<1)) ifRightKeyDown2();
-				}
-				else if((charBlock(+1,0,1,mapCount)/200)<1) ifDownKeyDown2();
-			}
-			else if(keyBoard[83]) { sight[1]=0; if((charBlock(0,-1,1,mapCount)/200)<1) ifLeftKeyDown2(); }
-			else if(keyBoard[70]) { sight[1]=2; if((charBlock(0,+1,1,mapCount)/200)<1) ifRightKeyDown2(); }
-		}
+	else {
+		main.x-=w[0].speed[w[0].speedCount];
+		llll+=w[0].speed[w[0].speedCount];
 	}
+	if(llll>=oneBlock) { main.x=Math.round(main.x/oneBlock)*oneBlock; llll=0; leftSet=0; }
 }
-for(kk=0;kk<2;kk++){//상하좌우 움직이기
-	if(leftSet[kk]){
-		if(w[kk].inBalloon){
-			x[kk]-=w[kk].inBalloonSpeed;
-			llll[kk]+=w[kk].inBalloonSpeed;
-		}
-		else {
-			x[kk]-=w[kk].speed[w[kk].speedCount];
-			llll[kk]+=w[kk].speed[w[kk].speedCount];
-		}
-		if(llll[kk]>=oneBlock) { x[kk]=Math.round(x[kk]/oneBlock)*oneBlock; llll[kk]=0; leftSet[kk]=0; }
+else if(rightSet){
+	if(w[0].inBalloon){
+		main.x+=w[0].inBalloonSpeed;
+		rrrr+=w[0].inBalloonSpeed;
 	}
-	else if(rightSet[kk]){
-		if(w[kk].inBalloon){
-			x[kk]+=w[kk].inBalloonSpeed;
-			rrrr[kk]+=w[kk].inBalloonSpeed;
-		}
-		else {
-			x[kk]+=w[kk].speed[w[kk].speedCount];
-			rrrr[kk]+=w[kk].speed[w[kk].speedCount];
-		}
-		if(rrrr[kk]>=oneBlock) { x[kk]=Math.round(x[kk]/oneBlock)*oneBlock; rrrr[kk]=0; rightSet[kk]=0; }
+	else {
+		main.x+=w[0].speed[w[0].speedCount];
+		rrrr+=w[0].speed[w[0].speedCount];
 	}
-	if(upSet[kk]){
-		if(w[kk].inBalloon){
-			y[kk]-=w[kk].inBalloonSpeed;
-			uuuu[kk]+=w[kk].inBalloonSpeed;
-		}
-		else {
-			y[kk]-=w[kk].speed[w[kk].speedCount];
-			uuuu[kk]+=w[kk].speed[w[kk].speedCount];
-		}
-		if(uuuu[kk]>=oneBlock) { y[kk]=Math.round(y[kk]/oneBlock)*oneBlock; uuuu[kk]=0; upSet[kk]=0; }
-	}
-	else if(downSet[kk]){
-		if(w[kk].inBalloon){
-			y[kk]+=w[kk].inBalloonSpeed;
-			dddd[kk]+=w[kk].inBalloonSpeed;
-		}
-		else {
-			y[kk]+=w[kk].speed[w[kk].speedCount];
-			dddd[kk]+=w[kk].speed[w[kk].speedCount];
-		}
-		if(dddd[kk]>=oneBlock) { y[kk]=Math.round(y[kk]/oneBlock)*oneBlock; dddd[kk]=0; downSet[kk]=0; }
-	}
+	if(rrrr>=oneBlock) { main.x=Math.round(main.x/oneBlock)*oneBlock; rrrr=0; rightSet=0; }
 }
-if(blockMap[mapCount][Math.round(y[0]/oneBlock)][Math.round(x[0]/oneBlock)]==1)w[0].inBalloon=1;
-if(blockMap[mapCount][Math.round(y[1]/oneBlock)][Math.round(x[1]/oneBlock)]==1)w[1].inBalloon=1;
-if((w[0].inBalloon==0)&&(w[1].inBalloon==1)){
-	if((x[0]<x[1]+oneBlock)&&(x[0]+oneBlock>x[1])&&(y[0]<y[1]+oneBlock)&&(y[0]+oneBlock>y[1])) alert("1p win");//1p우승
+if(upSet){
+	if(w[0].inBalloon){
+		main.y-=w[0].inBalloonSpeed;
+		uuuu+=w[0].inBalloonSpeed;
+	}
+	else {
+		main.y-=w[0].speed[w[0].speedCount];
+		uuuu+=w[0].speed[w[0].speedCount];
+	}
+	if(uuuu>=oneBlock) { main.y=Math.round(main.y/oneBlock)*oneBlock; uuuu=0; upSet=0; }
 }
-if((w[0].inBalloon==1)&&(w[1].inBalloon==0)){
-	if((x[1]<x[0]+oneBlock)&&(x[1]+oneBlock>x[0])&&(y[1]<y[0]+oneBlock)&&(y[1]+oneBlock>y[0])) alert("2p win");//2p우승
+else if(downSet){
+	if(w[0].inBalloon){
+		main.y+=w[0].inBalloonSpeed;
+		dddd+=w[0].inBalloonSpeed;
+	}
+	else {
+		main.y+=w[0].speed[w[0].speedCount];
+		dddd+=w[0].speed[w[0].speedCount];
+	}
+	if(dddd>=oneBlock) { main.y=Math.round(main.y/oneBlock)*oneBlock; dddd=0; downSet=0; }
 }
-for(kk=0;kk<2;kk++){//아이템 먹는다면?
-	if((x[kk]%oneBlock==0)&&(y[kk]%oneBlock==0)&&(w[kk].inBalloon==0)){ 
-		if((blockMap[mapCount][y[kk]/oneBlock][x[kk]/oneBlock]>=100)&&(blockMap[mapCount][y[kk]/oneBlock][x[kk]/oneBlock]<=102)){
-			playMusic2("item");
-			if(blockMap[mapCount][y[kk]/oneBlock][x[kk]/oneBlock]==100) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
-				if(w[kk].speedCount<(w[kk].speed.length-1)) w[kk].speedCount+=1; 
-			}
-			else if(blockMap[mapCount][y[kk]/oneBlock][x[kk]/oneBlock]==101) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
-				if(w[kk].possibleCount<w[kk].maxPossibleCount) w[kk].possibleCount+=1; 
-			}
-			else if(blockMap[mapCount][y[kk]/oneBlock][x[kk]/oneBlock]==102) { 
-				for(var a=0;a<obstacleMap[0].length;a++) { if(((y[kk]/oneBlock)==obstacleMap[0][a].y)&&((x[kk]/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
-				if(w[kk].len<w[kk].maxLen) w[kk].len+=1; 
-			}
+if(blockMap[mapCount][Math.round(main.y/oneBlock)][Math.round(main.x/oneBlock)]==1)w[0].inBalloon=1;
+if((main.x%oneBlock==0)&&(main.y%oneBlock==0)&&(w[0].inBalloon==0)){ //아이템 먹는다면?
+	if((blockMap[mapCount][main.y/oneBlock][main.x/oneBlock]>=100)&&(blockMap[mapCount][main.y/oneBlock][main.x/oneBlock]<=102)){
+		playMusic2("item");
+		if(blockMap[mapCount][main.y/oneBlock][main.x/oneBlock]==100) { 
+			for(var a=0;a<obstacleMap[0].length;a++) { if(((main.y/oneBlock)==obstacleMap[0][a].y)&&((main.x/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			if(w[0].speedCount<(w[0].speed.length-1)) w[0].speedCount+=1; 
+		}
+		else if(blockMap[mapCount][main.y/oneBlock][main.x/oneBlock]==101) { 
+			for(var a=0;a<obstacleMap[0].length;a++) { if(((main.y/oneBlock)==obstacleMap[0][a].y)&&((main.x/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			if(w[0].possibleCount<w[0].maxPossibleCount) w[0].possibleCount+=1; 
+		}
+		else if(blockMap[mapCount][main.y/oneBlock][main.x/oneBlock]==102) { 
+			for(var a=0;a<obstacleMap[0].length;a++) { if(((main.y/oneBlock)==obstacleMap[0][a].y)&&((main.x/oneBlock)==obstacleMap[0][a].x)) {obstacleBoom(a)} }
+			if(w[0].len<w[0].maxLen) w[0].len+=1; 
 		}
 	}
 }
 ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[mapCount],mh[mapCount]);
+if(dialogueSet) { Talking(); }//drawdialogue
+if(keyBoard[32]){
+	if(sight==0){ if(main.x%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]%1000);}}
+	else if(sight==1){ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock-1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock-1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock-1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock-1][Math.floor(main.x/oneBlock)+1]%1000)}}
+	else if(sight==2){ if(main.x%oneBlock==0) { if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]%1000)}}
+	else{ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]%1000)}}
+}//spacebar
 drawBuildings();
-drawObstacles();
-drawNpcs();
-if(dialogueSet==0){
-	if(keyBoard[188]){
-		ctx.drawImage(ff,charx-120,chary,120,oneBlock);
-	}<!--<-->
-	if(keyBoard[190]&&(w[0].inBalloon==0)){
-		if((w[0].count[w[0].order]==0)&&(blockMap[mapCount][Math.round(y[0]/oneBlock)][Math.round(x[0]/oneBlock)]==0)){
-			waterBallon(w[0].order,x[0],y[0],0);
+if(!administrator){
+	//배경이미지 좌표 설정
+	if(main.x<=600-halfBlock){ backgroundx=0; charx=main.x; }
+	else if(main.x>600-halfBlock&&main.x<=mw[mapCount]-(600+halfBlock)){ backgroundx=-main.x+600-halfBlock; charx=600-halfBlock; }
+	else if(main.x>mw[mapCount]-(600+halfBlock)){ backgroundx=-mw[mapCount]+1200; charx=main.x-mw[mapCount]+1200; }
+	if(main.y<=400-halfBlock){ backgroundy=0; chary=main.y; }
+	else if(main.y>400-halfBlock&&main.y<=mh[mapCount]-(400+halfBlock)){ backgroundy=-main.y+400-halfBlock; chary=400-halfBlock; }
+	else if(main.y>mh[mapCount]-(400+halfBlock)){ backgroundy=-mh[mapCount]+800; chary=main.y-mh[mapCount]+800; }
+	//대화중이라면 움직일 수 없음 & 맵 움직이기 &스킬사용중이면 움직일 수 없음
+	if((dialogueSet==0)&&(!main.skillCoolTime)){
+		if((main.x%oneBlock==0)&&(main.y%oneBlock)==0){
+			if(keyBoard[37]&&(charBlock(0,-1)>=50000)&&(charBlock(0,-1)<60000)){ mapMove(charBlock(0,-1));}
+			else if(keyBoard[39]&&(charBlock(0,1)>=50000)&&(charBlock(0,1)<60000)){ mapMove(charBlock(0,1));}
+			else if(keyBoard[38]&&(charBlock(-1,0)>=50000)&&(charBlock(-1,0)<60000)){ mapMove(charBlock(-1,0));}
+			else if(keyBoard[40]&&(charBlock(1,0)>=50000)&&(charBlock(1,0)<60000)){ mapMove(charBlock(1,0));}
+			if((sight==1)||(sight==3)){
+				if(keyBoard[37]){
+					sight=0;
+					if(keyBoard[38]) {
+						if(((charBlock(-1,-1)/200)<1)&&((charBlock(-1,0)/200)<1)&&((charBlock(0,-1)/200)<1)){ ifLeftKeyDown(); ifUpKeyDown(); }
+						else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+						else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+					}
+					else if(keyBoard[40]) {
+						if(((charBlock(0,-1)/200)<1)&&((charBlock(+1,-1)/200)<1)&&((charBlock(+1,0)/200)<1)){ ifLeftKeyDown(); ifDownKeyDown(); }
+						else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+						else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+					}
+					else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+				}
+				else if(keyBoard[39]){
+					sight=2;
+					if(keyBoard[38]) { 
+						if(((charBlock(-1,0)/200)<1)&&((charBlock(-1,+1)/200)<1)&&((charBlock(0,+1)/200)<1)){ ifRightKeyDown(); ifUpKeyDown(); }
+						else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+						else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+					}
+					else if(keyBoard[40]) { 
+						if(((charBlock(0,+1)/200)<1)&&((charBlock(+1,0)/200)<1)&&((charBlock(+1,+1)/200)<1)){ ifRightKeyDown(); ifDownKeyDown(); }
+						else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+						else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+					}
+					else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+				}
+				else if(keyBoard[38]) { sight=1; if((charBlock(-1,0)/200)<1) ifUpKeyDown(); }
+				else if(keyBoard[40]) { sight=3; if((charBlock(+1,0)/200)<1) ifDownKeyDown(); }
+			}
+			else if((sight==0)||(sight==2)){
+				if(keyBoard[38]){
+					sight=1;
+					if(keyBoard[37]) {
+						if(((charBlock(-1,-1)/200)<1)&&((charBlock(-1,0)/200)<1)&&((charBlock(0,-1)/200)<1)){ ifUpKeyDown(); ifLeftKeyDown(); }
+						else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+						else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+					}
+					else if(keyBoard[39]) {
+						if(((charBlock(-1,0)/200)<1)&&((charBlock(-1,+1)/200)<1)&&((charBlock(0,+1)/200)<1)){ ifUpKeyDown(); ifRightKeyDown(); }
+						else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+						else if((charBlock(0,+1)/200)<1) ifRightKeyDown();
+					}
+					else if((charBlock(-1,0)/200)<1) ifUpKeyDown();
+				}
+				else if(keyBoard[40]){
+					sight=3;
+					if(keyBoard[37]) { 
+						if(((charBlock(0,-1)/200)<1)&&((charBlock(+1,-1)/200)<1)&&((charBlock(+1,0)/200)<1)){ ifDownKeyDown(); ifLeftKeyDown(); }
+						else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+						else if((charBlock(0,-1)/200)<1) ifLeftKeyDown();
+					}
+					else if(keyBoard[39]) { 
+						if(((charBlock(0,+1)/200)<1)&&((charBlock(+1,0)/200)<1)&&((charBlock(+1,+1)/200)<1)){ ifDownKeyDown(); ifRightKeyDown(); }
+						else if((charBlock(+1,0)/200<1)) ifDownKeyDown();
+						else if((charBlock(0,+1)/200<1)) ifRightKeyDown();
+					}
+					else if((charBlock(+1,0)/200)<1) ifDownKeyDown();
+				}
+				else if(keyBoard[37]) { sight=0; if((charBlock(0,-1)/200)<1) ifLeftKeyDown(); }
+				else if(keyBoard[39]) { sight=2; if((charBlock(0,+1)/200)<1) ifRightKeyDown(); }
+			}
 		}
-	}<!-->-->
-	if(keyBoard[191]){ w[0].inBalloon=0; }<!--?-->
-	if(keyBoard[65]&&(w[1].inBalloon==0)){
-		if((w[1].count[w[1].order]==0)&&(blockMap[mapCount][Math.round(y[1]/oneBlock)][Math.round(x[1]/oneBlock)]==0)){
-			waterBallon(w[1].order,x[1],y[1],1);
-		}
-	}<!--a-->
-	if(keyBoard[81]){ w[1].inBalloon=0; }<!--q-->
-}
-for(kk=0;kk<2;kk++){<!--물풍선 각각 시간초 증가
-	for(var i=0;i<w[kk].possibleCount;i++){
-		if(w[kk].count[i]) { w[kk].countTime[i]+=10;}
 	}
-}
-preB=1;
-while(preB){//물풍선 같은줄에 있으면 한꺼번에 터지게
-preB=0;
+	drawObstacles();
+	drawNpcs();
+	drawMonsters();
+	drawMonstersHit();
+	monsterHit();
+	monsterDie();
+	if(dialogueSet==0){
+		if(keyBoard[188]){
+			ctx.drawImage(ff,charx-120,chary,120,oneBlock);
+		}// <
+		if(keyBoard[190]&&(w[0].inBalloon==0)){
+			if((w[0].count[w[0].order]==0)&&(blockMap[mapCount][Math.round(main.y/oneBlock)][Math.round(main.x/oneBlock)]==0)){
+				waterBallon(w[0].order,main.x,main.y);
+			}
+		}// >
+		if(keyBoard[191]){ w[0].inBalloon=0; }// ?
+	}
+	for(var i=0;i<w[0].possibleCount;i++){//물풍선 각각 시간초 증가
+		if(w[0].count[i]) { w[0].countTime[i]+=10;}
+	}
+	preB=1;
+	while(preB){//물풍선 같은줄에 있으면 한꺼번에 터지게
+	preB=0;
+		for(var i=0;i<w[0].possibleCount;i++){
+			if(w[0].count[i])if(w[0].countTime[i]==3000){
+				blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]]=1;
+				for(aa=1;aa<=w[0].len;aa++){
+					if(balloonBlock(w[0].InMap[i],0,-aa,i)==1){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,-aa,i)==2147483647){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,-aa,i)==10000){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,-aa,i)==30000){ break; }
+					else if((balloonBlock(w[0].InMap[i],0,-aa,i)>=50000)&&(balloonBlock(w[0].InMap[i],0,-aa,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,-aa,i)>=1000)&&(balloonBlock(w[0].InMap[i],0,-aa,i)<2000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,-aa,i)>=10001)&&(balloonBlock(w[0].InMap[i],0,-aa,i)<=(10001+w[0].maxPossibleCount))){
+						w[0].countTime[balloonBlock(w[0].InMap[i],0,-aa,i)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]-aa]=1; 
+						break;
+					}//물풍선일때 해야될 것
+				}
+				for(bb=1;bb<=w[0].len;bb++){
+					if(balloonBlock(w[0].InMap[i],0,bb,i)==1){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,bb,i)==2147483647){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,bb,i)==10000){ break; }
+					else if(balloonBlock(w[0].InMap[i],0,bb,i)==30000){ break; }
+					else if((balloonBlock(w[0].InMap[i],0,bb,i)>=50000)&&(balloonBlock(w[0].InMap[i],0,bb,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,bb,i)>=1000)&&(balloonBlock(w[0].InMap[i],0,bb,i)<2000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,bb,i)>=10001)&&(balloonBlock(w[0].InMap[i],0,bb,i)<=(10001+w[0].maxPossibleCount))){
+						w[0].countTime[balloonBlock(w[0].InMap[i],0,bb,i)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]+bb]=1; 
+						break;
+					}//물풍선일때 해야될 것
+				}
+				for(cc=1;cc<=w[0].len;cc++){
+					if(balloonBlock(w[0].InMap[i],-cc,0,i)==1){ break; }
+					else if(balloonBlock(w[0].InMap[i],-cc,0,i)==2147483647){ break; }
+					else if(balloonBlock(w[0].InMap[i],-cc,0,i)==10000){ break; }
+					else if(balloonBlock(w[0].InMap[i],-cc,0,i)==30000){ break; }
+					else if((balloonBlock(w[0].InMap[i],-cc,0,i)>=50000)&&(balloonBlock(w[0].InMap[i],-cc,0,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],-cc,0,i)>=1000)&&(balloonBlock(w[0].InMap[i],-cc,0,i)<2000)){break;}
+					else if((balloonBlock(w[0].InMap[i],-cc,0,i)>=10001)&&(balloonBlock(w[0].InMap[i],-cc,0,i)<=(10001+w[0].maxPossibleCount))){
+						w[0].countTime[balloonBlock(w[0].InMap[i],-cc,0,i)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]-cc][w[0].x[i]]=1; 
+						break;
+					}//물풍선일때 해야될 것
+				}
+				for(dd=1;dd<=w[0].len;dd++){
+					if(balloonBlock(w[0].InMap[i],dd,0,i)==1){ break; }
+					else if(balloonBlock(w[0].InMap[i],dd,0,i)==2147483647){ break; }
+					else if(balloonBlock(w[0].InMap[i],dd,0,i)==10000){ break; }
+					else if(balloonBlock(w[0].InMap[i],dd,0,i)==30000){ break; }
+					else if((balloonBlock(w[0].InMap[i],dd,0,i)>=50000)&&(balloonBlock(w[0].InMap[i],dd,0,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],dd,0,i)>=1000)&&(balloonBlock(w[0].InMap[i],dd,0,i)<2000)){break;}
+					else if((balloonBlock(w[0].InMap[i],dd,0,i)>=10001)&&(balloonBlock(w[0].InMap[i],dd,0,i)<=(10001+w[0].maxPossibleCount))){
+						w[0].countTime[balloonBlock(w[0].InMap[i],dd,0,i)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]+dd][w[0].x[i]]=1; 
+						break;
+					}//물풍선일때 해야될 것
+				}
+			}
+		}
+	}
+	//물풍선 터지는것
 	for(var i=0;i<w[0].possibleCount;i++){
-		if(w[0].count[i])if(w[0].countTime[i]==3000){
-			blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]]=1;
-			for(aa=1;aa<=w[0].len;aa++){
-				if(balloonBlock(w[0].InMap[i],0,-aa,i,0)==1){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,-aa,i,0)==2147483647){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,-aa,i,0)==10000){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,-aa,i,0)==30000){ break; }
-				else if((balloonBlock(w[0].InMap[i],0,-aa,i,0)>=50000)&&(balloonBlock(w[0].InMap[i],0,-aa,i,0)<60000)){break;}
-				else if((balloonBlock(w[0].InMap[i],0,-aa,i,0)>=1000)&&(balloonBlock(w[0].InMap[i],0,-aa,i,0)<2000)){break;}
-				else if((balloonBlock(w[0].InMap[i],0,-aa,i,0)>=10001)&&(balloonBlock(w[0].InMap[i],0,-aa,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[0].InMap[i],0,-aa,i,0)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]-aa]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[0].InMap[i],0,-aa,i,0)>=20001)&&(balloonBlock(w[0].InMap[i],0,-aa,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[0].InMap[i],0,-aa,i,0)-20001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]-aa]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(bb=1;bb<=w[0].len;bb++){
-				if(balloonBlock(w[0].InMap[i],0,bb,i,0)==1){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,bb,i,0)==2147483647){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,bb,i,0)==10000){ break; }
-				else if(balloonBlock(w[0].InMap[i],0,bb,i,0)==30000){ break; }
-				else if((balloonBlock(w[0].InMap[i],0,bb,i,0)>=50000)&&(balloonBlock(w[0].InMap[i],0,bb,i,0)<60000)){break;}
-				else if((balloonBlock(w[0].InMap[i],0,bb,i,0)>=1000)&&(balloonBlock(w[0].InMap[i],0,bb,i,0)<2000)){break;}
-				else if((balloonBlock(w[0].InMap[i],0,bb,i,0)>=10001)&&(balloonBlock(w[0].InMap[i],0,bb,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[0].InMap[i],0,bb,i,0)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]+bb]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[0].InMap[i],0,bb,i,0)>=20001)&&(balloonBlock(w[0].InMap[i],0,bb,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[0].InMap[i],0,bb,i,0)-20001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]+bb]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(cc=1;cc<=w[0].len;cc++){
-				if(balloonBlock(w[0].InMap[i],-cc,0,i,0)==1){ break; }
-				else if(balloonBlock(w[0].InMap[i],-cc,0,i,0)==2147483647){ break; }
-				else if(balloonBlock(w[0].InMap[i],-cc,0,i,0)==10000){ break; }
-				else if(balloonBlock(w[0].InMap[i],-cc,0,i,0)==30000){ break; }
-				else if((balloonBlock(w[0].InMap[i],-cc,0,i,0)>=50000)&&(balloonBlock(w[0].InMap[i],-cc,0,i,0)<60000)){break;}
-				else if((balloonBlock(w[0].InMap[i],-cc,0,i,0)>=1000)&&(balloonBlock(w[0].InMap[i],-cc,0,i,0)<2000)){break;}
-				else if((balloonBlock(w[0].InMap[i],-cc,0,i,0)>=10001)&&(balloonBlock(w[0].InMap[i],-cc,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[0].InMap[i],-cc,0,i,0)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]-cc][w[0].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[0].InMap[i],-cc,0,i,0)>=20001)&&(balloonBlock(w[0].InMap[i],-cc,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[0].InMap[i],-cc,0,i,0)-20001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]-cc][w[0].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(dd=1;dd<=w[0].len;dd++){
-				if(balloonBlock(w[0].InMap[i],dd,0,i,0)==1){ break; }
-				else if(balloonBlock(w[0].InMap[i],dd,0,i,0)==2147483647){ break; }
-				else if(balloonBlock(w[0].InMap[i],dd,0,i,0)==10000){ break; }
-				else if(balloonBlock(w[0].InMap[i],dd,0,i,0)==30000){ break; }
-				else if((balloonBlock(w[0].InMap[i],dd,0,i,0)>=50000)&&(balloonBlock(w[0].InMap[i],dd,0,i,0)<60000)){break;}
-				else if((balloonBlock(w[0].InMap[i],dd,0,i,0)>=1000)&&(balloonBlock(w[0].InMap[i],dd,0,i,0)<2000)){break;}
-				else if((balloonBlock(w[0].InMap[i],dd,0,i,0)>=10001)&&(balloonBlock(w[0].InMap[i],dd,0,i,0)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[0].InMap[i],dd,0,i,0)-10001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]+dd][w[0].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[0].InMap[i],dd,0,i,0)>=20001)&&(balloonBlock(w[0].InMap[i],dd,0,i,0)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[0].InMap[i],dd,0,i,0)-20001]=3000;  preB=1; blockMap[w[0].InMap[i]][w[0].y[i]+dd][w[0].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-		}
-	}
-	for(var i=0;i<w[1].possibleCount;i++){
-		if(w[1].count[i])if(w[1].countTime[i]==3000){
-			blockMap[w[1].InMap[i]][w[1].y[i]][w[1].x[i]]=1;
-			for(aa=1;aa<=w[1].len;aa++){
-				if(balloonBlock(w[1].InMap[i],0,-aa,i,1)==1){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,-aa,i,1)==2147483647){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,-aa,i,1)==10000){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,-aa,i,1)==30000){ break; }
-				else if((balloonBlock(w[1].InMap[i],0,-aa,i,1)>=50000)&&(balloonBlock(w[1].InMap[i],0,-aa,i,1)<60000)){break;}
-				else if((balloonBlock(w[1].InMap[i],0,-aa,i,1)>=1000)&&(balloonBlock(w[1].InMap[i],0,-aa,i,1)<2000)){break;}
-				else if((balloonBlock(w[1].InMap[i],0,-aa,i,1)>=20001)&&(balloonBlock(w[1].InMap[i],0,-aa,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[1].InMap[i],0,-aa,i,1)-20001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]][w[1].x[i]-aa]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[1].InMap[i],0,-aa,i,1)>=10001)&&(balloonBlock(w[1].InMap[i],0,-aa,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[1].InMap[i],0,-aa,i,1)-10001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]][w[1].x[i]-aa]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(bb=1;bb<=w[1].len;bb++){
-				if(balloonBlock(w[1].InMap[i],0,bb,i,1)==1){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,bb,i,1)==2147483647){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,bb,i,1)==10000){ break; }
-				else if(balloonBlock(w[1].InMap[i],0,bb,i,1)==30000){ break; }
-				else if((balloonBlock(w[1].InMap[i],0,bb,i,1)>=50000)&&(balloonBlock(w[1].InMap[i],0,bb,i,1)<60000)){break;}
-				else if((balloonBlock(w[1].InMap[i],0,bb,i,1)>=1000)&&(balloonBlock(w[1].InMap[i],0,bb,i,1)<2000)){break;}
-				else if((balloonBlock(w[1].InMap[i],0,bb,i,1)>=20001)&&(balloonBlock(w[1].InMap[i],0,bb,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[1].InMap[i],0,bb,i,1)-20001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]][w[1].x[i]+bb]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[1].InMap[i],0,bb,i,1)>=10001)&&(balloonBlock(w[1].InMap[i],0,bb,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[1].InMap[i],0,bb,i,1)-10001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]][w[1].x[i]+bb]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(cc=1;cc<=w[1].len;cc++){
-				if(balloonBlock(w[1].InMap[i],-cc,0,i,1)==1){ break; }
-				else if(balloonBlock(w[1].InMap[i],-cc,0,i,1)==2147483647){ break; }
-				else if(balloonBlock(w[1].InMap[i],-cc,0,i,1)==10000){ break; }
-				else if(balloonBlock(w[1].InMap[i],-cc,0,i,1)==30000){ break; }
-				else if((balloonBlock(w[1].InMap[i],-cc,0,i,1)>=50000)&&(balloonBlock(w[1].InMap[i],-cc,0,i,1)<60000)){break;}
-				else if((balloonBlock(w[1].InMap[i],-cc,0,i,1)>=1000)&&(balloonBlock(w[1].InMap[i],-cc,0,i,1)<2000)){break;}
-				else if((balloonBlock(w[1].InMap[i],-cc,0,i,1)>=20001)&&(balloonBlock(w[1].InMap[i],-cc,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[1].InMap[i],-cc,0,i,1)-20001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]-cc][w[1].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[1].InMap[i],-cc,0,i,1)>=10001)&&(balloonBlock(w[1].InMap[i],-cc,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[1].InMap[i],-cc,0,i,1)-10001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]-cc][w[1].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-			for(dd=1;dd<=w[1].len;dd++){
-				if(balloonBlock(w[1].InMap[i],dd,0,i,1)==1){ break; }
-				else if(balloonBlock(w[1].InMap[i],dd,0,i,1)==2147483647){ break; }
-				else if(balloonBlock(w[1].InMap[i],dd,0,i,1)==10000){ break; }
-				else if(balloonBlock(w[1].InMap[i],dd,0,i,1)==30000){ break; }
-				else if((balloonBlock(w[1].InMap[i],dd,0,i,1)>=50000)&&(balloonBlock(w[1].InMap[i],dd,0,i,1)<60000)){break;}
-				else if((balloonBlock(w[1].InMap[i],dd,0,i,1)>=1000)&&(balloonBlock(w[1].InMap[i],dd,0,i,1)<2000)){break;}
-				else if((balloonBlock(w[1].InMap[i],dd,0,i,1)>=20001)&&(balloonBlock(w[1].InMap[i],dd,0,i,1)<=(20001+w[1].maxPossibleCount))){
-					w[1].countTime[balloonBlock(w[1].InMap[i],dd,0,i,1)-20001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]+dd][w[1].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-				else if((balloonBlock(w[1].InMap[i],dd,0,i,1)>=10001)&&(balloonBlock(w[1].InMap[i],dd,0,i,1)<=(10001+w[0].maxPossibleCount))){
-					w[0].countTime[balloonBlock(w[1].InMap[i],dd,0,i,1)-10001]=3000;  preB=1; blockMap[w[1].InMap[i]][w[1].y[i]+dd][w[1].x[i]]=1; 
-					break;
-				}//물풍선일때 해야될 것
-			}
-		}
-	}
-}
-for(kk=0;kk<2;kk++){<!--물풍선 터지는것
-	for(var i=0;i<w[kk].possibleCount;i++){
-		if(w[kk].count[i]){
-			if(w[kk].countTime[i]<3000) {if(w[kk].InMap[i]==mapCount)ctx.drawImage(w[kk].image,backgroundx+(w[kk].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[kk].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);}
-			else if(w[kk].countTime[i]==3000){
+		if(w[0].count[i]){
+			if(w[0].countTime[i]<3000) {if(w[0].InMap[i]==mapCount)ctx.drawImage(w[0].waterBallonImage,backgroundx+(w[0].x[i])*oneBlock-27*oneBlock/40,backgroundy+(w[0].y[i])*oneBlock-36*oneBlock/40,90*oneBlock/40,90*oneBlock/40);}
+			else if(w[0].countTime[i]==3000){
 				playMusic2("balloonBoom");
-				blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]]=1;
-				for(w[kk].leftLen[i]=1;w[kk].leftLen[i]<=w[kk].len;w[kk].leftLen[i]++){
-					if(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)==2147483647){ w[kk].leftBlock[i]=2147483647; break; }
-					else if((balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)>=50000)&&(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)<60000)){break;}
-					else if((balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)>=1000)&&(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)<2000)){break;}
-					else if(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)==1){ w[kk].leftBlock[i]=1; break; }
-					else if((balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)>=30000)&&(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)<=30000+buildingMap[0].length)){break;}	//해야됨
-					else if((balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)>=100)&&(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)<110)){	
-						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]]=1;
+				for(w[0].leftLen[i]=1;w[0].leftLen[i]<=w[0].len;w[0].leftLen[i]++){
+					if(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)==2147483647){ w[0].leftBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)>=50000)&&(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)>=1000)&&(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)<2000)){break;}
+					else if(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)==1){ w[0].leftBlock[i]=1; break; }
+					else if((balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)>=30000)&&(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)<=30000+buildingMap[0].length)){break;}	//해야됨
+					else if((balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)>=100)&&(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)<110)){	
+						for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]==obstacleMap[0][a].y)&&(w[0].x[i]-w[0].leftLen[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)==10000){ w[kk].leftBlock[i]=10000; break; }
+					else if(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)==10000){ w[0].leftBlock[i]=10000; break; }
 				}
-				for(w[kk].rightLen[i]=1;w[kk].rightLen[i]<=w[kk].len;w[kk].rightLen[i]++){
-					if(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)==2147483647){ w[kk].rightBlock[i]=2147483647; break; }
-					else if((balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)>=50000)&&(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)<60000)){break;}
-					else if((balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)>=1000)&&(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)<2000)){break;}
-					else if(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)==1){ w[kk].rightBlock[i]=1; break; }
-					else if((balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)>=100)&&(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)<110)){	
-						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				for(w[0].rightLen[i]=1;w[0].rightLen[i]<=w[0].len;w[0].rightLen[i]++){
+					if(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)==2147483647){ w[0].rightBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)>=50000)&&(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)>=1000)&&(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)<2000)){break;}
+					else if(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)==1){ w[0].rightBlock[i]=1; break; }
+					else if((balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)>=100)&&(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)<110)){	
+						for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]==obstacleMap[0][a].y)&&(w[0].x[i]+w[0].rightLen[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)==10000){ w[kk].rightBlock[i]=10000; break; }
-					else if(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)==30000){ w[kk].rightBlock[i]=30000; break; }
+					else if(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)==10000){ w[0].rightBlock[i]=10000; break; }
+					else if(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)==30000){ w[0].rightBlock[i]=30000; break; }
 				}
-				for(w[kk].upLen[i]=1;w[kk].upLen[i]<=w[kk].len;w[kk].upLen[i]++){
-					if(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)==2147483647){ w[kk].upBlock[i]=2147483647; break; }
-					else if((balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)<60000)){break;}
-					else if((balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)>=1000)&&(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)<2000)){break;}
-					else if(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)==1){ w[kk].upBlock[i]=1; break; }
-					else if((balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)<110)){
-						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				for(w[0].upLen[i]=1;w[0].upLen[i]<=w[0].len;w[0].upLen[i]++){
+					if(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)==2147483647){ w[0].upBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)>=50000)&&(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)>=1000)&&(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)<2000)){break;}
+					else if(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)==1){ w[0].upBlock[i]=1; break; }
+					else if((balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)>=100)&&(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)<110)){
+						for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]-w[0].upLen[i]==obstacleMap[0][a].y)&&(w[0].x[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)==10000){ w[kk].upBlock[i]=10000; break; }
-					else if(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)==30000){ w[kk].upBlock[i]=30000; break; }
+					else if(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)==10000){ w[0].upBlock[i]=10000; break; }
+					else if(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)==30000){ w[0].upBlock[i]=30000; break; }
 				}
-				for(w[kk].downLen[i]=1;w[kk].downLen[i]<=w[kk].len;w[kk].downLen[i]++){
-					if(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)==2147483647){ w[kk].downBlock[i]=2147483647; break; }
-					else if((balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)>=50000)&&(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)<60000)){break;}
-					else if((balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)>=1000)&&(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)<2000)){break;}
-					else if(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)==1){ w[kk].downBlock[i]=1; break; }
-					else if((balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)>=100)&&(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)<110)){
-						for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				for(w[0].downLen[i]=1;w[0].downLen[i]<=w[0].len;w[0].downLen[i]++){
+					if(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)==2147483647){ w[0].downBlock[i]=2147483647; break; }
+					else if((balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)>=50000)&&(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)<60000)){break;}
+					else if((balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)>=1000)&&(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)<2000)){break;}
+					else if(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)==1){ w[0].downBlock[i]=1; break; }
+					else if((balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)>=100)&&(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)<110)){
+						for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]+w[0].downLen[i]==obstacleMap[0][a].y)&&(w[0].x[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 					}
-					else if(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)==10000){ w[kk].downBlock[i]=10000; break; }
-					else if(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)==30000){ w[kk].downBlock[i]=30000; break; }
+					else if(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)==10000){ w[0].downBlock[i]=10000; break; }
+					else if(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)==30000){ w[0].downBlock[i]=30000; break; }
 				}
-				if(w[kk].InMap[i]==mapCount){
-					ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
-					for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]-n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-					for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]+n]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-					for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]-n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
-					for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]+n][w[kk].x[i]]=1; ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
+				if(w[0].InMap[i]==mapCount){
+					ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock);
+					for(var n=1;n<w[0].leftLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]-n]=1; ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i]-n)*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[0].rightLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]+n]=1; ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i]+n)*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[0].upLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]-n][w[0].x[i]]=1; ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+					for(var n=1;n<w[0].downLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]+n][w[0].x[i]]=1; ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 				}
 			}
-			else if((w[kk].countTime[i]>3000)&&(w[kk].countTime[i]<=3500)){if(w[kk].InMap[i]==mapCount){
-				ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock);
-				for(var n=1;n<w[kk].leftLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]-n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].rightLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i]+n)*oneBlock,backgroundy+(w[kk].y[i])*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].upLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]-n)*oneBlock,oneBlock,oneBlock); }
-				for(var n=1;n<w[kk].downLen[i];n++){ ctx.drawImage(w[kk].image2,backgroundx+(w[kk].x[i])*oneBlock,backgroundy+(w[kk].y[i]+n)*oneBlock,oneBlock,oneBlock); }
+			else if((w[0].countTime[i]>3000)&&(w[0].countTime[i]<=3500)){if(w[0].InMap[i]==mapCount){
+				ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock);
+				for(var n=1;n<w[0].leftLen[i];n++){ ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i]-n)*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[0].rightLen[i];n++){ ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i]+n)*oneBlock,backgroundy+(w[0].y[i])*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[0].upLen[i];n++){ ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i]-n)*oneBlock,oneBlock,oneBlock); }
+				for(var n=1;n<w[0].downLen[i];n++){ ctx.drawImage(w[0].waterBallonImage2,backgroundx+(w[0].x[i])*oneBlock,backgroundy+(w[0].y[i]+n)*oneBlock,oneBlock,oneBlock); }
 			}}
 			else{ 
-				for(var n=1;n<w[kk].leftLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]-n]=0; }
-				for(var n=1;n<w[kk].rightLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]+n]=0; }
-				for(var n=1;n<w[kk].upLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]-n][w[kk].x[i]]=0; }
-				for(var n=1;n<w[kk].downLen[i];n++){ blockMap[w[kk].InMap[i]][w[kk].y[i]+n][w[kk].x[i]]=0; }
-				if(w[kk].leftBlock[i]==10000)if(balloonBlock(w[kk].InMap[i],0,-w[kk].leftLen[i],i,kk)==10000){
-					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]-w[kk].leftLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				for(var n=1;n<w[0].leftLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]-n]=0; }
+				for(var n=1;n<w[0].rightLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]+n]=0; }
+				for(var n=1;n<w[0].upLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]-n][w[0].x[i]]=0; }
+				for(var n=1;n<w[0].downLen[i];n++){ blockMap[w[0].InMap[i]][w[0].y[i]+n][w[0].x[i]]=0; }
+				if(w[0].leftBlock[i]==10000)if(balloonBlock(w[0].InMap[i],0,-w[0].leftLen[i],i)==10000){
+					for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]==obstacleMap[0][a].y)&&(w[0].x[i]-w[0].leftLen[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].rightBlock[i]==10000)if(balloonBlock(w[kk].InMap[i],0,w[kk].rightLen[i],i,kk)==10000){
-					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]==obstacleMap[0][a].y)&&(w[kk].x[i]+w[kk].rightLen[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				if(w[0].rightBlock[i]==10000)if(balloonBlock(w[0].InMap[i],0,w[0].rightLen[i],i)==10000){
+					for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]==obstacleMap[0][a].y)&&(w[0].x[i]+w[0].rightLen[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].upBlock[i]==10000)if(balloonBlock(w[kk].InMap[i],-w[kk].upLen[i],0,i,kk)==10000){
-					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]-w[kk].upLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				if(w[0].upBlock[i]==10000)if(balloonBlock(w[0].InMap[i],-w[0].upLen[i],0,i)==10000){
+					for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]-w[0].upLen[i]==obstacleMap[0][a].y)&&(w[0].x[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 				}
-				if(w[kk].downBlock[i]==10000)if(balloonBlock(w[kk].InMap[i],w[kk].downLen[i],0,i,kk)==10000){
-					for(var a=0;a<obstacleMap[0].length;a++){ if((w[kk].y[i]+w[kk].downLen[i]==obstacleMap[0][a].y)&&(w[kk].x[i]==obstacleMap[0][a].x)&&(obstacleMap[0][a].existence)) {obstacleBoom(a); break;} }
+				if(w[0].downBlock[i]==10000)if(balloonBlock(w[0].InMap[i],w[0].downLen[i],0,i)==10000){
+					for(var a=0;a<obstacleMap[0].length;a++){ if((w[0].y[i]+w[0].downLen[i]==obstacleMap[0][a].y)&&(w[0].x[i]==obstacleMap[0][a].x)) {obstacleBoom(a); break;} }
 				}
-				w[kk].count[i]=0; w[kk].countTime[i]=0; blockMap[w[kk].InMap[i]][w[kk].y[i]][w[kk].x[i]]=0;
+				w[0].count[i]=0; w[0].countTime[i]=0; blockMap[w[0].InMap[i]][w[0].y[i]][w[0].x[i]]=0;
 			}
 		}
 	}
-}
-drawInformation();
-if(0){//blockMap[0]정보 화면에 표시
-	ctx.font = "15px Arial";
-	for(var i=0;i<mhBlock[0];i++)
-		for(var n=0;n<mwBlock[0];n++)
-			ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
-}
-if(w[0].inBalloon) ctx.drawImage(mainChar[0][4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
-else ctx.drawImage(mainChar[0][sight[0]].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
-if(w[1].inBalloon) ctx.drawImage(mainChar[1][4].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
-else ctx.drawImage(mainChar[1][sight[1]].image,backgroundx+x[1],backgroundy+y[1]-oneBlock*0.2,oneBlock,oneBlock*1.2);
-drawMonsters();
-drawMonstersHit();
-monsterHit();
-monsterDie();
-if((x[0]%oneBlock==0)&&(y[0]%oneBlock==0)&&(w[0].inBalloon==0)) monsterAttack();
-if(main.hitsCount!=0){main.hitsCount-=1; //캐릭이 몬스터에게 맞고 난 후 데미지 표시
-	for(var i=main.hits.length-1;i>=0;i--){
-		ctx.font = "30px Arial";
-		ctx.shadowColor="black";
-		ctx.shadowBlur=3;
-		ctx.lineWidth=3;
-		if(main.hits[i]) ctx.strokeText(main.hits[i],charx-7,chary-i*3);
-		ctx.shadowBlur=0;
-		ctx.fillStyle="blueViolet";
-		if(main.hits[i]) ctx.fillText(main.hits[i],charx-7,chary-i*3);
-		if(i!=(main.hits.length-1)) main.hits[i+1]=main.hits[i];
-		main.hits[i]=0;
+	if(0){//blockMap[0]정보 화면에 표시
+		ctx.font = "15px Arial";
+		for(var i=0;i<mhBlock[0];i++)
+			for(var n=0;n<mwBlock[0];n++)
+				ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
 	}
-}
-if(main.levelImageCount){//레벨업했을때 이펙트
-	main.levelImageCount--;
-	ctx.drawImage(levelUpImage[20-Math.floor(main.levelImageCount/10)],charx-180,chary-220,400,400);
-}
-if(dialogueSet) { Talking(); }<!--drawdialogue
-drawStatus();
-if(!main.skillCoolTime){//스킬
-if(keyBoard[Skill[0].keyBoardNum]){
-	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if((y[0]-Skill[0].startY+Skill[0].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[0].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[0].startX+Skill[0].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[0].startX<monsterMap[mapCount][i].x*40+40)){
-		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
-			for(var j=0;j<Skill[0].attackQuantity;j++){
-			var ran=Math.floor(Math.random()*5+1);
-			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(Skill[0].delayTime,Skill[0].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
-		}
+	drawInformation();
+	if((main.x%oneBlock==0)&&(main.y%oneBlock==0)&&(w[0].inBalloon==0)) monsterAttack();
+	if(main.hitsCount!=0){main.hitsCount-=1; //캐릭이 몬스터에게 맞고 난 후 데미지 표시
+		for(var i=main.hits.length-1;i>=0;i--){
+			ctx.font = "30px Arial";
+			ctx.shadowColor="black";
+			ctx.shadowBlur=3;
+			ctx.lineWidth=3;
+			if(main.hits[i]) ctx.strokeText(main.hits[i],charx-7,chary-i*3);
+			ctx.shadowBlur=0;
+			ctx.fillStyle="blueViolet";
+			if(main.hits[i]) ctx.fillText(main.hits[i],charx-7,chary-i*3);
+			if(i!=(main.hits.length-1)) main.hits[i+1]=main.hits[i];
+			main.hits[i]=0;
 		}
 	}
-	main.skillCoolTime=(Skill[0].imageQuantity-1)*Skill[0].speed; main.selectSkill=0;
-}
-else if(keyBoard[Skill[2].keyBoardNum]){
-//main.skillCoolTime=180; main.selectSkill=1;
-	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if((y[0]-Skill[2].startY+Skill[2].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[2].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[2].startX+Skill[2].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[2].startX<monsterMap[mapCount][i].x*40+40)){
-		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
-			for(var j=0;j<Skill[2].attackQuantity;j++){
-			var ran=Math.floor(Math.random()*5+1);
-			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(Skill[2].delayTime,Skill[2].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
-		}
-		}
+	if(main.levelImageCount){//레벨업했을때 이펙트
+		main.levelImageCount--;
+		ctx.drawImage(levelUpImage[20-Math.floor(main.levelImageCount/10)],charx-180,chary-220,400,400);
 	}
-	main.skillCoolTime=(Skill[1].imageQuantity-1)*Skill[1].speed; main.selectSkill=1;
-}
-else if(keyBoard[Skill[1].keyBoardNum]){
-//main.skillCoolTime=180; main.selectSkill=1;
-	for(var i=0;i<monsterMap[mapCount].length;i++){
-		if((y[0]-Skill[1].startY+Skill[1].height>monsterMap[mapCount][i].y*40)&&(y[0]-Skill[1].startY<monsterMap[mapCount][i].y*40+40)&&(x[0]-Skill[1].startX+Skill[1].width>monsterMap[mapCount][i].x*40)&&(x[0]-Skill[1].startX<monsterMap[mapCount][i].x*40+40)){
-		//basdf(3,10,50,0,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40);
-			for(var j=0;j<Skill[1].attackQuantity;j++){
-			var ran=Math.floor(Math.random()*5+1);
-			monsterMap[mapCount][i].hp-=ran;
-			hitMonster[hitMonster.length]=new addHitMonster(Skill[1].delayTime,Skill[1].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+	if(!main.skillCoolTime){//스킬
+		for(var v=0;v<Skill.length;v++){
+			if(keyBoard[Skill[v].keyBoardNum]){
+				main.selectSkill=v;
+				for(var i=0;i<monsterMap[mapCount].length;i++){
+					if((sight==0)&&(main.y+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(main.y-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x>monsterMap[mapCount][i].x*40)&&(main.x-Skill[main.selectSkill].width<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
+						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+						var ran=Math.floor(Math.random()*(Attack.max-Attack.min)+Attack.min+1);
+						monsterMap[mapCount][i].hp-=ran;
+						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+						}
+					}
+					else if((sight==2)&&(main.y+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(main.y-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(main.x+40<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
+						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+						var ran=Math.floor(Math.random()*(Attack.max-Attack.min)+Attack.min+1);
+						monsterMap[mapCount][i].hp-=ran;
+						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+						}
+					}
+					else if((sight==1)&&(main.y>monsterMap[mapCount][i].y*40)&&(main.y-Skill[main.selectSkill].width<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(main.x-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
+						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+						var ran=Math.floor(Math.random()*(Attack.max-Attack.min)+Attack.min+1);
+						monsterMap[mapCount][i].hp-=ran;
+						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+						}
+					}
+					else if((sight==3)&&(main.y+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].y*40)&&(main.y+40<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(main.x-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
+						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
+						var ran=Math.floor(Math.random()*(Attack.max-Attack.min)+Attack.min+1);
+						monsterMap[mapCount][i].hp-=ran;
+						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
+						}
+					}
+				}
+				main.skillCoolTime=(Skill[main.selectSkill].imageQuantity-1)*Skill[main.selectSkill].speed; break;
+			}
 		}
-		}
-	}
-	main.skillCoolTime=(Skill[1].imageQuantity-1)*Skill[1].speed; main.selectSkill=1;
-}
-}
-else{
-	if(sight[0]==0)ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx-Skill[main.selectSkill].startX,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-	else if(sight[0]==2){
-		ctx.save();
-		ctx.scale(-1,1);
-		//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx+40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX-2*Skill[main.selectSkill].width-40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.restore();
-	}
-	else if(sight[0]==1){
-		ctx.save();
-		ctx.rotate(90 * Math.PI / 180);
-		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],chary-Skill[main.selectSkill].startX,-charx-40-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.restore();
 	}
 	else{
-		ctx.save();
-		ctx.rotate(-90 * Math.PI / 180);
-		ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-chary-40-Skill[main.selectSkill].startX,charx-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
-		ctx.restore();
+		if(sight==0)ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx-Skill[main.selectSkill].width,chary-Skill[main.selectSkill].alpha,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+		else if(sight==1){
+			ctx.save();
+			ctx.rotate(90 * Math.PI / 180);
+			ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],chary-Skill[main.selectSkill].width,-charx-40-Skill[main.selectSkill].alpha,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+			ctx.restore();
+		}
+		else if(sight==2){
+			ctx.save();
+			ctx.scale(-1,1);
+			//ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],charx+40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+			ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-charx+Skill[main.selectSkill].startX-2*Skill[main.selectSkill].width-40,chary-Skill[main.selectSkill].startY,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+			ctx.restore();
+		}
+		else{
+			ctx.save();
+			ctx.rotate(-90 * Math.PI / 180);
+			ctx.drawImage(Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)],-chary-40-Skill[main.selectSkill].width,charx-Skill[main.selectSkill].alpha,Skill[main.selectSkill].width,Skill[main.selectSkill].height);
+			ctx.restore();
+		}
+		main.skillCoolTime--;
 	}
-	main.skillCoolTime--;
+	if(w[0].inBalloon) ctx.drawImage(mainChar[4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+	else ctx.drawImage(mainChar[sight].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+	drawDamage();
+	drawStatus();
+	if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
+	ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
-if(keyBoard[32]){
-	if(sight[0]==0){ if(x[0]%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock-1]%1000);}}
-	else if(sight[0]==1){ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock-1][Math.floor(x[0]/oneBlock)+1]%1000)}}
-	else if(sight[0]==2){ if(x[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)][x[0]/oneBlock+1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(y[0]/oneBlock)+1][x[0]/oneBlock+1]%1000)}}
-	else{ if(y[0]%oneBlock==0) { if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][y[0]/oneBlock+1][Math.floor(x[0]/oneBlock)+1]%1000)}}
-}<!--spacebar-->
-drawBB();
-if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
-ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 </script>
 <center>
-<button ></button>
-<button ></button>
+<button onclick="window.open('https://diotheworld.github.io/loadGame.html')">로드하기</button>
+<button onclick="akakak()">저장하기</button>
 <button onclick="fitemWindow()">아이템창</button>
+<button onclick="administratorS()">관리자모드onoff</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
 </body>
