@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -110,43 +111,43 @@ var admin={
 };
 function increaseLeft(){
 	for(yy=0;yy<admin.mh;yy++){
-		mapInformation1[yy][admin.mw]=0; mapInformation2[yy][admin.mw]=0; mapInformation3[yy][admin.mw]=0;
+		mapInformation1[mapCount][yy][admin.mw]=0; mapInformation2[mapCount][yy][admin.mw]=0; mapInformation3[mapCount][yy][admin.mw]=0;
 	}
 	admin.mw+=1;
 	for(var y=0;y<admin.mh;y++)
 	for(var x=admin.mw-1;x>0;x--){
-		mapInformation1[y][x]=mapInformation1[y][x-1];
-		mapInformation2[y][x]=mapInformation2[y][x-1];
-		mapInformation3[y][x]=mapInformation3[y][x-1];
+		mapInformation1[mapCount][y][x]=mapInformation1[mapCount][y][x-1];
+		mapInformation2[mapCount][y][x]=mapInformation2[mapCount][y][x-1];
+		mapInformation3[mapCount][y][x]=mapInformation3[mapCount][y][x-1];
 	}
-	for(var y=0;y<admin.mh;y++){ mapInformation1[y][0]=0; mapInformation2[y][0]=0; mapInformation3[y][0]=0; }
+	for(var y=0;y<admin.mh;y++){ mapInformation1[mapCount][y][0]=0; mapInformation2[mapCount][y][0]=0; mapInformation3[mapCount][y][0]=0; }
 }
 function increaseRight(){
 	for(yy=0;yy<admin.mh;yy++){
-		mapInformation1[yy][admin.mw]=0;
-		mapInformation2[yy][admin.mw]=0;
-		mapInformation3[yy][admin.mw]=0;
+		mapInformation1[mapCount][yy][admin.mw]=0;
+		mapInformation2[mapCount][yy][admin.mw]=0;
+		mapInformation3[mapCount][yy][admin.mw]=0;
 	}
 	admin.mw+=1;
 }
 function increaseUp(){
-	mapInformation1[admin.mh]=new Array(admin.mw); mapInformation2[admin.mh]=new Array(admin.mw); mapInformation3[admin.mh]=new Array(admin.mw); 
+	mapInformation1[mapCount][admin.mh]=new Array(admin.mw); mapInformation2[mapCount][admin.mh]=new Array(admin.mw); mapInformation3[mapCount][admin.mh]=new Array(admin.mw); 
 	for(xx=0;xx<admin.mw;xx++){
-		mapInformation1[admin.mh][xx]=0;	mapInformation2[admin.mh][xx]=0; mapInformation3[admin.mh][xx]=0;
+		mapInformation1[mapCount][admin.mh][xx]=0;	mapInformation2[mapCount][admin.mh][xx]=0; mapInformation3[mapCount][admin.mh][xx]=0;
 	}
 	admin.mh+=1;
 	for(var x=0;x<admin.mw;x++)
 	for(var y=admin.mh-1;y>0;y--){
-		mapInformation1[y][x]=mapInformation1[y-1][x];
-		mapInformation2[y][x]=mapInformation2[y-1][x];
-		mapInformation3[y][x]=mapInformation3[y-1][x];
+		mapInformation1[mapCount][y][x]=mapInformation1[mapCount][y-1][x];
+		mapInformation2[mapCount][y][x]=mapInformation2[mapCount][y-1][x];
+		mapInformation3[mapCount][y][x]=mapInformation3[mapCount][y-1][x];
 	}
-	for(var x=0;x<admin.mw;x++){ mapInformation1[0][x]=0; mapInformation2[0][x]=0; mapInformation3[0][x]=0; }
+	for(var x=0;x<admin.mw;x++){ mapInformation1[mapCount][0][x]=0; mapInformation2[mapCount][0][x]=0; mapInformation3[mapCount][0][x]=0; }
 }
 function increaseDown(){
-	mapInformation1[admin.mh]=new Array(admin.mw); mapInformation2[admin.mh]=new Array(admin.mw); mapInformation3[admin.mh]=new Array(admin.mw); 
+	mapInformation1[mapCount][admin.mh]=new Array(admin.mw); mapInformation2[mapCount][admin.mh]=new Array(admin.mw); mapInformation3[mapCount][admin.mh]=new Array(admin.mw); 
 	for(xx=0;xx<admin.mw;xx++){
-		mapInformation1[admin.mh][xx]=0;	mapInformation2[admin.mh][xx]=0; mapInformation3[admin.mh][xx]=0;
+		mapInformation1[mapCount][admin.mh][xx]=0;	mapInformation2[mapCount][admin.mh][xx]=0; mapInformation3[mapCount][admin.mh][xx]=0;
 	}
 	admin.mh+=1;
 }
@@ -156,33 +157,33 @@ function administratorS(){
 	}
 	else {
 		admin.administrator=1;
-		admin.mw=mapInformation1[0].length;
-		admin.mh=mapInformation1.length;
+		admin.mw=mapInformation1[mapCount][0].length;
+		admin.mh=mapInformation1[mapCount].length;
 	}
 }
 function saveMakedMapInfo2(){
 	//	clearInterval(startInterval);
 	var myWindow = window.open("", "MsgWindow", "width=1200,height=900");
 	myWindow.document.write('<pre>');
-	myWindow.document.write('if(1){mapInformation1=['+'<br>');
+	myWindow.document.write('if(1){mapInformation1['+mapCount+']=['+'<br>');
 	for(a=0;a<admin.mh;a++)
-	myWindow.document.write('	['+mapInformation1[a]+'],'+'<br>');
+	myWindow.document.write('	['+mapInformation1[mapCount][a]+'],'+'<br>');
 	myWindow.document.write('	];'+'<br>');
 	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
 	
-	myWindow.document.write('	mapInformation2=['+'<br>');
+	myWindow.document.write('	mapInformation2['+mapCount+']=['+'<br>');
 	for(a=0;a<admin.mh;a++){
 		myWindow.document.write('	[');
 		for(var b=0;b<admin.mw;b++)
-			myWindow.document.write('['+mapInformation2[a][b]+'],');
+			myWindow.document.write('['+mapInformation2[mapCount][a][b]+'],');
 		myWindow.document.write('],'+'<br>');
 	}
 	myWindow.document.write('	];'+'<br>');
 	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
 	
-	myWindow.document.write('	mapInformation3=['+'<br>');
+	myWindow.document.write('	mapInformation3['+mapCount+']=['+'<br>');
 	for(a=0;a<admin.mh;a++)
-	myWindow.document.write('	['+mapInformation3[a]+'],'+'<br>');
+	myWindow.document.write('	['+mapInformation3[mapCount][a]+'],'+'<br>');
 	myWindow.document.write('	];'+'<br>');
 	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
 	myWindow.document.write('	admin.mw='+admin.mw+';admin.mh='+admin.mh+';<br>}</pre>');
@@ -194,14 +195,14 @@ function loadMapInfo(){
 	//저장할 공간 생성.
 	for(yy=0;yy<admin.mh;yy++)
 	for(xx=0;xx<admin.mw;xx++){
-		if(mapInformation1[yy][xx]==0)finalmapInformation[yy][xx]=2147483647;
-		else if(mapInformation1[yy][xx]==1)finalmapInformation[yy][xx]=0;
-		else if(mapInformation1[yy][xx]==2)finalmapInformation[yy][xx]=0;
+		if(mapInformation1[mapCount][yy][xx]==0)finalmapInformation[yy][xx]=2147483647;
+		else if(mapInformation1[mapCount][yy][xx]==1)finalmapInformation[yy][xx]=0;
+		else if(mapInformation1[mapCount][yy][xx]==2)finalmapInformation[yy][xx]=0;
 		else finalmapInformation[yy][xx]=2147483647;
 	}//장애물 설정
 	for(yy=0;yy<admin.mh;yy++)
 	for(xx=0;xx<admin.mw;xx++){
-		if(mapInformation3[yy][xx]!=0)finalmapInformation[yy][xx]=mapInformation3[yy][xx];
+		if(mapInformation3[mapCount][yy][xx]!=0)finalmapInformation[yy][xx]=mapInformation3[mapCount][yy][xx];
 	}//포탈 설정
 	var myWindow = window.open("", "MsgWindow", "width=800,height=800");
 	myWindow.document.write('finalmapInformation=['+'<br>');
@@ -440,7 +441,8 @@ blockMap[1]=[
 	[2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
 	[2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
 ];
-if(1){mapInformation1=[
+mapInformation1=[];mapInformation2=[];mapInformation3=[];
+if(1){mapInformation1[1]=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
 	[0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
@@ -485,7 +487,7 @@ if(1){mapInformation1=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	];
 	//가로:41세로:42
-	mapInformation2=[
+	mapInformation2[1]=[
 	[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
 	[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[6,80,160],[6,80,160],[6,80,160],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[6,80,160],[6,80,160],[6,80,160],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
 	[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
@@ -530,7 +532,7 @@ if(1){mapInformation1=[
 	[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],],
 	];
 	//가로:41세로:42
-	mapInformation3=[
+	mapInformation3[1]=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -1103,10 +1105,10 @@ function start(){
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
 	document.getElementById("can").addEventListener('wheel', function (e) { if(admin.administrator)admin.y-=e.deltaY/2.5; })
 	document.getElementById("can").addEventListener("dblclick", function(e) {
-		if(admin.administrator)if(mapInformation3[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]!=undefined){
+		if(admin.administrator)if(mapInformation3[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]!=undefined){
 			var inf=prompt("50000:5+00(이동하려는맵)+00(이동하려는곳)");
-			if((inf>=50000)&&(inf<60000)) mapInformation3[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=inf;
-			else if(inf==0)mapInformation3[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=0;
+			if((inf>=50000)&&(inf<60000)) mapInformation3[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=inf;
+			else if(inf==0)mapInformation3[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=0;
 			else alert("wrong input");
 		}
 	})
@@ -1550,30 +1552,30 @@ else{
 	for(yy=0;yy<admin.mh;yy++){
 		ctx.fillStyle="tomato";
 		ctx.fillRect(-40+admin.x,yy*40+admin.y,40,40);
-		ctx.fillRect(mapInformation1[0].length*40+admin.x,yy*40+admin.y,40,40);
+		ctx.fillRect(mapInformation1[mapCount][0].length*40+admin.x,yy*40+admin.y,40,40);
 	}
 	for(xx=0;xx<admin.mw;xx++){
 		ctx.fillStyle="tomato";
 		ctx.fillRect(xx*40+admin.x,-40+admin.y,40,40);
-		ctx.fillRect(xx*40+admin.x,mapInformation1.length*40+admin.y,40,40);
+		ctx.fillRect(xx*40+admin.x,mapInformation1[mapCount].length*40+admin.y,40,40);
 	}
 	for(yy=0;yy<admin.mh;yy++)//mapInformation1
 	for(xx=0;xx<admin.mw;xx++){
-		if((mapInformation1[yy][xx]<100)){
-			ctx.drawImage(Img[0][mapInformation1[yy][xx]].image,xx*40+admin.x,yy*40+admin.y,40,40);
+		if((mapInformation1[mapCount][yy][xx]<100)){
+			ctx.drawImage(Img[0][mapInformation1[mapCount][yy][xx]].image,xx*40+admin.x,yy*40+admin.y,40,40);
 		}
 	}
 	for(yy=0;yy<admin.mh;yy++)//mapInformation2
 	for(xx=0;xx<admin.mw;xx++){
 		//if(mapInformation2[yy][xx]==1){ctx.drawImage(Img[1][mapInformation2[yy][xx]].image,xx*40+x,yy*40+y-40,40,80);}
-		if(mapInformation2[yy][xx][0]){ctx.drawImage(Img[1][mapInformation2[yy][xx][0]].image,xx*40+admin.x,yy*40+admin.y,mapInformation2[yy][xx][1],mapInformation2[yy][xx][2]);}
+		if(mapInformation2[mapCount][yy][xx][0]){ctx.drawImage(Img[1][mapInformation2[mapCount][yy][xx][0]].image,xx*40+admin.x,yy*40+admin.y,mapInformation2[mapCount][yy][xx][1],mapInformation2[mapCount][yy][xx][2]);}
 	}
 	for(yy=0;yy<admin.mh;yy++)//mapInformation3
 	for(xx=0;xx<admin.mw;xx++){
-		if((mapInformation3[yy][xx]>=50000)&&(mapInformation3[yy][xx]<60000)){
+		if((mapInformation3[mapCount][yy][xx]>=50000)&&(mapInformation3[mapCount][yy][xx]<60000)){
 			ctx.fillStyle="red";
 			ctx.font = "12px Arial";
-			ctx.fillText(mapInformation3[yy][xx],admin.x+(xx)*40,admin.y+(yy)*40+12);
+			ctx.fillText(mapInformation3[mapCount][yy][xx],admin.x+(xx)*40,admin.y+(yy)*40+12);
 			ctx.fillStyle="green";
 			ctx.fillText(yy+','+xx,admin.x+(xx)*40,admin.y+(yy)*40+24);
 		}
@@ -1583,8 +1585,8 @@ else{
 		else if((admin.y<=mouseY)&&(mouseY<admin.y+admin.mh*40)&&(mouseX>=admin.x+admin.mw*40)&&(mouseX<admin.x+admin.mw*40+40)) increaseRight();
 		else if((admin.y-40<=mouseY)&&(mouseY<admin.y)&&(mouseX>=admin.x)&&(mouseX<admin.x+admin.mw*40)) {admin.y-=40; increaseUp();}
 		else if((admin.y+admin.mh*40<=mouseY)&&(mouseY<admin.y+admin.mh*40+40)&&(mouseX>=admin.x)&&(mouseX<admin.x+admin.mw*40)) increaseDown();
-		if((imageSet==0)&&((mouseY-admin.y)>0)&&((mouseY-admin.y)<admin.mh*40)&&((mouseX-admin.x)>0)&&((mouseX-admin.x)<admin.mw*40))mapInformation1[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=blockSet;
-		if((blockSet==0)&&(imageSet==1)&&((mouseY-admin.y)>0)&&((mouseY-admin.y)<admin.mh*40)&&((mouseX-admin.x)>0)&&((mouseX-admin.x)<admin.mw*40)){mapInformation2[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][0]=0;mapInformation2[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][1]=0;mapInformation2[Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][2]=0;}
+		if((imageSet==0)&&((mouseY-admin.y)>0)&&((mouseY-admin.y)<admin.mh*40)&&((mouseX-admin.x)>0)&&((mouseX-admin.x)<admin.mw*40))mapInformation1[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)]=blockSet;
+		if((blockSet==0)&&(imageSet==1)&&((mouseY-admin.y)>0)&&((mouseY-admin.y)<admin.mh*40)&&((mouseX-admin.x)>0)&&((mouseX-admin.x)<admin.mw*40)){mapInformation2[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][0]=0;mapInformation2[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][1]=0;mapInformation2[mapCount][Math.floor((mouseY-admin.y)/40)][Math.floor((mouseX-admin.x)/40)][2]=0;}
 		else if(mousepress&&(imageSet==1)&&(!clicking)){
 			startX=Math.floor((mouseX-admin.x)/40); startY=Math.floor((mouseY-admin.y)/40); clicking=1;
 		}
@@ -1594,7 +1596,7 @@ else{
 			//ctx.drawImage(Img[1][blockSet].image,100,Math.floor((mouseY-admin.y)/40)*40+admin.y,40,40);
 		}
 	}
-	else if(clicking){ clicking=0; mapInformation2[startY][startX][0]=blockSet; mapInformation2[startY][startX][1]=(endX-startX+1)*40; mapInformation2[startY][startX][2]=(endY-startY+1)*40;}
+	else if(clicking){ clicking=0; mapInformation2[mapCount][startY][startX][0]=blockSet; mapInformation2[mapCount][startY][startX][1]=(endX-startX+1)*40; mapInformation2[mapCount][startY][startX][2]=(endY-startY+1)*40;}
 	for(a=0;a<Img[0].length;a++)
 		ctx.drawImage(Img[0][a].image,a*40,0,40,40);
 	for(a=0;a<Img[1].length;a++)
