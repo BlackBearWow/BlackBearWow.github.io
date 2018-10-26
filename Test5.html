@@ -865,7 +865,7 @@ function start(){
 	window.addEventListener('keydown',function(e){ keyBoard[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ keyBoard[e.keyCode]=false; })
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
-	document.getElementById("can").addEventListener('wheel', function (e) { administrator.y-=e.deltaY/2.5; })
+	document.getElementById("can").addEventListener('wheel', function (e) { if(admin.administrator)admin.y-=e.deltaY/2.5; })
 	document.getElementById("can").addEventListener("mouseup", function(e) { mousepress=0; });
 	document.getElementById("can").addEventListener("mousedown", function(e) {
 		mousepress=1;
@@ -884,9 +884,6 @@ function update(){
 //if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");}
 //else if(mapCount==1) {playMusic("oneMissedCall");aud_stop("KerningSquare");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
-ctx.fillStyle='#000000';
-ctx.fillRect(0,0,canvasWidth,canvasHeight);
-ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[mapCount],mh[mapCount]);
 if(dialogueSet) { Talking(); }//drawdialogue
 if(keyBoard[32]){
 	if(sight==0){ if(main.x%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]%1000);}}
@@ -894,8 +891,10 @@ if(keyBoard[32]){
 	else if(sight==2){ if(main.x%oneBlock==0) { if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock+1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock+1]%1000)}}
 	else{ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]%1000)}}
 }//spacebar
-drawBuildings();
 if(!admin.administrator){
+	ctx.fillStyle='#000000';
+	ctx.fillRect(0,0,canvasWidth,canvasHeight);
+	ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[mapCount],mh[mapCount]);
 	//배경이미지 좌표 설정
 	if(main.x<=600-halfBlock){ backgroundx=0; charx=main.x; }
 	else if(main.x>600-halfBlock&&main.x<=mw[mapCount]-(600+halfBlock)){ backgroundx=-main.x+600-halfBlock; charx=600-halfBlock; }
@@ -1039,6 +1038,7 @@ if(!admin.administrator){
 			}
 		}
 	}
+	drawBuildings();
 	drawObstacles();
 	drawNpcs();
 	drawMonsters();
@@ -1300,6 +1300,9 @@ if(!admin.administrator){
 else{
 	if(keyBoard[37]) admin.x+=4; else if(keyBoard[39]) admin.x-=4;
 	if(keyBoard[38]) admin.y+=4; else if(keyBoard[40]) admin.y-=4;
+	ctx.fillStyle='#aaaaaa';
+	ctx.fillRect(0,0,canvasWidth,canvasHeight);
+	//ctx.drawImage(background[mapCount].image,backgroundx,backgroundy,mw[mapCount],mh[mapCount]);
 	for(a=0;a<Img[0].length;a++)
 		ctx.drawImage(Img[0][a].image,a*40,0,40,40);
 	for(a=0;a<Img[1].length;a++)
