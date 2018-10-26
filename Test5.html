@@ -30,7 +30,7 @@ function saveMakedMapInfo(){
 	myWindow.document.write('if(1){blockMap=['+'<br>');
 	for(a=0;a<mhBlock[0];a++)
 	myWindow.document.write('	['+blockMap[0][a]+'],'+'<br>');
-	myWindow.document.write('	];'+'<br>');
+	myWindow.document.write('	];'+'<br>}');
 	myWindow.document.write('</pre>');
 }
 function saveGame() {
@@ -169,7 +169,7 @@ var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
 	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
-	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",10,8,40,10,50),
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",13,9,40,7,50),
 	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,8,51)
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
