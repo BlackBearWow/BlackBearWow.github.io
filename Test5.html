@@ -160,6 +160,56 @@ function administratorS(){
 		admin.mh=mapInformation1.length;
 	}
 }
+function saveMakedMapInfo2(){
+	//	clearInterval(startInterval);
+	var myWindow = window.open("", "MsgWindow", "width=1200,height=900");
+	myWindow.document.write('<pre>');
+	myWindow.document.write('if(1){mapInformation1=['+'<br>');
+	for(a=0;a<admin.mh;a++)
+	myWindow.document.write('	['+mapInformation1[a]+'],'+'<br>');
+	myWindow.document.write('	];'+'<br>');
+	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
+	
+	myWindow.document.write('	mapInformation2=['+'<br>');
+	for(a=0;a<admin.mh;a++){
+		myWindow.document.write('	[');
+		for(var b=0;b<admin.mw;b++)
+			myWindow.document.write('['+mapInformation2[a][b]+'],');
+		myWindow.document.write('],'+'<br>');
+	}
+	myWindow.document.write('	];'+'<br>');
+	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
+	
+	myWindow.document.write('	mapInformation3=['+'<br>');
+	for(a=0;a<admin.mh;a++)
+	myWindow.document.write('	['+mapInformation3[a]+'],'+'<br>');
+	myWindow.document.write('	];'+'<br>');
+	myWindow.document.write('	//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
+	myWindow.document.write('	admin.mw='+admin.mw+';admin.mh='+admin.mh+';<br>}</pre>');
+}
+function loadMapInfo(){
+	var finalmapInformation=new Array(admin.mh);
+	for(a=0;a<admin.mh;a++)
+		finalmapInformation[a]=new Array(admin.mw);
+	//저장할 공간 생성.
+	for(yy=0;yy<admin.mh;yy++)
+	for(xx=0;xx<admin.mw;xx++){
+		if(mapInformation1[yy][xx]==0)finalmapInformation[yy][xx]=2147483647;
+		else if(mapInformation1[yy][xx]==1)finalmapInformation[yy][xx]=0;
+		else if(mapInformation1[yy][xx]==2)finalmapInformation[yy][xx]=0;
+		else finalmapInformation[yy][xx]=2147483647;
+	}//장애물 설정
+	for(yy=0;yy<admin.mh;yy++)
+	for(xx=0;xx<admin.mw;xx++){
+		if(mapInformation3[yy][xx]!=0)finalmapInformation[yy][xx]=mapInformation3[yy][xx];
+	}//포탈 설정
+	var myWindow = window.open("", "MsgWindow", "width=800,height=800");
+	myWindow.document.write('finalmapInformation=['+'<br>');
+	for(a=0;a<admin.mh;a++)
+	myWindow.document.write('['+finalmapInformation[a]+'],'+'<br>');
+	myWindow.document.write('];'+'<br>');
+	myWindow.document.write('//가로:'+admin.mw+'세로:'+admin.mh+'<br>');
+}
 var username=prompt("당신의 이름을 입력해주세요");
 if(!username) username='김태연';
 var can=document.getElementById("can");
@@ -1564,6 +1614,8 @@ else{
 <button onclick="fitemWindow()">아이템창</button>
 <button onclick="administratorS()">관리자모드onoff</button>
 <button onclick="saveMakedMapInfo()">saveMakedMapInfo</button>
+<button onclick="saveMakedMapInfo2()">saveMakedMapInfo2</button>
+<button onclick="loadMapInfo()">loadMapInfo</button>
 <button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
 </center>
 </body>
