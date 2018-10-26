@@ -108,6 +108,32 @@ var ctx=can.getContext("2d");
 var keyBoard={};
 ctx.fillStyle='yellow'; ctx.font = "50px Arial";
 ctx.fillText('Loading...',200,200);
+var blockSet=1; var imageSet=0;
+var Img=[
+	[
+		new addImage("https://diotheworld.github.io/image/Obstacle/검정.png"),
+		new addImage("https://diotheworld.github.io/image/바닥.png"),
+		new addImage("https://diotheworld.github.io/image/tong.png"),
+		new addImage("https://diotheworld.github.io/image/Obstacle/벽.png"),
+		new addImage("https://opengameart.org/sites/default/files/styles/medium/public/test_128x128_5.png"),
+		new addImage("https://opengameart.org/sites/default/files/styles/medium/public/Wooden%20Crate%20Texture_0.png"),
+	],
+	[
+		new addImage("https://5.imimg.com/data5/DF/LJ/MY-58511633/eraser-500x500.jpg"),
+		new addImage("https://diotheworld.github.io/image/Obstacle/문.png"),
+		new addImage("https://diotheworld.github.io/image/계단1.png"),
+		new addImage("https://diotheworld.github.io/image/계단1_2.png"),
+		new addImage("https://diotheworld.github.io/image/계단2.png"),
+		new addImage("https://diotheworld.github.io/image/계단2_2.png"),
+		new addImage("https://vignette.wikia.nocookie.net/pokemon/images/d/dc/SMUSUM_%ED%9D%94%EB%93%A4%EB%A6%AC%EB%8A%94_%EB%82%98%EB%AC%B4.png/revision/latest?cb=20171127073027&path-prefix=ko"),
+		new addImage("https://pbs.twimg.com/media/DGnJ1YnUIAAKUvt.png"),
+	]
+];
+function addImage(source){
+	this.image=new Image();
+	this.image.src=source;
+}
+var mousepress=0; var startX,startY,endX,endY; var clicking=0; var mouseX, mouseY;
 var oneBlock=40;
 var main={
 	charLevel:1,
@@ -182,7 +208,6 @@ var mwBlock=new Array(background.length),mhBlock=new Array(background.length);
 mw[0]=4000; mwBlock[0]=mw[0]/oneBlock; mh[0]=2000; mhBlock[0]=mh[0]/oneBlock;
 background[1].image.onload=function(){mw[1]=background[1].image.width;mh[1]=background[1].image.height; mwBlock[1]=mw[1]/oneBlock, mhBlock[1]=mh[1]/oneBlock;}
 background[2].image.onload=function(){mw[2]=background[2].image.width;mh[2]=background[2].image.height; mwBlock[2]=mw[2]/oneBlock, mhBlock[2]=mh[2]/oneBlock;}
-var mouseX, mouseY;
 var mapCount=0;
 function playMusic(id){
 	var myAudio = document.getElementById(id); 
@@ -1211,8 +1236,18 @@ if(!admin.administrator){
 	ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 else{
-	if(keyBoard[37]) administrator.x+=4; else if(keyBoard[39]) administrator.x-=4;
-	if(keyBoard[38]) administrator.y+=4; else if(keyBoard[40]) administrator.y-=4;
+	if(keyBoard[37]) admin.x+=4; else if(keyBoard[39]) admin.x-=4;
+	if(keyBoard[38]) admin.y+=4; else if(keyBoard[40]) admin.y-=4;
+	for(a=0;a<Img[0].length;a++)
+		ctx.drawImage(Img[0][a].image,a*40,0,40,40);
+	for(a=0;a<Img[1].length;a++)
+		ctx.drawImage(Img[1][a].image,a*40,40,40,40);
+	ctx.fillStyle="black";
+	ctx.fillRect(mouseX,mouseY,32,32);
+	ctx.drawImage(Img[imageSet][blockSet].image,mouseX+1,mouseY+1,30,30);
+	ctx.font="20px Comic Sans MS";
+	ctx.fillStyle = "yellow";
+	ctx.fillText(Math.floor((mouseX-admin.x)/40)+','+Math.floor((mouseY-admin.y)/40),mouseX,mouseY);
 }
 }
 </script>
