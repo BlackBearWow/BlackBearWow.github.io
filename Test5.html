@@ -320,7 +320,7 @@ var sight=3;//좌:0 상:1 우:2 하:3
 var backgroundx,backgroundy,charx,chary;
 var background=[
 	new makeBackground("image/background0.png"),
-	new makeBackground("image/다운로드.png"),
+	new makeBackground("image/Background/1층.png"),
 	new makeBackground("image/a.jpg"),
 ];
 function makeBackground(source){
@@ -664,9 +664,6 @@ if(1){mapInformation1[1]=[
 	//가로:50세로:47
 }
 //가로:40세로:40
-var background1=new Image();
-background1.src=("image/background1.png");
-
 var ff=new Image();
 ff.src=("image/fire.png");
 var mouse=new Image();
@@ -751,7 +748,7 @@ function makeObstacle(name,x,y,source){//겹치는 장애물 있으면 못만들
 	if(this.item==1){ this.image[1].src="image/Item/Bubble.png"; }//물풍선
 	if(this.item==2){ this.image[1].src="image/Item/Fluid.png"; }//물줄기
 	this.itemExistence=(this.item<=2);
-	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)){
+	if((x>=mwBlock[0])||(x<0)||(y>=mhBlock[0])||(y<0)||(blockMap[0][y][x]!=0)||((main.x>=x*40-40)&&(main.x<=x*40+40)&&(main.y>=y*40-40)&&(main.y<=y*40+40))){
 		this.delete=0;
 		return;
 	}
@@ -826,7 +823,7 @@ function makeMonster0map() {
 function makeMonster1map() {
 	for(a=0;a<mhBlock[1];a++){
 		for(b=0;b<mwBlock[1];b++){
-			if(Math.floor(Math.random() * 20)<1){
+			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
 				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,200,160);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
@@ -853,7 +850,7 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,widt
 		this.image[i]=new Image();
 		this.image[i].src=NoNumberSource+i+".png";
 	}
-	if((x>=mwBlock[whatMap])||(x<0)||(y>=mhBlock[whatMap])||(y<0)||(blockMap[whatMap][y][x]!=0)){
+	if((x>=mwBlock[whatMap])||(x<0)||(y>=mhBlock[whatMap])||(y<0)||(blockMap[whatMap][y][x]!=0)||((main.x>=x*40-40)&&(main.x<=x*40+40)&&(main.y>=y*40-40)&&(main.y<=y*40+40))){
 		this.delete=0;//delete가 0이라면 splice로 지우기.
 		return;
 	}
@@ -1150,7 +1147,7 @@ function mapMove(key){//맵 이동
 	playMusic2("door");
 	if(key==50100){//1번맵 0번 지역.
 		mapCount=1;
-		main.x=23*40; main.y=44*40;
+		main.x=24*40; main.y=44*40;
 		monsterMap[1].splice(0,monsterMap[1].length); //obstacleMap[1].splice(0,obstacleMap[1].length);
 		makeMonster1map();
 	}
