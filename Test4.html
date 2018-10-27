@@ -5,7 +5,9 @@
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "black";
-ctx.globalAlpha = 0.01;
+ctx.globalAlpha = 0.3;
+ctx.fillRect(0,0,2400,2400);
+ctx.globalAlpha = 0.2;
 for(var i=0;i<1100;i++){
 	for(var k=0;k<=i;k++){
 	ctx.fillRect(k, k, 1, 2400-2*k);
