@@ -1166,7 +1166,7 @@ function monsterAttack(){//몬스터가 캐릭터를 공격함
 		}
 	}
 }
-function monsterDie(){
+function monsterDie(){//이 함수는 맵 뒤에 실행하지 않으면 canvas에서 오류를 일으킴
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++)
@@ -1176,7 +1176,7 @@ function monsterDie(){
 	}
 }
 function setMain(exp,level){
-	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=2; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
+	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=level*level; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
 }
 //npc들
 var npcCount=0;
@@ -1306,7 +1306,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:26, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,20],//롤러스테이트
+		speedCount:5, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -1440,7 +1440,7 @@ function drawStatus(){
 //checkCookie();
 function start(){
 	blockMap[0][10][12]=50100;
-	setInterval(update,1000);
+	setInterval(update,4);
 	window.addEventListener('keydown',function(e){ keyBoard[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ keyBoard[e.keyCode]=false; })
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
@@ -1627,7 +1627,6 @@ if(!admin.administrator){
 	drawMonsters();
 	drawMonstersHit();
 	monsterHit();
-	monsterDie();
 	if(dialogueSet==0){
 		if(keyBoard[188]){
 			ctx.drawImage(ff,charx-120,chary,120,oneBlock);
@@ -1891,6 +1890,7 @@ if(!admin.administrator){
 	drawStatus();
 	if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
 	ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
+	monsterDie();
 }
 else{
 	if(keyBoard[37]) admin.x+=4; else if(keyBoard[39]) admin.x-=4;
