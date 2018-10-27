@@ -1,36 +1,19 @@
 <html>
 <body>
-<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"></canvas>
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "black";
-ctx.globalAlpha = 0.05;
-for(var i=0;i<20;i++){
+ctx.globalAlpha = 0.01;
+for(var i=0;i<150;i++){
 	for(var k=0;k<=i;k++){
-	ctx.fillRect(5*k, 5*k, 5, 300-10*k);
-    ctx.fillRect(295-5*k, 5*k, 5, 300-10*k);
-    ctx.fillRect(5+5*k, 5*k, 290-10*k, 5);
-    ctx.fillRect(5+5*k, 295-5*k, 290-10*k, 5);
+	ctx.fillRect(k, k, 1, 500-2*k);
+    ctx.fillRect(499-k, k, 1, 500-2*k);
+    ctx.fillRect(1+k, k, 498-2*k, 1);
+    ctx.fillRect(1+k, 499-k, 498-2*k, 1);
     }
 }
-/*
-ctx.fillRect(0, 0, 5, 300);
-ctx.fillRect(5, 5, 5, 290);
-ctx.fillRect(10, 10, 5, 280);
-
-ctx.fillRect(295, 0, 5, 300);
-ctx.fillRect(290, 5, 5, 290);
-ctx.fillRect(285, 10, 5, 280);
-
-ctx.fillRect(5, 0, 290,5);
-ctx.fillRect(10, 5, 280,5);
-ctx.fillRect(15, 10, 270,5);
-
-ctx.fillRect(5, 295,290, 5);
-ctx.fillRect(10, 290,280, 5);
-ctx.fillRect(15, 285,270, 5);
-*/
 </script>
 </body>
 </html>
