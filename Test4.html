@@ -1,26 +1,18 @@
-<!DOCTYPE html>
 <html>
 <body>
-
-<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
-
+<canvas id="myCanvas" width="300" height="300" style="border:1px solid #d3d3d3;"></canvas>
 <script>
-
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "black";
-ctx.globalAlpha = 0.1;
-
-for(var i=0;i<10;i++){
-	for(var k=0;k<=i;k++)
-	ctx.fillRect(5*i, 5*i, 5, 300-10*i);
-    for(var k=0;k<=i;k++)
-    ctx.fillRect(295-5*i, 5*i, 5, 300-10*i);
-    for(var k=0;k<=i;k++)
-    ctx.fillRect(5+5*i, 5*i, 290-10*i, 5);
-    for(var k=0;k<=i;k++)
-    ctx.fillRect(5+5*i, 295-5*i, 290-10*i, 5);
+ctx.globalAlpha = 0.05;
+for(var i=0;i<20;i++){
+	for(var k=0;k<=i;k++){
+	ctx.fillRect(5*k, 5*k, 5, 300-10*k);
+    ctx.fillRect(295-5*k, 5*k, 5, 300-10*k);
+    ctx.fillRect(5+5*k, 5*k, 290-10*k, 5);
+    ctx.fillRect(5+5*k, 295-5*k, 290-10*k, 5);
+    }
 }
 /*
 ctx.fillRect(0, 0, 5, 300);
@@ -40,9 +32,5 @@ ctx.fillRect(10, 290,280, 5);
 ctx.fillRect(15, 285,270, 5);
 */
 </script>
-
-<p><strong>Note:</strong> The canvas tag is not supported in Internet 
-Explorer 8 and earlier versions.</p>
-
 </body>
 </html>
