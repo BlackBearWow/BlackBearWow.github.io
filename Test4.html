@@ -11,29 +11,34 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 ctx.fillStyle = "black";
 ctx.globalAlpha = 0.1;
-/*
-for(var i=0;i<10;i++){
-	ctx.fillRect(0, 5*i, 5*(i+1), 300-10*i);
-    ctx.fillRect(300-5*(i+1),i*5,5*(i+1),300-10*i);
-    //ctx.fillRect(5*i,0,300-10*i,5*i);
-}*/
 
-ctx.fillRect(0, 0, 5, 300);ctx.fillRect(0, 0, 5, 300);ctx.fillRect(0, 0, 5, 300);
-ctx.fillRect(5, 5, 5, 290);ctx.fillRect(5, 5, 5, 290);
+for(var i=0;i<10;i++){
+	for(var k=0;k<=i;k++)
+	ctx.fillRect(5*i, 5*i, 5, 300-10*i);
+    for(var k=0;k<=i;k++)
+    ctx.fillRect(295-5*i, 5*i, 5, 300-10*i);
+    for(var k=0;k<=i;k++)
+    ctx.fillRect(5+5*i, 5*i, 290-10*i, 5);
+    for(var k=0;k<=i;k++)
+    ctx.fillRect(5+5*i, 295-5*i, 290-10*i, 5);
+}
+/*
+ctx.fillRect(0, 0, 5, 300);
+ctx.fillRect(5, 5, 5, 290);
 ctx.fillRect(10, 10, 5, 280);
 
-ctx.fillRect(295, 0, 5, 300);ctx.fillRect(295, 0, 5, 300);ctx.fillRect(295, 0, 5, 300);
-ctx.fillRect(290, 5, 5, 290);ctx.fillRect(290, 5, 5, 290);
+ctx.fillRect(295, 0, 5, 300);
+ctx.fillRect(290, 5, 5, 290);
 ctx.fillRect(285, 10, 5, 280);
 
-ctx.fillRect(5, 0, 290,5);ctx.fillRect(5, 0, 290,5);ctx.fillRect(5, 0, 290,5);
-ctx.fillRect(10, 5, 280,5);ctx.fillRect(10, 5, 280,5);
+ctx.fillRect(5, 0, 290,5);
+ctx.fillRect(10, 5, 280,5);
 ctx.fillRect(15, 10, 270,5);
 
-ctx.fillRect(5, 295,290, 5);ctx.fillRect(5, 295,290, 5);ctx.fillRect(5, 295,290, 5);
-ctx.fillRect(10, 290,280, 5);ctx.fillRect(10, 290,280, 5);
+ctx.fillRect(5, 295,290, 5);
+ctx.fillRect(10, 290,280, 5);
 ctx.fillRect(15, 285,270, 5);
-
+*/
 </script>
 
 <p><strong>Note:</strong> The canvas tag is not supported in Internet 
