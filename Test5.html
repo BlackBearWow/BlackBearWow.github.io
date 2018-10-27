@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -264,6 +265,8 @@ var main={
 	x:oneBlock*(5+2),
 	y:oneBlock*5
 };
+var lantern=new Image();
+lantern.src="https://diotheworld.github.io/image/lantern.png";
 for(var i=0;i<main.hits.length;i++)main.hits[i]=0;
 var levelUpImage=new Array(21);
 for(var i=0;i<levelUpImage.length;i++){
@@ -1857,6 +1860,7 @@ if(!admin.administrator){
 	}
 	if(w[0].inBalloon) ctx.drawImage(mainChar[4].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
 	else ctx.drawImage(mainChar[sight].image,charx,chary-oneBlock*0.2,oneBlock,oneBlock*1.2);
+	if(mapCount)ctx.drawImage(lantern,charx-1180,chary-1180,2400,2400);
 	if(dialogueSet) { Talking(); }//drawdialogue
 	if(keyBoard[32]){
 		if(sight==0){ if(main.x%oneBlock==0) { if(parseInt( blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)][main.x/oneBlock-1]%1000); else if(parseInt(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]/ 1000)==1) npcTalk(blockMap[mapCount][Math.floor(main.y/oneBlock)+1][main.x/oneBlock-1]%1000);}}
