@@ -261,8 +261,8 @@ var main={
 	currentHp:500,
 	skillCoolTime:0,
 	selectSkill:0,
-	x:oneBlock*(5+2),
-	y:oneBlock*5
+	x:oneBlock*12,
+	y:oneBlock*11
 };
 var lantern=new Image();
 lantern.src="https://diotheworld.github.io/image/lantern.png";
@@ -275,7 +275,7 @@ for(var i=0;i<levelUpImage.length;i++){
 var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
-	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,10,49),
+	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,1,49),
 	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",13,9,40,7,50),
 	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,8,51)
 ];
@@ -1171,12 +1171,12 @@ function monsterDie(){
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++)
 	if(monsterMap[mapCount][a].hp<=0) {
-		monsterMap[mapCount].splice(a,1); playMusic2('monsterdie'); main.exp+=1;
+		monsterMap[mapCount].splice(a,1); a-=1; playMusic2('monsterdie'); main.exp+=1;
 		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(main.exp-main.maxExp,main.charLevel+1); }
 	}
 }
 function setMain(exp,level){
-	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=level*level; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
+	main.maxHp=level*20; main.exp=exp; main.charLevel=level; main.maxExp=2; main.currentHp=main.maxHp; Attack.min=level*level; Attack.max=level*level*2;
 }
 //npc들
 var npcCount=0;
@@ -1306,7 +1306,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4],//롤러스테이트
+		speedCount:26, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -1416,7 +1416,7 @@ function mapMove(key){//맵 이동
 		makeMonster1map();
 	}
 }
-function itemWindow(){
+function FitemWindow(){
 	if(itemWindowShow) itemWindowShow=0;
 	else itemWindowShow=1;
 }
@@ -1440,7 +1440,7 @@ function drawStatus(){
 //checkCookie();
 function start(){
 	blockMap[0][10][12]=50100;
-	setInterval(update,4);
+	setInterval(update,1000);
 	window.addEventListener('keydown',function(e){ keyBoard[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ keyBoard[e.keyCode]=false; })
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
@@ -1823,6 +1823,7 @@ if(!admin.administrator){
 						monsterMap[mapCount][i].hp-=ran;
 						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 						}
+						if(monsterMap[mapCount][i].hp<0)monsterMap[mapCount][i].hp=0;
 					}
 					else if((sight==2)&&(main.y+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].y*40)&&(main.y-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].x*40)&&(main.x+40<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
@@ -1830,6 +1831,7 @@ if(!admin.administrator){
 						monsterMap[mapCount][i].hp-=ran;
 						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 						}
+						if(monsterMap[mapCount][i].hp<0)monsterMap[mapCount][i].hp=0;
 					}
 					else if((sight==1)&&(main.y>monsterMap[mapCount][i].y*40)&&(main.y-Skill[main.selectSkill].width<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(main.x-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
@@ -1837,6 +1839,7 @@ if(!admin.administrator){
 						monsterMap[mapCount][i].hp-=ran;
 						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 						}
+						if(monsterMap[mapCount][i].hp<0)monsterMap[mapCount][i].hp=0;
 					}
 					else if((sight==3)&&(main.y+40+Skill[main.selectSkill].width>monsterMap[mapCount][i].y*40)&&(main.y+40<monsterMap[mapCount][i].y*40+monsterMap[mapCount][i].width)&&(main.x+40+Skill[main.selectSkill].alpha>monsterMap[mapCount][i].x*40)&&(main.x-Skill[main.selectSkill].alpha<monsterMap[mapCount][i].x*40+monsterMap[mapCount][i].height)){
 						for(var j=0;j<Skill[main.selectSkill].attackQuantity;j++){
@@ -1844,6 +1847,7 @@ if(!admin.administrator){
 						monsterMap[mapCount][i].hp-=ran;
 						hitMonster[hitMonster.length]=new addHitMonster(Skill[main.selectSkill].delayTime,Skill[main.selectSkill].speed,ran,monsterMap[mapCount][i].x*40,monsterMap[mapCount][i].y*40-25*j,j);
 						}
+						if(monsterMap[mapCount][i].hp<0)monsterMap[mapCount][i].hp=0;
 					}
 				}
 				main.skillCoolTime=(Skill[main.selectSkill].imageQuantity-1)*Skill[main.selectSkill].speed; break;
@@ -1965,13 +1969,14 @@ else{
 }
 </script>
 <center>
-<button onclick="window.open('https://diotheworld.github.io/loadGame.html')">로드하기</button>
-<button onclick="akakak()">저장하기</button>
-<button onclick="itemWindow()">아이템창</button>
+<button onclick="window.open('https://diotheworld.github.io/loadGame.html')">로드하기</button><button onclick="akakak()">저장하기</button>
+<button onclick="FitemWindow()">아이템창</button>
 <button onclick="administratorS()">관리자모드onoff</button>
+<button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
+<div id="adminDiv" style="display:inline;">
 <button onclick="saveMakedMapInfo()">saveMakedMapInfo</button>
 <button onclick="loadMapInfo()">loadMapInfo</button>
-<button onclick="alert('F11을 눌러서 전체화면으로 플레이해 보세요~(끌때도 F11) \n 방향키: 주인공 움직이기 \n 스페이스바: npc에게 말걸기\n 숫자: test용 스킬 사용해보기');">도움말</button>
+</div>
 </center>
 </body>
 </html>
