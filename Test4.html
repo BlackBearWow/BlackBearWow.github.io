@@ -1,21 +1,24 @@
+<!DOCTYPE html>
 <html>
 <body>
-<canvas id="myCanvas" width="2400" height="2400" style="border:1px solid #d3d3d3;"></canvas>
+
+<canvas id="myCanvas" width="2400" height="2400" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
 <script>
+
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-ctx.fillStyle = "black";
-ctx.globalAlpha = 0.3;
-ctx.fillRect(0,0,2400,2400);
-ctx.globalAlpha = 0.2;
-for(var i=0;i<1100;i++){
-	for(var k=0;k<=i;k++){
-	ctx.fillRect(k, k, 1, 2400-2*k);
-    ctx.fillRect(2399-k, k, 1, 2400-2*k);
-    ctx.fillRect(1+k, k, 2398-2*k, 1);
-    ctx.fillRect(1+k, 2399-k, 2398-2*k, 1);
-    }
-}
+var grd = ctx.createRadialGradient(1200, 1200, 10, 1200, 1200, 250);
+grd.addColorStop(0, "rgba(0, 0, 0, 0)");
+grd.addColorStop(1, "rgba(0, 0, 0, 1)");
+ctx.fillStyle = grd;
+ctx.fillRect(0, 0, 2400, 2400);
+
 </script>
+
+<p><strong>Note:</strong> The canvas tag is not supported in Internet 
+Explorer 8 and earlier versions.</p>
+
 </body>
 </html>
