@@ -19,7 +19,8 @@
 <audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
 <audio id="KerningSquare" src="Music/커닝스퀘어.mp3"/>
 <audio id="Ib" src="Music/Ib OST -.mp3">
-<audio id="oneMissedCall" src="Music/oneMissedCall.mp3">
+<audio id="oneMissedCall" src="Music/oneMissedCall.mp3"/>
+<audio id="Real Ghost sound" src="Music/Real Ghost sound.mp3"/>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -1376,7 +1377,7 @@ function makefuck(){
 	this.x=24*40;
 	this.y=5*40;
 	this.image=new Image();
-	this.image.src="image/monster/ghost/ghost0.png";
+	this.image.src="image/monster/ghostA/ghostA0.png";
 }
 function drawfuck(){
 	if(mapCount!=3)return;
@@ -1781,8 +1782,9 @@ function start(){
 var preB=1;
 function update(){
 //배경음악 설정.
-if(mapCount==0) {playMusic("Ib");aud_stop("oneMissedCall");}
-else {playMusic("oneMissedCall");aud_stop("Ib");}
+if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");aud_stop("Real Ghost sound");}
+else if(mapCount==3){playMusic("Real Ghost sound");aud_stop("oneMissedCall");aud_stop("KerningSquare");}
+else {playMusic("oneMissedCall");aud_stop("KerningSquare");aud_stop("Real Ghost sound");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 if(!admin.administrator){
 	ctx.fillStyle='#000000';
