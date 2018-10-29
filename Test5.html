@@ -1344,7 +1344,7 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,200,160);
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,160,120);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
@@ -1356,7 +1356,7 @@ function makeMonster2map() {
 		for(b=0;b<mwBlock[2];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[2][monsterMap[2].length]=new makeMonster("몬스터",2,b,a,3000+extraHp,3000+extraHp,"image/monster/ghost/ghost",10,40,40);
+				monsterMap[2][monsterMap[2].length]=new makeMonster("몬스터",2,b,a,3000+extraHp,3000+extraHp,"image/monster/ghost/ghost",10,40,80);
 				if(monsterMap[2][monsterMap[2].length-1].delete==0) monsterMap[2].splice(monsterMap[2].length-1,1);
 			}
 		}
@@ -1385,6 +1385,7 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,widt
 		this.image[i]=new Image();
 		this.image[i].src=NoNumberSource+i+".png";
 	}
+	for(var a=y;a<=Math.floor((y*40+height-1)/40);a++)for(var b=x;b<=Math.floor((x*40+width-1)/40);b++)if(blockMap[whatMap][a][b]!=0)this.delete=0;
 	if((x>=mwBlock[whatMap])||(x<0)||(y>=mhBlock[whatMap])||(y<0)||(blockMap[whatMap][y][x]!=0)||((main.x>=x*40-40)&&(main.x<=x*40+40)&&(main.y>=y*40-40)&&(main.y<=y*40+40))){
 		this.delete=0;//delete가 0이라면 splice로 지우기.
 		return;
