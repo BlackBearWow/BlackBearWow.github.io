@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -1490,9 +1491,9 @@ function setMain(exp,level){
 var npcCount=0;
 npcMap[0] = [//x는 최대 100, y는 최대 50
   new makeNpc("김 상병",4,4,"image/Npc/김상병.png"), 
-  new makeNpc("이 일병",17,5,"image/a.jpg"), 
-  new makeNpc("최 병장",20,25,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
-  new makeNpc("금 일병",5,22,"http://shop1.phinf.naver.net/20170227_213/bookch_1488183117948QY2EU_JPEG/9791131951293.jpg"),
+  new makeNpc("이 일병",17,5,"image/Npc/soldier2.png"), 
+  new makeNpc("최 병장",20,25,"image/Npc/soldier1.png"),
+  new makeNpc("금 일병",5,22,"image/Npc/soldier0.png"),
   new makeNpc("이성우 일병",40,40,"image/Npc/김상병.png")
 ];
 function makeNpc(name,x,y,source){
@@ -1513,7 +1514,7 @@ function drawNpcs(){
 	if(npcMap[mapCount]==undefined) return;
 	var a,b=npcMap[0].length;
 	for(a=0;a<b;a++)
-	if(npcMap[0][a].existence)ctx.drawImage(npcMap[0][a].image,backgroundx+(npcMap[0][a].x)*oneBlock,backgroundy+(npcMap[0][a].y)*oneBlock,oneBlock,oneBlock);
+	if(npcMap[0][a].existence)ctx.drawImage(npcMap[0][a].image,backgroundx+(npcMap[0][a].x)*oneBlock,backgroundy+(npcMap[0][a].y)*oneBlock-8,oneBlock,oneBlock*1.2);
 }
 var dialogue = [  //npc의 대화들
   [
