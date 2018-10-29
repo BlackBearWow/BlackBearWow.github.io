@@ -1535,7 +1535,7 @@ var dialogue = [  //npc의 대화들
     [0,"야",
     1,"이병 "+username,
     0,"뭐하냐?",
-    0,"지금 작업하는거 안보이냐? 빨리 안도와줘??응",
+    0,"지금 작업하는거 안보이냐? 빨리 안도와줘?",
     1,"죄송합니다 바로 돕겠습니다",
 	0,"김 상병님이 삽 가지고 있으니까 빨리 가지고와",
 	1,"알겠습니다.",
@@ -1609,9 +1609,8 @@ function Talking(){
 		text=npcMap[0][dialogueNpc].name+" : ";
 		for(a=0;i<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
 			text+=dialogue[dialogueNpc][situation][dialogueCount+1][a];
-			if(ctx.measureText(text).width>=1200) { 
-				ctx.font = "40px Arial";
-				ctx.fillText(text,0,650);
+			if(ctx.measureText(text).width>1200) {
+				ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1].slice(0,a-1),0,650);
 				ctx.fillText(dialogue[dialogueNpc][situation][dialogueCount+1].slice(a-1,dialogue[dialogueNpc][situation][dialogueCount+1].length),0,700);
 				return;
 			}
