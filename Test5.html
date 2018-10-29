@@ -1565,9 +1565,9 @@ var dialogue = [  //npc의 대화들
     1,"아닙니다",
 	0,"여기가 밖이지 안이야?"
     ],//금 일병situation 0
-    [0,"야",
+    [0,"팅팅팅팅 팅",
     1,"이병 "+username,
-    0,"뭐하냐?",
+    0,"탱탱 탱 탱",
     0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나",
     1,"저도 주십시오"
     ],
@@ -1609,12 +1609,16 @@ function Talking(){
 		text=npcMap[0][dialogueNpc].name+" : ";
 		for(a=0;i<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
 			text+=dialogue[dialogueNpc][situation][dialogueCount+1][a];
-			if(ctx.measureText(text).width>1200) dialogue[dialogueNpc][situation][dialogueCount+1]="error";
+			if(ctx.measureText(text).width>1200) { 
+				ctx.fillText(text.slice(0,text.length-1),0,650);
+				ctx.fillText(dialogue[dialogueNpc][situation][dialogueCount+1].slice(a-1,dialogue[dialogueNpc][situation][dialogueCount+1].length),0,700);
+				return;
+			}
 		}
-		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,680);
+		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,650);
 	}
 	else
-		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,680);
+		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,650);
 }
 if(1){ //물풍선
 	var w=[0];
