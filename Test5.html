@@ -1373,17 +1373,17 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,widt
 		return;
 	}
 }
-function makefuck(){
+function makeAiMonster(){
 	this.x=24*40;
 	this.y=5*40;
 	this.image=new Image();
 	this.image.src="image/monster/ghostA/ghostA0.png";
 }
-function drawfuck(){
+function drawAiMonster(){
 	if(mapCount!=3)return;
-	ctx.drawImage(whatthefuck.image,backgroundx+whatthefuck.x,backgroundy+whatthefuck.y,40,40);
+	ctx.drawImage(aiMonster.image,backgroundx+aiMonster.x,backgroundy+aiMonster.y,60,100);
 }
-whatthefuck=new makefuck();
+aiMonster=new makeAiMonster();
 function drawMonsters(){
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
@@ -1434,16 +1434,15 @@ function monsterHit(){//캐릭터가 몬스터를 공격함
 		}
 	}
 }
-function movefuck(){
+function moveAiMonster(){
 	if(mapCount!=3) return;
-	//monsterMap[3][0].y+=0.05;
-	if((whatthefuck.x-320<=main.x)&&(whatthefuck.x+360>=main.x)){
-		if((whatthefuck.x-320<=main.x)&&(whatthefuck.x<main.x)) whatthefuck.x+=0.5;
-		else if(whatthefuck.x+360>=main.x) whatthefuck.x-=0.5;
+	if((aiMonster.x-320<=main.x)&&(aiMonster.x+360>=main.x)){
+		if((aiMonster.x-320<=main.x)&&(aiMonster.x<main.x)) aiMonster.x+=0.5;
+		else if(aiMonster.x+360>=main.x) aiMonster.x-=0.5;
 	}
-	if((whatthefuck.y-320<=main.y)&&(whatthefuck.y+360>=main.y)){
-		if((whatthefuck.y-320<=main.y)&&(whatthefuck.y<main.y)) whatthefuck.y+=0.5;
-		else if(whatthefuck.y+360>=main.y) whatthefuck.y-=0.5;
+	if((aiMonster.y-320<=main.y)&&(aiMonster.y+360>=main.y)){
+		if((aiMonster.y-320<=main.y)&&(aiMonster.y<main.y)) aiMonster.y+=0.5;
+		else if(aiMonster.y+360>=main.y) aiMonster.y-=0.5;
 	}
 }
 function monsterAttack(){//몬스터가 캐릭터를 공격함
@@ -2098,8 +2097,8 @@ if(!admin.administrator){
 	drawMonstersHit();
 	monsterHit();
 	monsterDie();
-	drawfuck();
-	movefuck();
+	drawAiMonster();
+	moveAiMonster();
 	if(0){//blockMap[0]정보 화면에 표시
 		ctx.font = "15px Arial";
 		for(var i=0;i<mhBlock[0];i++)
