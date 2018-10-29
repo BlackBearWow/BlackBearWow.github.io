@@ -113,7 +113,7 @@ var admin={
 	x:0,
 	y:0,
 	mw:0,
-	mh:0
+	mh:0,
 };
 function increaseLeft(){
 	for(yy=0;yy<admin.mh;yy++){
@@ -221,7 +221,7 @@ function loadMapInfo(){
 	}//포탈 설정
 	var myWindow = window.open("", "MsgWindow", "width=800,height=800");
 	myWindow.document.write('<pre>');
-	myWindow.document.write('finalmapInformation=['+'<br>');
+	myWindow.document.write('blockMap['+mapCount+']=['+'<br>');
 	for(a=0;a<admin.mh;a++)
 	myWindow.document.write('	['+finalmapInformation[a]+'],'+'<br>');
 	myWindow.document.write('];'+'<br>');
@@ -289,11 +289,12 @@ var main={
 	hits:new Array(30),
 	hitsCount:30,
 	maxHp:10,
-	currentHp:500,
+	currentHp:10,
 	skillCoolTime:0,
 	selectSkill:0,
 	x:oneBlock*12,
-	y:oneBlock*11
+	y:oneBlock*11,
+	monsterattack:0
 };
 var lantern=new Image();
 lantern.src="https://diotheworld.github.io/image/lantern1.png";
@@ -306,9 +307,9 @@ for(var i=0;i<levelUpImage.length;i++){
 var itemWindow=new Image(),itemWindowShow=0;
 itemWindow.src="image/itemWindow.png";
 var Skill=[
-	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,4,40,1,49),
-	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",13,9,40,7,50),
-	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,8,51)
+	new makeSkill(4,0,139/118,"image/SkillImage/flash/섬광",3,1,40,13,49),
+	new makeSkill(19,8,528/302,"image/SkillImage/apocalypse/apocalypse",13,9,40,13,50),
+	new makeSkill(12,5,559/221,"image/SkillImage/demonImpact/demonImpact",10,4,40,10,51)
 ];
 function makeSkill(imageQuantity,imageDelayQuantity,imgHdivW,NoNumberSource,attackQuantity,size,fullSize,speed,keyBoardNum){
 	//imageQuantity imageDelayQuantity NoNumberSource는 변화 불가능함 
@@ -512,7 +513,7 @@ blockMap[2]=[
 	[2147483647,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2147483647],
 	[2147483647,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2147483647],
 	[2147483647,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2147483647],
-	[2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,0,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,0,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
+	[2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,50101,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,50102,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
 ];
 blockMap[3]=[
 	[2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647,2147483647],
@@ -912,7 +913,7 @@ if(1){mapInformation1[2]=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50102,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	];
 	//가로:50세로:47
 	mapInformation4[2]=[
@@ -1425,10 +1426,11 @@ function monsterAttack(){//몬스터가 캐릭터를 공격함
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
-		if((monsterMap[mapCount][a].y==main.y/40)&&(monsterMap[mapCount][a].x==main.x/40)){
+		if((monsterMap[mapCount][a].y*40<main.y+40)&&(monsterMap[mapCount][a].y*40+monsterMap[mapCount][a].height>main.y)&&(monsterMap[mapCount][a].x*40<main.x+40)&&(monsterMap[mapCount][a].x*40+monsterMap[mapCount][a].width>main.x)){
 			main.hits[0]=Math.floor(Math.random()*3+1);
 			main.hitsCount=main.hits.length;
 			main.currentHp-=main.hits[0];
+			main.monsterattack=20;
 		}
 	}
 }
@@ -1675,7 +1677,7 @@ function mapMove(key){//맵 이동
 		main.x=10*40; main.y=16*40;
 		makeMonster1map();
 	}
-	else if(key==50102){//1번맵 1번 지역.
+	else if(key==50102){//1번맵 2번 지역.
 		mapCount=1;
 		main.x=17*40; main.y=16*40;
 		makeMonster1map();
@@ -2073,7 +2075,8 @@ if(!admin.administrator){
 				ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
 	}
 	//drawInformation();
-	if((main.x%oneBlock==0)&&(main.y%oneBlock==0)&&(w[0].inBalloon==0)) monsterAttack();
+	if(!main.monsterattack) monsterAttack();
+	else main.monsterattack-=1;
 	if(main.hitsCount!=0){main.hitsCount-=1; //캐릭이 몬스터에게 맞고 난 후 데미지 표시
 		for(var i=main.hits.length-1;i>=0;i--){
 			ctx.font = "30px Arial";
