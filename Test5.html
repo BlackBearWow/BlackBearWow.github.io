@@ -1594,9 +1594,9 @@ var dialogue = [  //npc의 대화들
 function npcTalk(n){
 	dialogueNpc=n;
 	keyBoard[32]=0;
-	if((dialogueCount+2)>=dialogue[dialogueNpc][situation].length){ dialogueSet=0; dialogueCount=-2; }<!--대화가 끝이라면 대화중이 아님으로 설정
-	else { dialogueSet=1; dialogueCount+=2; }<!--대화중이라면 대화 카운트를 2씩 높임
-	if(dialogue[dialogueNpc][situation][dialogueCount]==2){ situation+=1; dialogueSet=0; dialogueCount=-2; }<!--다음 상황으로 넘어감
+	if((dialogueCount+2)>=dialogue[dialogueNpc][situation].length){ dialogueSet=0; dialogueCount=-2; }//대화가 끝이라면 대화중이 아님으로 설정
+	else { dialogueSet=1; dialogueCount+=2; }//대화중이라면 대화 카운트를 2씩 높임
+	if(dialogue[dialogueNpc][situation][dialogueCount]==2){ situation+=1; dialogueSet=0; dialogueCount=-2; }//다음 상황으로 넘어감
 }
 function Talking(){
 	ctx.globalAlpha = 0.5;
@@ -1605,10 +1605,16 @@ function Talking(){
 	ctx.globalAlpha = 1;
 	ctx.font = "50px Arial";
 	ctx.fillStyle = "yellow";
-	if(dialogue[dialogueNpc][situation][dialogueCount]==0)
-		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
+	if(dialogue[dialogueNpc][situation][dialogueCount]==0){
+		text=npcMap[0][dialogueNpc].name+" : ";
+		for(a=0;i<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
+			text+=dialogue[dialogueNpc][situation][dialogueCount+1][a];
+			if(ctx.measureText(text).width>1200) dialogue[dialogueNpc][situation][dialogueCount+1]="error";
+		}
+		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,680);
+	}
 	else
-		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],100,700);
+		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,680);
 }
 if(1){ //물풍선
 	var w=[0];
@@ -1752,7 +1758,8 @@ function FitemWindow(){
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(main.walking+" "+" "+obstacleMap[0].length,10,50);
+	llss=ctx.measureText("뭐어떻하라고나보고뭐어떻하라고나보고뭐어떻하라고").width;
+	ctx.fillText(dialogue[0][1][9].length+" "+llss+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -2128,7 +2135,7 @@ if(!admin.administrator){
 			for(var n=0;n<mwBlock[0];n++)
 				ctx.fillText(blockMap[0][i][n],backgroundx+(n)*oneBlock,backgroundy+(i)*oneBlock+15);
 	}
-	//drawInformation();
+	drawInformation();
 	if(!main.monsterattack) monsterAttack();
 	else main.monsterattack-=1;
 	if(main.hitsCount!=0){main.hitsCount-=1; //캐릭이 몬스터에게 맞고 난 후 데미지 표시
