@@ -1630,7 +1630,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:20, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
+		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -2322,15 +2322,15 @@ else{
 }
 }
 var ghostghostimageCount=0;
+var ghostghost=new Array(142);
+for(var i=0;i<142;i++){
+	ghostghost[i]=new Image();
+	ghostghost[i].src="image/monster/ghostScream/ghostScream"+i+".png";
+}
 function ShowGhostScream(){
-	var ghostghost=new Array(142);
 	//for(var a=0;a<document.getElementsByClassName("musics").length;a++){ aud_stop(document.getElementsByClassName("musics")[a].id); }
 	aud_stop("Real Ghost sound");
 	playMusic("nmh_scream1");
-	for(var i=0;i<142;i++){
-		ghostghost[i]=new Image();
-		ghostghost[i].src="image/monster/ghostScream/ghostScream"+i+".png";
-	}
 	can.width=document.body.clientWidth;
 	can.height=document.body.clientHeight;
 	ghostghostimageCount+=1;
