@@ -2,7 +2,7 @@
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
 </head>
-<body onload="ShowGhostScream()" style="background-color:black">
+<body onload="start()" style="background-color:black">
 <center>
 <canvas id="can" width="1200" height="856" style=" cursor:none;"/>
 <!--0~800화면. ~828에이치피 ~856exp  1200 856 border:1px solid #c3c3c3;-->
@@ -1462,6 +1462,9 @@ function moveAiMonster(){
 		if((aiMonster.y-320<=main.y)&&(aiMonster.y<main.y)) aiMonster.y+=0.5;
 		else if(aiMonster.y+360>=main.y) aiMonster.y-=0.5;
 	}
+	if((aiMonster.y<=main.y+40)&&(aiMonster.y+100>=main.y)&&(aiMonster.x<=main.x+40)&&(aiMonster.x+60>=main.x)){
+		clearInterval(mainInterval); ghostInterval=setInterval(ShowGhostScream,3);
+	}
 }
 function monsterAttack(){//몬스터가 캐릭터를 공격함
 	if(monsterMap[mapCount]==undefined) return;
@@ -1624,7 +1627,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:10, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
+		speedCount:5, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -1779,7 +1782,7 @@ function drawStatus(){
 //checkCookie();
 function start(){
 	blockMap[0][10][12]=50100;
-	setInterval(update,3);
+	mainInterval=setInterval(update,3);
 	window.addEventListener('keydown',function(e){ keyBoard[e.keyCode]=true; })
 	window.addEventListener('keyup',function(e){ keyBoard[e.keyCode]=false; })
 	document.getElementById("can").addEventListener('mousemove', function (e) { mouseX = e.offsetX; mouseY = e.offsetY; })
@@ -2314,16 +2317,24 @@ else{
 	ctx.fillText(Math.floor((mouseX-admin.x)/40)+','+Math.floor((mouseY-admin.y)/40),mouseX,mouseY);
 }
 }
+var ghostghostimageCount=0;
 function ShowGhostScream(){
-	var ghostghost=new Array(10);
-	for(var i=0;i<10;i++){
+	var ghostghost=new Array(142);
+	for(var i=0;i<142;i++){
 		ghostghost[i]=new Image();
 		ghostghost[i].src="image/monster/ghostScream/ghostScream"+i+".png";
 	}
-	//can.width=document.body.clientWidth;
-	ctx.drawImage(ghostghost[9],0,0,800,800);
-	ctx.fillStyle='yellow'; ctx.font = "50px Arial";
-ctx.fillText(ghostghost[9],200,400);
+	can.width=document.body.clientWidth;
+	can.height=document.body.clientHeight;
+	ghostghostimageCount+=1;
+	if(ghostghostimageCount==142){
+		ctx.font="50px Comic Sans MS";
+		ctx.fillStyle = "red";
+		ctx.fillText("GameOver",300,300);
+		clearInterval(ghostInterval);
+	}
+	else
+	ctx.drawImage(ghostghost[ghostghostimageCount],0,0,document.body.clientWidth,document.body.clientHeight);
 }
 </script>
 <center>
