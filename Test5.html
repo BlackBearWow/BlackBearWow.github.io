@@ -7,20 +7,20 @@
 <canvas id="can" width="1200" height="856" style=" cursor:none;"/>
 <!--0~800화면. ~828에이치피 ~856exp  1200 856 border:1px solid #c3c3c3;-->
 </center>
-<div id='musics' style='display:block;'>
-<audio id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3">
-<audio id="Fade" src="Music/Fade.mp3"/>
-<audio id="Camp" src="Music/CAMP.mp3"/>
-<audio id="balloonBoom" src="Music/sports-sound13.ogg"/>
-<audio id="item" src="Music/아이템이다.mp3"/>
-<audio id="balloonSet" src="Music/etc-sound0010.ogg"/>
-<audio id="door" src="Music/문소리.mp3"/>
-<audio id="levelUp" src="Music/렙업.wav"/>
-<audio id="monsterdie" src="Music/monsterdie.swf.mp3"/>
-<audio id="KerningSquare" src="Music/커닝스퀘어.mp3"/>
-<audio id="Ib" src="Music/Ib OST -.mp3">
-<audio id="oneMissedCall" src="Music/oneMissedCall.mp3"/>
-<audio id="Real Ghost sound" src="Music/Real Ghost sound.mp3"/>
+<div style='display:block;'>
+<audio class="musics" id="Sugar" src="Music/DanceOfTheSugarplumFairy.mp3">
+<audio class="musics" id="Fade" src="Music/Fade.mp3"/>
+<audio class="musics" id="Camp" src="Music/CAMP.mp3"/>
+<audio class="musics" id="balloonBoom" src="Music/sports-sound13.ogg"/>
+<audio class="musics" id="item" src="Music/아이템이다.mp3"/>
+<audio class="musics" id="balloonSet" src="Music/etc-sound0010.ogg"/>
+<audio class="musics" id="door" src="Music/문소리.mp3"/>
+<audio class="musics" id="levelUp" src="Music/렙업.wav"/>
+<audio class="musics" id="monsterdie" src="Music/monsterdie.swf.mp3"/>
+<audio class="musics" id="KerningSquare" src="Music/커닝스퀘어.mp3"/>
+<audio class="musics" id="Ib" src="Music/Ib OST -.mp3">
+<audio class="musics" id="oneMissedCall" src="Music/oneMissedCall.mp3"/>
+<audio class="musics" id="Real Ghost sound" src="Music/Real Ghost sound.mp3"/>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -1567,11 +1567,11 @@ var dialogue = [  //npc의 대화들
     1,"아닙니다",
 	0,"여기가 밖이지 안이야?"
     ],//금 일병situation 0
-    [0,"팅팅팅팅 팅",
+    [0,username,
     1,"이병 "+username,
-    0,"탱탱 탱 탱",
-    0,"지금 메추리알 먹는거 안보이냐? 개쳐맞고싶나 팅팅탱탱후라이팬놀이",
-    1,"저도 주십시오"
+    0,"페건물안에는 들어가지 마라",
+    1,"왜 들어가지 맙니까??",
+    0,"짬찌새끼가 들어가지 말라면 들어가지 마"
     ],
   ], //금 일병situation 1
   [
@@ -1627,7 +1627,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:5, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
+		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -1765,7 +1765,7 @@ function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
 	llss=ctx.measureText("뭐어떻하라고나보고뭐어떻하라고나보고뭐어떻하라고").width;
-	ctx.fillText(dialogue[0][1][9].length+" "+llss+" "+obstacleMap[0].length,10,50);
+	ctx.fillText(document.getElementsByClassName("musics").length+" "+llss+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -2320,6 +2320,9 @@ else{
 var ghostghostimageCount=0;
 function ShowGhostScream(){
 	var ghostghost=new Array(142);
+	for(var a=0;a<document.getElementsByClassName("musics").length;a++){
+		aud_stop(document.getElementsByClassName("musics")[a].id);
+	}
 	for(var i=0;i<142;i++){
 		ghostghost[i]=new Image();
 		ghostghost[i].src="image/monster/ghostScream/ghostScream"+i+".png";
@@ -2330,7 +2333,7 @@ function ShowGhostScream(){
 	if(ghostghostimageCount==142){
 		ctx.font="50px Comic Sans MS";
 		ctx.fillStyle = "red";
-		ctx.fillText("GameOver",300,300);
+		ctx.fillText("GameOver",document.body.clientWidth/2-ctx.measureText("GameOver").width/2,document.body.clientHeight/2-100);
 		clearInterval(ghostInterval);
 	}
 	else
