@@ -1,9 +1,8 @@
-
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
 </head>
-<body onload="start()" style="background-color:black">
+<body onload="ShowGhostScream()" style="background-color:black">
 <center>
 <canvas id="can" width="1200" height="856" style=" cursor:none;"/>
 <!--0~800화면. ~828에이치피 ~856exp  1200 856 border:1px solid #c3c3c3;-->
@@ -2314,6 +2313,17 @@ else{
 	ctx.fillStyle = "yellow";
 	ctx.fillText(Math.floor((mouseX-admin.x)/40)+','+Math.floor((mouseY-admin.y)/40),mouseX,mouseY);
 }
+}
+function ShowGhostScream(){
+	var ghostghost=new Array(10);
+	for(var i=0;i<10;i++){
+		ghostghost[i]=new Image();
+		ghostghost[i].src="image/monster/ghostScream/ghostScream"+i+".png";
+	}
+	//can.width=document.body.clientWidth;
+	ctx.drawImage(ghostghost[9],0,0,800,800);
+	ctx.fillStyle='yellow'; ctx.font = "50px Arial";
+ctx.fillText(ghostghost[9],200,400);
 }
 </script>
 <center>
