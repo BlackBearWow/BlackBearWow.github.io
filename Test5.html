@@ -1526,8 +1526,8 @@ var dialogue = [  //npc의 대화들
   [
     [0,username,
     1,"이병 "+username,
-    0,"죄송합니다 다음부터는 잘 하지 않을까 말까? 응? 오늘도 우리는 평화롭다",
-    1,"죄송합니다 다음부터는 잘 하지 않을까 말까? 응? 오늘도 우리는 평화롭다"
+    0,"죄송합니다 다음부터는 잘 하지 않을까 말까",
+    1,"죄송합니다 다음부터는 잘 하지 않을까 말까"
     ],//김 상병 situation==0일때 대사
     [1,"김 상병님?",
 	0,"왜 ",
@@ -1623,8 +1623,19 @@ function Talking(){
 		}
 		ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,650);
 	}
-	else
+	else{
+		text=username+" : ";
+		text=npcMap[0][dialogueNpc].name+" : ";
+		for(var a=0;a<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
+			text+=dialogue[dialogueNpc][situation][dialogueCount+1][a];
+			if(ctx.measureText(text).width>1200) {
+				ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1].slice(0,a),0,650);
+				ctx.fillText(dialogue[dialogueNpc][situation][dialogueCount+1].slice(a,dialogue[dialogueNpc][situation][dialogueCount+1].length),0,700);
+				return;
+			}
+		}
 		ctx.fillText(username+" : "+dialogue[dialogueNpc][situation][dialogueCount+1],0,650);
+	}
 }
 if(1){ //물풍선
 	var w=[0];
@@ -1765,11 +1776,11 @@ function FitemWindow(){
 	if(itemWindowShow) itemWindowShow=0;
 	else itemWindowShow=1;
 }
+text=0;
 function drawInformation(){
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	llss=ctx.measureText("뭐어떻하라고나보고뭐어떻하라고나보고뭐어떻하라고").width;
-	ctx.fillText(document.getElementsByClassName("musics").length+" "+llss+" "+obstacleMap[0].length,10,50);
+	ctx.fillText(ctx.measureText(text).width+" "+obstacleMap[0].length,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
