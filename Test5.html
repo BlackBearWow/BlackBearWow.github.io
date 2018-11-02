@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -1525,8 +1526,8 @@ var dialogue = [  //npc의 대화들
   [
     [0,username,
     1,"이병 "+username,
-    0,"뭐하냐",
-    1,"죄송합니다"
+    0,"죄송합니다 다음부터는 잘 하지 않을까 말까? 응? 오늘도 우리는 평화롭다",
+    1,"죄송합니다 다음부터는 잘 하지 않을까 말까? 응? 오늘도 우리는 평화롭다"
     ],//김 상병 situation==0일때 대사
     [1,"김 상병님?",
 	0,"왜 ",
@@ -1612,7 +1613,7 @@ function Talking(){
 	ctx.fillStyle = "yellow";
 	if(dialogue[dialogueNpc][situation][dialogueCount]==0){
 		text=npcMap[0][dialogueNpc].name+" : ";
-		for(a=0;i<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
+		for(var a=0;a<dialogue[dialogueNpc][situation][dialogueCount+1].length;a++){
 			text+=dialogue[dialogueNpc][situation][dialogueCount+1][a];
 			if(ctx.measureText(text).width>1200) {
 				ctx.fillText(npcMap[0][dialogueNpc].name+" : "+dialogue[dialogueNpc][situation][dialogueCount+1].slice(0,a-1),0,650);
@@ -1630,7 +1631,7 @@ if(1){ //물풍선
 	w[0]={
 		maxPossibleCount:100, possibleCount:1,//물풍선 쓸 수 있는 개수
 		maxLen:50, len:1,//물줄기
-		speedCount:1, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
+		speedCount:10, speed:[0.5,0.6,0.7,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,4,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,5,5.1,5.2,5.3,5.4,5.5,5.6,5.7,5.8,5.9,6,20],//롤러스테이트
 		leftLen:1,rightLen:1,upLen:1,downLen:1,
 		leftBlock:1,rightBlock:1,upBlock:1,downBlock:1,
 		keyBoard:1,
@@ -1914,7 +1915,7 @@ if(!admin.administrator){
 			main.x-=w[0].speed[w[0].speedCount];
 			llll+=w[0].speed[w[0].speedCount];
 		}
-		main.walking+=0.125; if(main.walking==3) main.walking=0;
+		main.walking+=0.0625; if(main.walking==3) main.walking=0;
 		if(llll>=oneBlock) { main.x=Math.round(main.x/oneBlock)*oneBlock; llll=0; leftSet=0; main.walking=0;}
 	}
 	else if(rightSet){
@@ -1926,7 +1927,7 @@ if(!admin.administrator){
 			main.x+=w[0].speed[w[0].speedCount];
 			rrrr+=w[0].speed[w[0].speedCount];
 		}
-		main.walking+=0.125; if(main.walking==3) main.walking=0;
+		main.walking+=0.0625; if(main.walking==3) main.walking=0;
 		if(rrrr>=oneBlock) { main.x=Math.round(main.x/oneBlock)*oneBlock; rrrr=0; rightSet=0; main.walking=0;}
 	}
 	if(upSet){
@@ -1938,7 +1939,7 @@ if(!admin.administrator){
 			main.y-=w[0].speed[w[0].speedCount];
 			uuuu+=w[0].speed[w[0].speedCount];
 		}
-		main.walking+=0.125; if(main.walking==3) main.walking=0;
+		main.walking+=0.0625; if(main.walking==3) main.walking=0;
 		if(uuuu>=oneBlock) { main.y=Math.round(main.y/oneBlock)*oneBlock; uuuu=0; upSet=0; main.walking=0;}
 	}
 	else if(downSet){
@@ -1950,7 +1951,7 @@ if(!admin.administrator){
 			main.y+=w[0].speed[w[0].speedCount];
 			dddd+=w[0].speed[w[0].speedCount];
 		}
-		main.walking+=0.125; if(main.walking==3) main.walking=0;
+		main.walking+=0.0625; if(main.walking==3) main.walking=0;
 		if(dddd>=oneBlock) { main.y=Math.round(main.y/oneBlock)*oneBlock; dddd=0; downSet=0; main.walking=0;}
 	}
 	if(blockMap[mapCount][Math.round(main.y/oneBlock)][Math.round(main.x/oneBlock)]==1)w[0].inBalloon=1;
