@@ -1,6 +1,6 @@
 <html>
 <script>
-var impossible=1;//불가능한 버전set
+var impossible=0;//불가능한 버전set
 function im(){impossible=1;document.getElementById('comQ').innerHTML='많이힘든 난이도야';}
 function ha(){impossible=0;document.getElementById('comQ').innerHTML='보통힘든 난이도야';}
 var order=0;//0 당신순서 1 컴퓨터 순서
@@ -176,8 +176,9 @@ function isSame(){
 <div id='whoFirst'>
 <input type='button' onclick='first()' value='선'>
 <input type='button' onclick='second()' value='후'>
-<br><input type='button' onclick='im()' value='많이힘든'>
-<input type='button' onclick='ha()' value='보통힘든'>
+<br>
+<label>많이힘든</label><input type='radio' name="af" id="imp" onclick='im()' value='많이힘든' >
+<label>보통힘든</label><input type='radio' name="af" id="har" onclick='ha()' value='보통힘든' checked>
 </div>
 </div>
 <br><hr><br>
