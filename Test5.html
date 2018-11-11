@@ -1352,7 +1352,7 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,200+extraHp,200+extraHp,"image/monster/drillerBoss/drillerBoss",20,160,120);
+				monsterMap[1][monsterMap[1].length]=new makeMonster("몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/monster/drillerBoss/drillerBoss",20,160,120);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
@@ -1363,8 +1363,8 @@ function makeMonster2map() {
 	for(a=0;a<mhBlock[2];a++){
 		for(b=0;b<mwBlock[2];b++){
 			if(Math.floor(Math.random() * 30)<1){
-				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[2][monsterMap[2].length]=new makeMonster("몬스터",2,b,a,3000+extraHp,3000+extraHp,"image/monster/ghost/ghost",10,40,80);
+				var extraHp=Math.floor(Math.random() * 50000);
+				monsterMap[2][monsterMap[2].length]=new makeMonster("몬스터",2,b,a,70000+extraHp,70000+extraHp,"image/monster/ghost/ghost",10,40,80);
 				if(monsterMap[2][monsterMap[2].length-1].delete==0) monsterMap[2].splice(monsterMap[2].length-1,1);
 			}
 		}
