@@ -304,7 +304,8 @@ var main={
 	second:0,
 	minute:0,
 	hour:0,
-	day:0
+	day:0,
+	money:0,
 };
 var lantern=new Image();
 lantern.src="https://diotheworld.github.io/image/lantern1.png";
@@ -1832,14 +1833,15 @@ function start(){
 var preB=1;
 function update(){
 //배경음악 설정.
-if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");aud_stop("Real Ghost sound");}
-else if(mapCount==3){playMusic("Real Ghost sound");aud_stop("oneMissedCall");aud_stop("KerningSquare");}
-else {playMusic("oneMissedCall");aud_stop("KerningSquare");aud_stop("Real Ghost sound");}
+//if(mapCount==0) {playMusic("KerningSquare");aud_stop("oneMissedCall");aud_stop("Real Ghost sound");}
+//else if(mapCount==3){playMusic("Real Ghost sound");aud_stop("oneMissedCall");aud_stop("KerningSquare");}
+//else {playMusic("oneMissedCall");aud_stop("KerningSquare");aud_stop("Real Ghost sound");}
 //HP를 화면에 sprite할때 전체화면색갈을 초기화시키지 않으면 렉이 걸리면서 끊김
 if(!admin.administrator){
 	ctx.fillStyle='#000000';
 	ctx.fillRect(0,0,canvasWidth,canvasHeight);
 	main.second+=1;
+	main.money+=1;
 	if(main.second==60){
 		main.minute+=1; main.second=0;
 		if(main.minute==60){
@@ -2265,7 +2267,12 @@ if(!admin.administrator){
 		else{ if(main.y%oneBlock==0) { if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)]%1000); else if(parseInt(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]/ 1000)==1) npcTalk(blockMap[mapCount][main.y/oneBlock+1][Math.floor(main.x/oneBlock)+1]%1000)}}
 	}//spacebar
 	drawStatus();
-	if(itemWindowShow)ctx.drawImage(itemWindow,100,100,172,293);
+	if(itemWindowShow){ 
+		ctx.drawImage(itemWindow,100,100,172,293);
+		ctx.font="16px Comic Sans MS";
+		ctx.fillStyle = "black";
+		ctx.fillText(main.money,225-ctx.measureText(main.money).width,379);
+	}
 	ctx.drawImage(mouse,mouseX,mouseY,30,30);//draw mouseCursor
 }
 else{
