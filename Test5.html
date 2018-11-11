@@ -1340,7 +1340,7 @@ function makeMonster0map() {
 		for(b=3;b<mwBlock[0];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,40,40);
+				monsterMap[0][monsterMap[0].length]=new makeMonster("몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,80,80);
 				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 		}
@@ -1399,17 +1399,6 @@ function makeMonster(name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,widt
 		return;
 	}
 }
-function makeAiMonster(){
-	this.x=24*40;
-	this.y=5*40;
-	this.image=new Image();
-	this.image.src="image/monster/ghostA/ghostA0.png";
-}
-function drawAiMonster(){
-	if(mapCount!=3)return;
-	ctx.drawImage(aiMonster.image,backgroundx+aiMonster.x,backgroundy+aiMonster.y,60,100);
-}
-aiMonster=new makeAiMonster();
 function drawMonsters(){
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
@@ -1418,9 +1407,9 @@ function drawMonsters(){
 			monsterMap[mapCount][a].imageCount=(monsterMap[mapCount][a].imageQuantity-1)*20;
 		}
 		ctx.fillStyle="black";
-		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,oneBlock+7,10);
+		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-7,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-10,monsterMap[mapCount][a].width+7,10);
 		ctx.fillStyle="red";
-		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(oneBlock+3),6);
+		ctx.fillRect(backgroundx+(monsterMap[mapCount][a].x)*oneBlock-5,backgroundy+(monsterMap[mapCount][a].y)*oneBlock-8,(monsterMap[mapCount][a].hp/monsterMap[mapCount][a].maxHp)*(monsterMap[mapCount][a].width+3),6);
 		ctx.drawImage(monsterMap[mapCount][a].image[monsterMap[mapCount][a].imageQuantity-1-Math.floor(monsterMap[mapCount][a].imageCount/20)],backgroundx+(monsterMap[mapCount][a].x)*oneBlock,backgroundy+(monsterMap[mapCount][a].y)*oneBlock,monsterMap[mapCount][a].width,monsterMap[mapCount][a].height);
 		monsterMap[mapCount][a].imageCount--;
 		//Skill[main.selectSkill].image[Skill[main.selectSkill].imageQuantity-1-Math.floor(main.skillCoolTime/Skill[main.selectSkill].speed)]
@@ -1460,20 +1449,6 @@ function monsterHit(){//캐릭터가 몬스터를 공격함
 		}
 	}
 }
-function moveAiMonster(){
-	if(mapCount!=3) return;
-	if((aiMonster.x-320<=main.x)&&(aiMonster.x+360>=main.x)){
-		if((aiMonster.x-320<=main.x)&&(aiMonster.x<main.x)) aiMonster.x+=0.5;
-		else if(aiMonster.x+360>=main.x) aiMonster.x-=0.5;
-	}
-	if((aiMonster.y-320<=main.y)&&(aiMonster.y+360>=main.y)){
-		if((aiMonster.y-320<=main.y)&&(aiMonster.y<main.y)) aiMonster.y+=0.5;
-		else if(aiMonster.y+360>=main.y) aiMonster.y-=0.5;
-	}
-	if((aiMonster.y<=main.y+40)&&(aiMonster.y+100>=main.y)&&(aiMonster.x<=main.x+40)&&(aiMonster.x+60>=main.x)){
-		clearInterval(mainInterval); ghostInterval=setInterval(ShowGhostScream,3);
-	}
-}
 function monsterAttack(){//몬스터가 캐릭터를 공격함
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
@@ -1492,6 +1467,31 @@ function monsterDie(){//이 함수는 맵 뒤에 실행하지 않으면 canvas�
 	if(monsterMap[mapCount][a].hp<=0) {
 		monsterMap[mapCount].splice(a,1); a-=1;playMusic2('monsterdie'); main.exp+=1;
 		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(main.exp-main.maxExp,main.charLevel+1); }
+	}
+}
+function makeAiMonster(){
+	this.x=24*40;
+	this.y=5*40;
+	this.image=new Image();
+	this.image.src="image/monster/ghostA/ghostA0.png";
+}
+function drawAiMonster(){
+	if(mapCount!=3)return;
+	ctx.drawImage(aiMonster.image,backgroundx+aiMonster.x,backgroundy+aiMonster.y,60,100);
+}
+aiMonster=new makeAiMonster();
+function moveAiMonster(){
+	if(mapCount!=3) return;
+	if((aiMonster.x-320<=main.x)&&(aiMonster.x+360>=main.x)){
+		if((aiMonster.x-320<=main.x)&&(aiMonster.x<main.x)) aiMonster.x+=0.5;
+		else if(aiMonster.x+360>=main.x) aiMonster.x-=0.5;
+	}
+	if((aiMonster.y-320<=main.y)&&(aiMonster.y+360>=main.y)){
+		if((aiMonster.y-320<=main.y)&&(aiMonster.y<main.y)) aiMonster.y+=0.5;
+		else if(aiMonster.y+360>=main.y) aiMonster.y-=0.5;
+	}
+	if((aiMonster.y<=main.y+40)&&(aiMonster.y+100>=main.y)&&(aiMonster.x<=main.x+40)&&(aiMonster.x+60>=main.x)){
+		clearInterval(mainInterval); ghostInterval=setInterval(ShowGhostScream,3);
 	}
 }
 function setMain(exp,level){
