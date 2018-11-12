@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -1340,22 +1341,22 @@ function makeMonster0map() {
 		for(b=3;b<mwBlock[0];b++){
 			if(Math.floor(Math.random() * 100)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster(20,"몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,80,80);
+				monsterMap[0][monsterMap[0].length]=new makeMonster(20,1,"몬스터",0,b,a,200+extraHp,200+extraHp,"image/monster/snail/snail",10,80,80);
 				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 			else if(Math.floor(Math.random() * 100)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster(20,"쉬룸",0,b,a,200+extraHp,200+extraHp,"image/monster/Shroom/Shroom",7,40,40);
+				monsterMap[0][monsterMap[0].length]=new makeMonster(20,1,"쉬룸",0,b,a,200+extraHp,200+extraHp,"image/monster/Shroom/Shroom",7,40,40);
 				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 			else if(Math.floor(Math.random() * 100)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster(20,"옥토퍼스",0,b,a,200+extraHp,200+extraHp,"image/monster/Octopus/Octopus",5,50,50);
+				monsterMap[0][monsterMap[0].length]=new makeMonster(20,1,"옥토퍼스",0,b,a,200+extraHp,200+extraHp,"image/monster/Octopus/Octopus",5,50,50);
 				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 			else if(Math.floor(Math.random() * 100)<1){
 				var extraHp=Math.floor(Math.random() * 300);
-				monsterMap[0][monsterMap[0].length]=new makeMonster(20,"주황버섯",0,b,a,200+extraHp,200+extraHp,"image/monster/orangeMushroom/orangeMushroom",3,50,50);
+				monsterMap[0][monsterMap[0].length]=new makeMonster(20,1,"주황버섯",0,b,a,200+extraHp,200+extraHp,"image/monster/orangeMushroom/orangeMushroom",3,50,50);
 				if(monsterMap[0][monsterMap[0].length-1].delete==0) monsterMap[0].splice(monsterMap[0].length-1,1);
 			}
 		}
@@ -1367,17 +1368,27 @@ function makeMonster1map() {
 		for(b=0;b<mwBlock[1];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster(100,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/monster/drillerBoss/drillerBoss",20,160,120);
+				monsterMap[1][monsterMap[1].length]=new makeMonster(100,3,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/monster/drillerBoss/drillerBoss",20,160,120);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
-			if(Math.floor(Math.random() * 30)<1){
+			else if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster(100,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyA/moneyA",4,25,24);
+				monsterMap[1][monsterMap[1].length]=new makeMonster(100,3,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyA/moneyA",4,25,24);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
-			if(Math.floor(Math.random() * 30)<1){
+			else if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 2000);
-				monsterMap[1][monsterMap[1].length]=new makeMonster(100,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyB/moneyB",4,25,24);
+				monsterMap[1][monsterMap[1].length]=new makeMonster(100,3,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyB/moneyB",4,25,24);
+				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
+			}
+			else if(Math.floor(Math.random() * 30)<1){
+				var extraHp=Math.floor(Math.random() * 2000);
+				monsterMap[1][monsterMap[1].length]=new makeMonster(100,3,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyC/moneyC",4,33,30);
+				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
+			}
+			else if(Math.floor(Math.random() * 30)<1){
+				var extraHp=Math.floor(Math.random() * 2000);
+				monsterMap[1][monsterMap[1].length]=new makeMonster(100,3,"몬스터",1,b,a,5000+extraHp,5000+extraHp,"image/Money/moneyD/moneyD",4,32,31);
 				if(monsterMap[1][monsterMap[1].length-1].delete==0) monsterMap[1].splice(monsterMap[1].length-1,1);
 			}
 		}
@@ -1389,7 +1400,7 @@ function makeMonster2map() {
 		for(b=0;b<mwBlock[2];b++){
 			if(Math.floor(Math.random() * 30)<1){
 				var extraHp=Math.floor(Math.random() * 50000);
-				monsterMap[2][monsterMap[2].length]=new makeMonster(2000,"몬스터",2,b,a,70000+extraHp,70000+extraHp,"image/monster/ghost/ghost",10,40,80);
+				monsterMap[2][monsterMap[2].length]=new makeMonster(2000,10,"몬스터",2,b,a,70000+extraHp,70000+extraHp,"image/monster/ghost/ghost",10,40,80);
 				if(monsterMap[2][monsterMap[2].length-1].delete==0) monsterMap[2].splice(monsterMap[2].length-1,1);
 			}
 		}
@@ -1397,12 +1408,13 @@ function makeMonster2map() {
 }
 function makeMonster3map() {
 	monsterMap[3].splice(0,monsterMap[3].length);
-	monsterMap[3][monsterMap[3].length]=new makeMonster(20,"몬스터",3,24,5,3000000,3000000,"image/monster/ghost/ghost",10,40,80);
+	monsterMap[3][monsterMap[3].length]=new makeMonster(20,3,"몬스터",3,24,5,3000000,3000000,"image/monster/ghost/ghost",10,40,80);
 }
-function makeMonster(money,name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,width,height){//몬스터 만들기
+function makeMonster(money,exp,name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQuantity,width,height){//몬스터 만들기
 	this.name=name;
 	this.delete=1;
 	this.x=x;
+	this.exp=exp;
 	this.money=money;
     this.y=y;
 	this.maxHp=maxHp;
@@ -1491,7 +1503,7 @@ function monsterDie(){//이 함수는 맵 뒤에 실행하지 않으면 canvas�
 	if(monsterMap[mapCount]==undefined) return;
 	for(var a=0;a<monsterMap[mapCount].length;a++)
 	if(monsterMap[mapCount][a].hp<=0) {
-		main.money+=monsterMap[mapCount][a].money; monsterMap[mapCount].splice(a,1); a-=1;playMusic2('monsterdie'); main.exp+=1;
+		main.money+=monsterMap[mapCount][a].money; main.exp+=monsterMap[mapCount][a].exp; monsterMap[mapCount].splice(a,1); a-=1;playMusic2('monsterdie');
 		if(main.exp>=main.maxExp){ playMusic2('levelUp'); main.levelImageCount=210; setMain(main.exp-main.maxExp,main.charLevel+1); }
 	}
 }
