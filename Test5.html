@@ -1421,7 +1421,7 @@ function makeMonster(money,exp,name,whatMap,x,y,maxHp,hp,NoNumberSource,imageQua
 	this.hp=hp;
 	this.width=width;
 	this.height=height;
-	this.movingWait=100;
+	this.movingWait=1000;
 	this.hits=new Array(20);
 	for(var i=0;i<this.hits.length;i++)this.hits[i]=0;
 	this.hitsCount=0;//default=20
@@ -1524,8 +1524,8 @@ function moveMonster(){
 			else if(klmn==7){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=0.25; }
 			else { monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=0.25; }
 		}
-		else if(monsterMap[mapCount][a].movingWait<160&&monsterMap[mapCount][a].movingWait>0){ monsterMap[mapCount][a].x+=monsterMap[mapCount][a].movingX; monsterMap[mapCount][a].y+=monsterMap[mapCount][a].movingY;}
-		else if(monsterMap[mapCount][a].movingWait==0) {monsterMap[mapCount][a].movingWait=100+(Math.floor(Math.random()*700));}
+		else if(monsterMap[mapCount][a].movingWait<160&&monsterMap[mapCount][a].movingWait>=0){ monsterMap[mapCount][a].x+=monsterMap[mapCount][a].movingX; monsterMap[mapCount][a].y+=monsterMap[mapCount][a].movingY;}
+		else if(monsterMap[mapCount][a].movingWait<0) {monsterMap[mapCount][a].movingWait=200+(Math.floor(Math.random()*700));}
 	}
 }
 function makeAiMonster(){
@@ -1849,7 +1849,7 @@ function drawInformation(){
 	if(monsterMap[0][0]==undefined)return;
 	ctx.font="50px Comic Sans MS";
 	ctx.fillStyle = "red";
-	ctx.fillText(main.day+"일 "+main.hour+"시 "+main.minute+"분 "+main.second+"초 "+monsterMap[0][0].movingY,10,50);
+	ctx.fillText(main.day+"일 "+main.hour+"시 "+main.minute+"분 "+main.second+"초 "+monsterMap[0][0].y,10,50);
 }
 function drawStatus(){
 	ctx.fillStyle="tomato"; ctx.fillRect(0,800,1200,28);
@@ -2228,7 +2228,7 @@ if(!admin.administrator){
 	drawInformation();
 	drawMonsters();
 	drawMonstersHit();
-	monsterHit();
+	//monsterHit(); 오류투성이인 함수임. 고쳐야됨.
 	monsterDie();
 	moveMonster();
 	drawAiMonster();
