@@ -1294,7 +1294,7 @@ function obstacleBoom(a){
 	else{ obstacleMap[0][a].state=1; blockMap[0][obstacleMap[0][a].y][obstacleMap[0][a].x]=100+obstacleMap[0][a].item; }
 }
 //몬스터
-monsterMap[0]=[new makeMonster(20,1,"쉬룸",0,280,280,200,200,"image/monster/Shroom/Shroom",7,40,40)];monsterMap[1]=[];monsterMap[2]=[];monsterMap[3]=[];
+monsterMap[0]=[new makeMonster(20,1,"쉬룸",0,400,400,200,200,"image/monster/Shroom/Shroom",7,40,40)];monsterMap[1]=[];monsterMap[2]=[];monsterMap[3]=[];
 hitMonster=[];
 function addHitMonster(delayTime,betweenAttackTime,damageValue,startX,startY,i){
 	this.hitCounts=200+delayTime+i*betweenAttackTime;
