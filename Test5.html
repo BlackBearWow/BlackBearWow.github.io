@@ -2655,7 +2655,7 @@ else{
 	if(keyBoard[38]) admin.y+=4; else if(keyBoard[40]) admin.y-=4;
 	ctx.fillStyle='#aaaaaa';
 	ctx.fillRect(0,0,canvasWidth,canvasHeight);
-	//ctx.drawImage(background[mapCount].image,0,0,mw[mapCount],mh[mapCount]);
+	ctx.drawImage(background[mapCount].image,0,0,mw[mapCount],mh[mapCount]);
 	for(yy=0;yy<admin.mh;yy++){
 		ctx.fillStyle="tomato";
 		ctx.fillRect(-40+admin.x,yy*40+admin.y,40,40);
@@ -2674,7 +2674,7 @@ else{
 	}
 	for(yy=0;yy<admin.mh;yy++)//mapInformation1
 	for(xx=0;xx<admin.mw;xx++){
-		if(mapInformation1[mapCount][yy][xx]==-1)return;
+		if(mapInformation1[mapCount][yy][xx]!=-1)
 		ctx.drawImage(Img[0][mapInformation1[mapCount][yy][xx]].image,xx*40+admin.x,yy*40+admin.y,40,40);
 	}
 	for(yy=0;yy<admin.mh;yy++)//mapInformation4
