@@ -1481,7 +1481,7 @@ function monsterHit(){//캐릭터가 몬스터를 공격함
 	if(monsterMap[mapCount]==undefined) return;
 	var a,b=monsterMap[mapCount].length;
 	for(a=0;a<b;a++){
-		if(blockMap[mapCount][Math.floor(monsterMap[mapCount][a].y/40)][Math.floor(monsterMap[mapCount][a].x/40)]==1){
+		if(blockMap[mapCount][monsterMap[mapCount][a].y/40][monsterMap[mapCount][a].x/40]==1){
 			monsterMap[mapCount][a].hits[0]=Math.floor(Math.random()*(Attack.balloonMax-Attack.balloonMin)+Attack.balloonMin+1);//이 칸에 이제 캐릭터의 공격력을 넣어야됨.
 			monsterMap[mapCount][a].hitsCount=monsterMap[mapCount][a].hits.length;
 			monsterMap[mapCount][a].hp-=monsterMap[mapCount][a].hits[0];
@@ -1514,18 +1514,18 @@ function moveMonster(){
 		monsterMap[mapCount][a].movingWait-=1; 
 		if(monsterMap[mapCount][a].movingWait==160){
 			var klmn=Math.floor(Math.random()*9);
-			if(klmn==0){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=-0.25; }
-			else if(klmn==1){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=-0.25; }
-			else if(klmn==2){ monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=-0.25; }
-			else if(klmn==3){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=0; }
-			else if(klmn==4){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=0; }
-			else if(klmn==5){ monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=0; }
-			else if(klmn==6){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=0.25; }
-			else if(klmn==7){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=0.25; }
-			else { monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=0.25; }
+			if((klmn==0)&&(monsterMap[mapCount][a].x>40)){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=-0.25; }
+			else if((klmn==1)){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=-0.25; }
+			else if((klmn==2)&&(monsterMap[mapCount][a].x<mw[mapCount]-40)){ monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=-0.25; }
+			else if((klmn==3)&&(monsterMap[mapCount][a].x>40)){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=0; }
+			else if((klmn==4)){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=0; }
+			else if((klmn==5)&&(monsterMap[mapCount][a].x<mw[mapCount]-40)){ monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=0; }
+			else if((klmn==6)&&(monsterMap[mapCount][a].x>40)){ monsterMap[mapCount][a].movingX=-0.25; monsterMap[mapCount][a].movingY=0.25; }
+			else if((klmn==7)){ monsterMap[mapCount][a].movingX=0; monsterMap[mapCount][a].movingY=0.25; }
+			else if (mapCount==1&&(monsterMap[mapCount][a].x<mw[mapCount]-40)){ monsterMap[mapCount][a].movingX=0.25; monsterMap[mapCount][a].movingY=0.25; }
 		}
 		else if(monsterMap[mapCount][a].movingWait<160&&monsterMap[mapCount][a].movingWait>=0){ monsterMap[mapCount][a].x+=monsterMap[mapCount][a].movingX; monsterMap[mapCount][a].y+=monsterMap[mapCount][a].movingY;}
-		else if(monsterMap[mapCount][a].movingWait<0) {monsterMap[mapCount][a].movingWait=200+(Math.floor(Math.random()*700));}
+		else if(monsterMap[mapCount][a].movingWait<0) {monsterMap[mapCount][a].movingWait=200+(Math.floor(Math.random()*40));}
 	}
 }
 function makeAiMonster(){
@@ -2228,7 +2228,7 @@ if(!admin.administrator){
 	drawInformation();
 	drawMonsters();
 	drawMonstersHit();
-	//monsterHit(); 오류투성이인 함수임. 고쳐야됨.
+	//monsterHit(); //오류투성이인 함수임. 고쳐야됨.
 	monsterDie();
 	moveMonster();
 	drawAiMonster();
