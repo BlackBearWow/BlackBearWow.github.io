@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<base href="https://diotheworld.github.io/" target="_blank">
@@ -21,13 +22,10 @@
 	}
 	function update(){
 		if(map[87]){ 
-			document.getElementById('iframe').style.display="none";
+			document.getElementsByClassName('iframe').style.display="none";
 		}
-		if(map[68]&&map[73]&&map[79]){
-			document.getElementById('iframe').style.display="block";<!-- block visible
-		}
-		if(map[66]&&map[78]&&map[188]){
-			location.href="https://marumaru.in/";
+		if(map[68]&&map[73]){
+			document.getElementById('iframe').style.display="block";//block visible
 		}
 	}
 	function notset(){
@@ -118,7 +116,9 @@
 </head>
 <body style="background-color:lightgoldenrodyellow" onload="start()">
 	<br><br>
-	<iframe id='iframe' height="800px" width="1500px" src="https://marumaru.in/" name='iframe_a'></iframe>
+	<form id="iframe" style="display:none" class="iframe" action="https://world-215205.appspot.com/" method="post">
+		<input type="submit" value="submit">
+	</form>
 	<ul>
 		<li><a href='https://diotheworld.github.io' style="background-color:green">SITES BY JH</a></li>
 		<li><a href='GameList.html'>Games</a></li>
