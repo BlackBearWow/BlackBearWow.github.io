@@ -4,3 +4,11 @@ body {
 td:hover{
   background-color: #a5a5a5;
 }
+th.round {	
+  border: 2px solid black;
+  border-radius: 10px;
+}
+td.round {	
+  border: 2px solid black;
+	border-radius: 4px;
+}
