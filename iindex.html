@@ -1,53 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
+
+
 <html>
 <head>
-	<title>What is this site??</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-	<base href="https://blackbearwow.github.io/" target="_blank">
+	<base href="https://diotheworld.github.io/" target="_blank">
+	<script async src="//pagead2.googlesyndication.com/
+	pagead/js/adsbygoogle.js"></script>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({
+		google_ad_client: "pub-5373387410490827",
+		enable_page_level_ads: true
+		});
+	</script>
 	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
-	<link rel="shortcut icon" href="/favicon/favicon.ico">
+	<link rel="shortcut icon" href="https://diotheworld.github.io/favicon/favicon.ico">
+    <title>What is this site??</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+	var map={};
+	window.addEventListener('keydown',function(e){map[e.keyCode]=true;})
+	window.addEventListener('keyup',function(e){map[e.keyCode]=false;})
+	function start(){
+	setInterval(update,300);
+	}
+	function update(){
+		if(map[87]){ 
+			document.getElementsByClassName('iframe').style.display="none";
+		}
+		if(map[68]&&map[73]){
+			document.getElementById('iframe').style.display="block";//block visible
+		}
+	}
+	function notset(){
+		alert("아직 안만들었음");
+	}
+	</script>
 	<style>
-		body
-		{
-			background-image: url("/image/paper.gif");
+		body{
+			position: relative;
+			margin:0px;
+			top:10px;
+			left:0px;
+			background-image: url("https://diotheworld.github.io/image/paper.gif");
+			font-family:Aldrich;
+			font-size: 1.7vw;
+		}
+		ul{
+			position: fixed;
+			top:0;
+			left:0;
+			list-style-type:none;
+			margin:0;
+			padding:0;
+			overflow:hidden;
+			background-color:#333;
+		}
+		li{
+			float:left;
+		}
+		li a{
+			display: inline-block;
+			color:white;
+			text-align:center;
+			padding:14px 16px;
+			text-decoration:none;
+		}
+		li a:hover{
+			background-color:#111;
+		}
+		.main{
+			font-size: 5vw;
+			color: rgb(21,36,103);
+			text-align: left;
+		}
+		.test{
+			text-decoration: none;
+			border-style: outset;
+			border-color: gray;
+			color: yellow;
+			background: black;
+		}
+		.test:hover{
+			border-style: inset;
+		}
+		iframe{
+			display: none;
+		}
+		div{
+			position: fixed;
+			top:0;
+			left:0;
+			width: 17%;
+			background-color:yellow;
+			padding-left: 1%;
+			cursor:pointer;
+		}
+		table, th, tr, td{
+			border-collapse: collapse;
+			border: 1px solid black;
+			background-color: white;
+		}
+		td:hover{
+			background-color: #a5a5a5;
+		}
+		a{
+			text-decoration: none;
+		}
+		a:hover{
+			text-decoration: underline;
+		}
+		a#ii{
+			background-color:black;
+		}
+		img{
+			clear:both;
 		}
 	</style>
 </head>
-<body>
-	<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-		<a class="navbar-brand" href="/">SITES BY JH</a>
-    	<ul class="navbar-nav mr-auto">
-    		<li class="nav-item">
-        		<a class="nav-link" href="GameList.html">Games</a>
-    		</li>
-   			<li class="nav-item">
-        		<a class="nav-link" href="sites.html">Sites</a>
-	    	</li>
-	    	<li class="nav-item">
-        		<a class="nav-link" href="/">Problems</a>
-    		</li>
-    		<li class="nav-item">
-        		<a class="nav-link" href="https://potent-poetry-214213.appspot.com/">Login</a>
-    		</li>
-    	</ul>
-	    <!--form class="form-inline my-2 my-lg-0">
-    		<input class="form-control mr-sm-2" type="text" placeholder="Search">
-	    	<button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-    	</form-->
-	</nav>
-	<br>
+<body style="background-color:lightgoldenrodyellow" onload="start()">
+	<br><br>
+	<form id="iframe" style="display:none" class="iframe" action="https://world-215205.appspot.com/" method="post">
+		<input type="submit" value="submit">
+	</form>
+	<ul>
+		<li><a href='https://diotheworld.github.io' style="background-color:green">SITES BY JH</a></li>
+		<li><a href='GameList.html'>Games</a></li>
+		<li><a href="sites.html">Sites</a></li>
+		<li><a href=''>Problems</a></li>
+		<li><a href='https://potent-poetry-214213.appspot.com/'>Login</a></li>
+	</ul>
     <center>
+		<input type="text" name="id" /><button onclick="notset()">검색</button><br>
+        <input type="button" onclick="alert('JH의 사이트에 온걸 환영해~^^\n아직 개발중이야 ~ㅇ3ㅇ~');" value="도움말" />
 		<br>
-		<br>
-		<input type="text" name="id" /><button onclick="notset()">검색</button>
 	<a href="https://download.sublimetext.com/Sublime%20Text%20Build%203176%20Setup.exe">sublimetext</a>
 	<a href="https://notepad-plus-plus.org/repository/7.x/7.5.8/npp.7.5.8.Installer.exe">npp.7.5.8 </a>
         <a href="http://nioting.com/xe/game_souce_XP/225138">RPG 이미지사이트</a>
@@ -104,12 +188,14 @@
         </table>
         <button type="button">게시판</button>
     </center>
+    <p id="dio"></p>
+    <button type="button" onclick="f()">숫자야구게임</button>
     <script src="script.js"></script>
     <a style='clear:both;'data-clk="top.ann" href="https://ezgif.com/"><img src="https://cabinetm-beta.s3.amazonaws.com/0000015a-d47b-122b-0d09-2d7dae9c1780.jpg" width="50"></a>
 	<a data-clk="top.ann" href="https://pixlr.com/editor/"><img src="https://www.logolynx.com/images/logolynx/3a/3ae76dfc16771950d27d3b734869b8bc.jpeg" width="50"></a>
 	<details>
 		<summary> javascript 키보드 값 </summary>
-		<img src="/image/JavascriptKeyboard.png" style="width:100%" title="js 키보드 값">
+		<img src="https://diotheworld.github.io/image/JavascriptKeyboard.png" style="width:100%" title="js 키보드 값">
 	</details>
 
     </body>
