@@ -1,98 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
 <head>
+	<title>What is this site??</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<base href="https://blackbearwow.github.io/" target="_blank">
 	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
-    <title>w</title>
+	<link rel="shortcut icon" href="/favicon/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-		body{
-			background-image: url("https://diotheworld.github.io/image/paper.gif");
-			font-family:Aldrich;
-			font-size: 1.7vw;
-		}
-		input.tt{
-			width: 10%;
-			padding: 5px 5px;
-			transition: 0.5s;
-			background-color:lightgreen;
-			border: 0.3vw solid #aaa;
-			border-radius: 15px;
-			font-size: 1.2vw;
-			font-family:Aldrich;
-		}
-		input.tt:focus{
-			border: 0.3vw solid #555;
-			transition: width 0.5s ease-in-out;
-		}
-		input[name=comment]:focus{
-			width: 90%;
-		}
-		input[name=id]:focus, input[name=password]:focus{
-			width: 20%;
-		}
-		input[type=submit]{
-			width: 15%;
-			background-color: #4CAF50;
-			color:white;
-			padding: 0.6vw;
-			margin:4px 10px;
-			border:none;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 1vw;
-		}
-		div {
-			border-radius: 10px;
-			background-color: #f2f2f2;
-			animation-name:forma;
-			animation-duration: 30s;
-			animation-iteration-count:infinite;
-		}
-		@keyframes forma{
-			0%	{background-color:DeepPink;}
-			5%	{background-color:red;}
-			10%	{background-color:Coral;}
-			15%	{background-color:Orange;}
-			20%	{background-color:yellow;}
-			25%	{background-color:lightgreen;}
-			30%	{background-color:green;}
-			35%	{background-color:Teal;}
-			40%	{background-color:MediumBlue;}
-			45%	{background-color:RebeccaPurple ;}
-			50%{background-color:Purple;}
-			55%	{background-color:RebeccaPurple ;}
-			60%	{background-color:MediumBlue;}
-			65%	{background-color:Teal;}
-			70%	{background-color:green;}
-			75%	{background-color:lightgreen;}
-			80%	{background-color:yellow;}
-			85%	{background-color:Orange;}
-			90%	{background-color:Coral;}
-			95%{background-color:red;}
-			100%{background-color:DeepPink;}
+		body
+		{
+			background-image: url("/image/paper.gif");
 		}
 	</style>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="background-color:lightgreen">
-    <center>
-<!--	https://potent-poetry-214213.appspot.com/
-		https://8080-dot-4319447-dot-devshell.appspot.com/?authuser=0#
-		-->
-		<div>
-		<!--<form action="https://8080-dot-4319447-dot-devshell.appspot.com/login?authuser=0#" method="post">-->
-		<form action="https://potent-poetry-214213.appspot.com/login" method="post">
-    		<legend>Login</legend>
-    		username : <input class='tt' type="text" name="id"/><br>
-    		password : <input class='tt' type="password" name="password"/><br>
-    		<input type="submit" value="login" >
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="/">SITES BY JH</a>
+    	<ul class="navbar-nav mr-auto">
+    		<li class="nav-item">
+        		<a class="nav-link" href="GameList.html">Games</a>
+    		</li>
+   			<li class="nav-item">
+        		<a class="nav-link" href="sites.html">Sites</a>
+	    	</li>
+	    	<li class="nav-item">
+        		<a class="nav-link" href="/">Problems</a>
+    		</li>
+    		<li class="nav-item">
+        		<a class="nav-link" href="https://potent-poetry-214213.appspot.com/">Login</a>
+    		</li>
+    	</ul>
+	    <form class="form-inline my-2 my-lg-0">
+    		<input class="form-control mr-sm-2" type="text" placeholder="Search">
+	    	<button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
     	</form>
-		</div>
+	</nav>
+	<br>
+	<ul>
+		<li><a href='/' style="background-color:green">SITES BY JH</a></li>
+		<li><a href='GameList.html'>Games</a></li>
+		<li><a href="sites.html">Sites</a></li>
+		<li><a href=''>Problems</a></li>
+		<li><a href='https://potent-poetry-214213.appspot.com/'>Login</a></li>
+	</ul>
+    <center>
+		<input type="text" name="id" /><button onclick="notset()">검색</button><br>
+        <input type="button" onclick="alert('JH의 사이트에 온걸 환영해~^^\n아직 개발중이야 ~ㅇ3ㅇ~');" value="도움말" />
+		<br>
+	<a href="https://download.sublimetext.com/Sublime%20Text%20Build%203176%20Setup.exe">sublimetext</a>
+	<a href="https://notepad-plus-plus.org/repository/7.x/7.5.8/npp.7.5.8.Installer.exe">npp.7.5.8 </a>
+        <a href="http://nioting.com/xe/game_souce_XP/225138">RPG 이미지사이트</a>
+	<a href="http://appdown.naver.com/naver/ndrive/NDrive32_NEW/NaverDriveInst.exe">NaverDriveInst.exe 32bit 2.0 ver</a>
+	<a href="https://sourceforge.net/projects/orwelldevcpp/files/latest/download">Dev C++</a>
+	<br>
+	<a href="https://kr.bandisoft.com/bandizip/dl.php?web-kr">반디집</a>
+	<a href="https://drive.google.com/uc?id=1YSwbaXAK4ReEB0O6mIvuVaOOd9a9r6LG&export=download">star</a>
+		<pre>
+		<a style="letter-spacing: -6px;">http://ca.nexon.com/Intro/Information/Item</a>
+		▲샘플 <a href='https://www.myinstants.com/index/kr/?page=1'>버튼 효과음 사이트 </a>
+		</pre>
+        <a href="https://notepad-plus-plus.org/">notepad</a>
+        <a class="test" href="Test.html">test1</a>
+        <a class="test" href="Test2.html">test2</a>
+        <a class="test" href="Test3.html">test3</a>
+        <a class="test" href="Test4.html">test4</a>
+        <a class="test" href="Test5.html">test5</a>
+        <a class="test" href="Test6.html">test6</a>
+        <a class="test" href="Test7.html">test7</a>
+        <hr />
+	<pre>script에서 document.write()는 document["write"]()와 같다.
+	</pre>
+        <p style="font-family:Aldrich; color:tomato">https://www.w3schools.com/howto/howto_google_fonts.asp</p>
+        <a href="Answer.html">처형인들 8가지 모자 문제</a>
     </center>
-	<br><br><br><br><br>
-	<div>
-	<!--<form action="https://8080-dot-4319447-dot-devshell.appspot.com/comment?authuser=0#" method="post" >-->
-	<form action="https://potent-poetry-214213.appspot.com/comment" method="post" >
-		익명댓글 : <input class='tt' type="text" name="comment"/><br>
-    	<input type="submit" value="댓글달기"></form>
-	</div>
+    <center>
+        <table style="font-size:2vw">
+            <tbody>
+                <tr>
+                    <th><del>이것들은 문제들</del></th>
+                    <th><del>너는 이것들을 과연 어디까지 풀 수 있을까?</del></th>
+                </tr>
+                <tr>
+                    <td> <a href="Problem1.html">314</a> </td>
+                    <td> <a href="">수학</a> </td>
+                </tr>
+                <tr>
+                    <td> <a style="color:green" href="">암호</a> </td>
+                    <td> <a style="color:blue" href="">상식</a> </td>
+                </tr>
+                <tr>
+                    <td> <a href="숫자야구.html">숫자야구</a> </td>
+                    <td> <a href="NumberBaseballGame.html">numberbaseballgame</a> </td>
+                </tr>
+                <tr>
+                    <td> <a href="">미정</a> </td>
+                    <td> <a style="color:purple" href="">미정</a> </td>
+                </tr>
+                <tr>
+                    <td> <a href="">미정</a> </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button">게시판</button>
+    </center>
+    <script src="script.js"></script>
+    <a style='clear:both;'data-clk="top.ann" href="https://ezgif.com/"><img src="https://cabinetm-beta.s3.amazonaws.com/0000015a-d47b-122b-0d09-2d7dae9c1780.jpg" width="50"></a>
+	<a data-clk="top.ann" href="https://pixlr.com/editor/"><img src="https://www.logolynx.com/images/logolynx/3a/3ae76dfc16771950d27d3b734869b8bc.jpeg" width="50"></a>
+	<details>
+		<summary> javascript 키보드 값 </summary>
+		<img src="/image/JavascriptKeyboard.png" style="width:100%" title="js 키보드 값">
+	</details>
+
     </body>
 </html>
