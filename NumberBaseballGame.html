@@ -1,130 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
-<script>
-var order=0;//0 당신순서 1 컴퓨터 순서
-var set=0,DOAN=[];
-var Qnum,S,B;
-var Src=[
-	'http://www.supercoloring.com/sites/default/files/styles/coloring_medium/public/cif/2009/08/Mario-in-his-thoughts-coloring-page.jpg',
-	'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G',
-	'https://i.pinimg.com/originals/2a/8a/a6/2a8aa6a6f61d0442a2e6ae7a012f41f1.png',
-	'https://st2.depositphotos.com/1024768/6409/v/950/depositphotos_64098703-stock-illustration-man-with-cupcake-coloring-page.jpg',
-	'http://images.yodibujo.es/img/vignettes/sailor-moon-5-38225.jpg',
-	'http://es.colorkid.net/sites/default/files/styles/big_father/public/1433777747_5.gif?itok=RQr_Cunc',
-	'http://img2.sbs.co.kr/img/sbs_cms/CH/2017/04/28/CH33108141_w666_h968.jpg',
-	'https://ncache.ilbe.com/files/attach/new/20140309/14357299/3089151719/3124270861/d5ea010f630473eed42d42cf4a0054bd.gif',
-	'http://file3.instiz.net/data/file3/2018/02/26/9/3/6/93678a793aad9d1c0304cadfe0342257.gif',
-	'http://pa1.narvii.com/6581/233072c80d55b03fb19ef9d314c86e41eacd8f19_00.gif'
-];
-function print(parameter){
-	document.write(parameter+'<br>');
-}
-var baseNum=[0,1,2,3,4,5,6,7,8,9];
-var Num=[];
-var log=[],cLog;
-for(i=0;i<4;){
-	set=1;
-	Qnum=Math.floor(Math.random()*10);
-	for(j=0;j<Num.length+1;j++)if(Num[j]==Qnum)set=0;
-	if(set){Num[Num.length]=Qnum;i++}
-}
-//document.write(Num);//먗츌 슛땨 생셩
-//갓늉햔 슛땨 묙룍 생셩 5040
-var possibleNum=[];
-for(a=0;a<=9;a++)for(b=0;b<=9;b++)for(c=0;c<=9;c++)for(d=0;d<=9;d++){
-	if((b!=a)&&(c!=a)&&(c!=b)&&(d!=a)&&(d!=b)&&(d!=c))
-	possibleNum[possibleNum.length]=[a,b,c,d];
-}
+<head>
+    <title>숫자야구</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-function checkNum(DOAN){
-	var S=0,B=0;
-	a=Num[0];b=Num[1];c=Num[2];d=Num[3];
-	e=DOAN[0];f=DOAN[1];g=DOAN[2];h=DOAN[3];
-	if(a==e)S+=1;if(b==f)S+=1;if(c==g)S+=1;if(d==h)S+=1;
-	if((a==f)||(a==g)||(a==h))B+=1;if((b==e)||(b==g)||(b==h))B+=1;if((c==e)||(c==f)||(c==h))B+=1;if((d==e)||(d==f)||(d==g))B+=1;
-	return [S,B];
-}
-function checkNumPossible(e,f,g,h,Strike,Ball){
-	for(i=0;i<possibleNum.length;i++){
-		var S=0,B=0;
-		a=possibleNum[i][0];b=possibleNum[i][1];c=possibleNum[i][2];d=possibleNum[i][3];
-		if(a==e)S+=1;if(b==f)S+=1;if(c==g)S+=1;if(d==h)S+=1;
-		if((a==f)||(a==g)||(a==h))B+=1;if((b==e)||(b==g)||(b==h))B+=1;if((c==e)||(c==f)||(c==h))B+=1;if((d==e)||(d==f)||(d==g))B+=1;
-		if(!((S==Strike)&&(B==Ball))) { possibleNum.splice(i,1); i--;}
-	}
-}
-function isSame(){
-	//var Qnum=document.nn.number.value;
-	Qnum=document.getElementById('whatIsNum').value;//정답입력 칸 숫자 가져옴
-	S=document.getElementById('SStrike').value;
-	B=document.getElementById('BBall').value;
-	set=0;
-	analyzeNum=Qnum;
-	//숫자 중복 확인 digits of a number
-	if(order==0){
-		DOAN[0]=Math.floor(analyzeNum/1000); analyzeNum-=DOAN[0]*1000;
-		DOAN[1]=Math.floor(analyzeNum/100); analyzeNum-=DOAN[1]*100;
-		DOAN[2]=Math.floor(analyzeNum/10); analyzeNum-=DOAN[2]*10;
-		DOAN[3]=Math.floor(analyzeNum); analyzeNum-=DOAN[3];
-		for(i=0;i<4;i++){for(j=i+1;j<4;j++){if(DOAN[i]==DOAN[j]) set=1;}}
-		
-		if(Qnum<0123){document.getElementById('comQ').innerHTML='숫자가 너무 작앙';}
-		else if(Qnum>9876){document.getElementById('comQ').innerHTML='숫자가 너무 컹';}
-		else if(set){document.getElementById('comQ').innerHTML='숫자가 중복됬엉';}
-		else{
-			SB=checkNum(DOAN); ss1='-Log(기록)-<br>현재까지 정답시도 횟수: '+(log.length+1)+'<br>';
-			log[log.length]=[DOAN[0],DOAN[1],DOAN[2],DOAN[3],SB[0],SB[1]];
-			for(i=0;i<log.length;i++){
-				ss1=ss1+(i+1)+'번째 시도▶ Number: '+log[i][0]+log[i][1]+log[i][2]+log[i][3]+' Strike: '+log[i][4]+' Ball: '+log[i][5]+'<br>';
-			}
-			document.getElementById('currentSituation').innerHTML=ss1+'<br>';
-			cLog=possibleNum[Math.floor(Math.random()*possibleNum.length)];
-			document.getElementById('comQ').innerHTML='Strike: '+SB[0]+' Ball: '+SB[1]+'<br><br>'+cLog+'?';//말풍선
-			order=1;
-			document.getElementById('aiw').style.display="none";
-			document.getElementById('SSBB').style.display="block";
-			if(SB[0]==4)
-				document.getElementById('comQ').innerHTML='크~너가이겼어!<br> 인정할게';//말풍선
-		}
-	}
-	else {
-		document.getElementById('me').src=Src[Math.floor(Math.random()*Src.length)];
-		//checkNumPossible(log[log.length-1][0],log[log.length-1][1],log[log.length-1][2],log[log.length-1][3],S,B);
-		checkNumPossible(cLog[0],cLog[1],cLog[2],cLog[3],S,B);
-		document.getElementById('comQ').innerHTML='음...';//말풍선
-		order=0;
-		document.getElementById('aiw').style.display="block";
-		document.getElementById('SSBB').style.display="none";
-		if(possibleNum.length==0) document.getElementById('comQ').innerHTML='잘못알려줬어..<br>다시해야겠는걸?';//말풍선
-		if(S==4) document.getElementById('comQ').innerHTML='하하 <br>내가 이겼네!';//말풍선
-	}
-	ss2='';
-	for(i=0;i<possibleNum.length;i++)
-		ss2=ss2+possibleNum[i]+'<br>';
-	//document.getElementById('possibleNum').innerHTML='경우의수:'+possibleNum.length+'<br>'+ss2;//숫쟈 묙룍 냐열
-}
-</script>
-<br><hr><br>
-<div style="position:relative; width:500; height:500; float:left"><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIK3_eTavHyApTrDxpYchOaXrpV_GhCZ6WADxjkt6S8o4Fd9G' id='me' style="z-index:-1; posiiton:relative; width:500; height:500; float:left">
-<div style="position:absolute; right:0; top:0;"><img src='https://diotheworld.github.io/image/말풍선.png' style="width:150; height:150;"></div>
-<div id='comQ' style="position:absolute; right:30; top:55;">음..뭘까</div>
-</div>
-<center>
-<div id="currentSituation">
--숫자야구게임-<hr>
-규칙:<br>
--4자리 숫자야구게임이다<br>
--컴퓨터와 당신의 대결이다<br>
--컴퓨터의 알고리즘은 주호가 만들었다<br>
--당신의 차례에는 정답입력칸에 입력하고 '확인'버튼을 누르면 된다.<br>
--컴퓨터가 대답하는 숫자에 대한 strike와 ball을 입력해줘라.<br>
--숫자를 정해라. 정했나? 그러면 시작하라. 당신이 선이다.<br>
-</div>
-<br><hr><br>
-<div id='aiw'>뭘까? 맞춰봐! <input type="number" name='number' id='whatIsNum' ></div>
-<div id='SSBB' style='display:none;'>Strike: <input type="number" name='SStrike' id='SStrike' maxlength="1" size="1" > Ball: <input type="number" name='BBall' id='BBall' size="1" maxlength="1">
-</div>
-<input type='button' onclick='isSame()' value='확인'>
-<hr>
-<p id="possibleNum">맞춰봐잉</p>
-</center>
+    <script>
+        var difficulty = 0; //불가능한 버전set
+        var order = 0;//0 당신순서 1 컴퓨터 순서
+        function changeDifficulty() { difficulty = document.getElementById("selectDifficulty").value; }
+        function changeAttackOrder() { order = document.getElementById("selectAttackOrder").value; }
+
+        function startGame() 
+        {
+            document.getElementById('selectAttackOrderAndDifficulty').style.display = "none";
+            if(order==0) myTurn();
+            else if(order==1) pikachuTurn();
+        }
+        function myTurn()
+        {
+            document.getElementById('guess').style.display = "none";
+            document.getElementById('whatIsPikachuNum').style.display = "block";
+            document.getElementById('pikachuSay').innerHTML = '맞춰봐!';
+            if (InputStrike == 4) document.getElementById('pikachuSay').innerHTML = '하하 <br>내가 이겼네!';
+
+            if(pikachuGuessNum != undefined)
+            {
+                var logComment = '피카츄 정답시도 횟수: ' + (pLog.length + 1) + '<br>';
+                pLog[pLog.length] = [pikachuGuessNum[0], pikachuGuessNum[1], pikachuGuessNum[2], pikachuGuessNum[3], InputStrike, InputBall];
+                for (var i = 0; i < pLog.length; i++) {
+                    logComment = logComment + (i + 1) + '번째-숫자: ' + pLog[i][0] + pLog[i][1] + pLog[i][2] + pLog[i][3] + ' Strike: ' + pLog[i][4] + ' Ball: ' + pLog[i][5] + '<br>';
+                }
+                document.getElementById('pikachuLog').innerHTML = logComment;
+            }
+        }
+        function pikachuTurn()
+        {
+            document.getElementById('guess').style.display = "block";
+            document.getElementById('whatIsPikachuNum').style.display = "none";
+            pikachuGuessNum = possibleNum[Math.floor(Math.random() * possibleNum.length)];
+            if(SB==undefined)
+                document.getElementById('pikachuSay').innerHTML = pikachuGuessNum + '맞아? <br>몇스트라이크 몇볼이야?';
+            else if (SB[0] == 4)
+                document.getElementById('pikachuSay').innerHTML = '와우~ 너가 이겼어~ <br>축하해~';
+            else
+                document.getElementById('pikachuSay').innerHTML = SB[0]+"스트라이크"+SB[1]+"볼이야.<br>"+pikachuGuessNum + '맞아? <br>몇스트라이크 몇볼이야?';
+        }
+        var possibleSB = [  //가능한 Strike Ball목록
+            [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 0], [1, 1], [1, 2], [1, 3], [2, 0], [2, 1], [2, 2], [3, 0], [3, 1], [4, 0]
+        ];
+        var DOAN = []; //digits of a number
+        var InputNum, InputStrike, InputBall;   //입력한 숫자, 입력한 스트라이크, 입력한 볼
+        var WIM = new Array(15), countWIM = new Array(15);
+        var baseNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var Num = []; //Num은 피카츄의 숫자
+        var log = []; //사용자가 정답시도한 기록
+        var pLog = []; //피카츄가 정답시도한 기록
+        var SB; //몇스트라이크 몇볼인지
+        var pikachuGuessNum; //pikachuGuessNum은 유저에게 물어보는 숫자. 
+        function makePikachuNum()
+        {
+            for (var i = 0; i < 4;) {
+                var overlap = 0;
+                InputNum = Math.floor(Math.random() * 10);
+                for (var j = 0; j < Num.length + 1; j++)if (Num[j] == InputNum) overlap = 1;
+                if (overlap==0) { Num[Num.length] = InputNum; i++ }
+            }
+        }
+        //document.write(Num);//맞출 숫자 생성
+        var tempNums = []; //잘못된값을입력했는지 체크하기위한 변수
+        var possibleNum = [];    //possibleNum은 피카츄가 나를 추측하면서 사용되는 숫자리스트
+        var possibleNum2 = [];
+        function init()
+        {
+            initPossibleNum();
+            makePikachuNum();
+        }
+        function initPossibleNum()
+        {
+            for (a = 0; a <= 9; a++)for (b = 0; b <= 9; b++)for (c = 0; c <= 9; c++)for (d = 0; d <= 9; d++) {
+                if ((b != a) && (c != a) && (c != b) && (d != a) && (d != b) && (d != c)) {
+                    possibleNum[possibleNum.length] = [a, b, c, d];
+                    possibleNum2[possibleNum2.length] = [a, b, c, d];
+                }
+            }
+            //가능한 숫자 목록 생성 0123~6789
+        }
+        function compareNum(DOAN) {
+            var S = 0, B = 0;
+            a = Num[0]; b = Num[1]; c = Num[2]; d = Num[3];
+            e = DOAN[0]; f = DOAN[1]; g = DOAN[2]; h = DOAN[3];
+            if (a == e) S += 1; if (b == f) S += 1; if (c == g) S += 1; if (d == h) S += 1;
+            if ((a == f) || (a == g) || (a == h)) B += 1; if ((b == e) || (b == g) || (b == h)) B += 1; if ((c == e) || (c == f) || (c == h)) B += 1; if ((d == e) || (d == f) || (d == g)) B += 1;
+            return [S, B];
+        }
+        function checkNumPossible(e, f, g, h, Strike, Ball) { //사용자가 잘못입력했는지 확인하는 함수
+            for(var i = 0; i < possibleNum.length; i++)
+                tempNums[i] = possibleNum[i];
+            for (var i = 0; i < tempNums.length; i++) { //가능한 숫자 목록들 점검
+                var S = 0, B = 0;
+                a = tempNums[i][0]; b = tempNums[i][1]; c = tempNums[i][2]; d = tempNums[i][3];
+                if (a == e) S += 1; if (b == f) S += 1; if (c == g) S += 1; if (d == h) S += 1;
+                if ((a == f) || (a == g) || (a == h)) B += 1; if ((b == e) || (b == g) || (b == h)) B += 1; if ((c == e) || (c == f) || (c == h)) B += 1; if ((d == e) || (d == f) || (d == g)) B += 1;
+                if (!((S == Strike) && (B == Ball))) { tempNums.splice(i, 1); i--; } //가능한 숫자 목록에서 Strike, Ball이 틀린 경우 제외
+            }
+            return tempNums.length;
+        }
+        function applyNumPossible(e, f, g, h, Strike, Ball) { //가능한 숫자 목록을 줄인다
+            for (var i = 0; i < possibleNum.length; i++) { //가능한 숫자 목록들 점검
+                var S = 0, B = 0;
+                a = possibleNum[i][0]; b = possibleNum[i][1]; c = possibleNum[i][2]; d = possibleNum[i][3];
+                if (a == e) S += 1; if (b == f) S += 1; if (c == g) S += 1; if (d == h) S += 1;
+                if ((a == f) || (a == g) || (a == h)) B += 1; if ((b == e) || (b == g) || (b == h)) B += 1; if ((c == e) || (c == f) || (c == h)) B += 1; if ((d == e) || (d == f) || (d == g)) B += 1;
+                if (!((S == Strike) && (B == Ball))) { possibleNum.splice(i, 1); i--; } //가능한 숫자 목록에서 Strike, Ball이 틀린 경우 제외
+            }
+        }
+        function checkNumPossible2(e, f, g, h, Strike, Ball) {
+            for (var i = 0; i < possibleNum2.length; i++) {
+                var S = 0, B = 0;
+                a = possibleNum2[i][0]; b = possibleNum2[i][1]; c = possibleNum2[i][2]; d = possibleNum2[i][3];
+                if (a == e) S += 1; if (b == f) S += 1; if (c == g) S += 1; if (d == h) S += 1;
+                if ((a == f) || (a == g) || (a == h)) B += 1; if ((b == e) || (b == g) || (b == h)) B += 1; if ((c == e) || (c == f) || (c == h)) B += 1; if ((d == e) || (d == f) || (d == g)) B += 1;
+                if (!((S == Strike) && (B == Ball))) { possibleNum2.splice(i, 1); i--; }
+            }
+        }
+        function AAPossible(e, f, g, h, sb, k) {
+            var tempNum = possibleNum2.slice();
+            for (var i = 0; i < tempNum.length; i++) {
+                var S = 0, B = 0;
+                a = tempNum[i][0]; b = tempNum[i][1]; c = tempNum[i][2]; d = tempNum[i][3];
+                if (a == e) S += 1; if (b == f) S += 1; if (c == g) S += 1; if (d == h) S += 1;
+                if ((a == f) || (a == g) || (a == h)) B += 1; if ((b == e) || (b == g) || (b == h)) B += 1; if ((c == e) || (c == f) || (c == h)) B += 1; if ((d == e) || (d == f) || (d == g)) B += 1;
+                if (!((S == sb[0]) && (B == sb[1]))) { tempNum.splice(i, 1); i--; }
+            }
+            return [tempNum.length, k];
+        }
+        function pikachuNumIs()
+        {
+            InputNum = document.getElementById('whatIsNum').value;//정답입력 칸 숫자 가져옴
+            analyzeNum = InputNum;
+            var overlap = 0;
+            DOAN[0] = Math.floor(analyzeNum / 1000); analyzeNum -= DOAN[0] * 1000;
+            DOAN[1] = Math.floor(analyzeNum / 100); analyzeNum -= DOAN[1] * 100;
+            DOAN[2] = Math.floor(analyzeNum / 10); analyzeNum -= DOAN[2] * 10;
+            DOAN[3] = Math.floor(analyzeNum); analyzeNum -= DOAN[3];
+            for (var i = 0; i < 4; i++) { for (var j = i + 1; j < 4; j++) { if (DOAN[i] == DOAN[j]) overlap = 1; } }
+            if (InputNum < 0123) { document.getElementById('pikachuSay').innerHTML = '숫자가 너무 작아'; }
+            else if (InputNum > 9876) { document.getElementById('pikachuSay').innerHTML = '숫자가 너무 커'; }
+            else if (overlap) { document.getElementById('pikachuSay').innerHTML = '숫자가 중복됐어'; }
+            else
+            {
+                if (difficulty == 0) { SB = compareNum(DOAN); }
+                else 
+                {
+                    for (var i = 0; i < 15; i++) {
+                        WIM[i] = AAPossible(DOAN[0], DOAN[1], DOAN[2], DOAN[3], possibleSB[i], i);
+                        countWIM[i] = WIM[i][0];
+                    }
+                    countWIM.sort(function (a, b) { return b - a });//가장 많은 경우의수 가진 경우
+                    for (var i = 0; i < 15; i++) {
+                        if (WIM[i][0] == countWIM[0]) {
+                            SB = possibleSB[i];
+                            checkNumPossible2(DOAN[0], DOAN[1], DOAN[2], DOAN[3], SB[0], SB[1]);
+                        }
+                    }
+                    //SB=[0,0];
+                }
+                var logComment = '내 정답시도 횟수: ' + (log.length + 1) + '<br>';
+                log[log.length] = [DOAN[0], DOAN[1], DOAN[2], DOAN[3], SB[0], SB[1]];
+                for (var i = 0; i < log.length; i++) {
+                    logComment = logComment + (i + 1) + '번째-숫자: ' + log[i][0] + log[i][1] + log[i][2] + log[i][3] + ' Strike: ' + log[i][4] + ' Ball: ' + log[i][5] + '<br>';
+                }
+                document.getElementById('userLog').innerHTML = logComment;
+                order=1;
+                pikachuTurn();
+            }
+        }
+        function userNumIs()
+        {
+            InputStrike = document.getElementById('StrikeNum').value;
+            InputBall = document.getElementById('BallNum').value;
+            var count = checkNumPossible(pikachuGuessNum[0], pikachuGuessNum[1], pikachuGuessNum[2], pikachuGuessNum[3], InputStrike, InputBall);
+            if(count==0) //가능한 경우가 없다면 다시 골라야함
+            {
+                document.getElementById('pikachuSay').innerHTML = '잘못 입력한것 같아. 다시 골라줘<br>' + pikachuGuessNum + "맞아?";
+                return;
+            }
+            applyNumPossible(pikachuGuessNum[0], pikachuGuessNum[1], pikachuGuessNum[2], pikachuGuessNum[3], InputStrike, InputBall);
+            order=0;
+            myTurn();
+        }
+    </script>
+</head>
+<body onload="init()">
+    <div class="container p-3 my-3 bg-dark text-white">
+        <div class="d-flex justify-content-center">
+            <h4 class="center">숫자야구게임</h4>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col container">
+                <div id="pikachuLog">
+                </div>
+                <div style="position:relative;">
+                    <img src="https://blackbearwow.github.io/image/pikachu.png" style="width:100%; position:relative;">
+                    <div class="bg-primary text-white" id="pikachuSay" style="position:absolute; top:0px;">
+                        안녕~
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="currentSituation">
+                <div id="userLog">
+                    -4자리 숫자야구게임이다<br>
+                    -피카츄와 당신의 대결이다<br>
+                    -공격순서, 난이도를 선택후 시작하면 된다<br>
+                </div>
+                <br>
+                <div id='selectAttackOrderAndDifficulty'>
+                    공격순서:<select class="selectpicker btn btn-primary" data-style="btn-primary" onchange="changeAttackOrder()" id="selectAttackOrder">
+                        <option value="0">선공</option>
+                        <option value="1">후공</option>
+                    </select>
+                    <br><br>
+                    난이도&nbsp&nbsp&nbsp:<select class="selectpicker btn btn-primary" data-style="btn-primary" onchange="changeDifficulty()" id="selectDifficulty">
+                        <option value="0">보통난이도</option>
+                        <option value="1">어려운난이도</option>
+                    </select>
+                    <br><br>
+                    <input type="button" class="btn btn-success" onclick="startGame()" value="시작하기">
+                </div>
+                <div id='guess' style='display:none'>
+                    스트라이크:<select class="selectpicker btn btn-primary" data-style="btn-primary" onchange="changeAttackOrder()" id="StrikeNum">
+                        <option value="0">0스트라이크</option>
+                        <option value="1">1스트라이크</option>
+                        <option value="2">2스트라이크</option>
+                        <option value="3">3스트라이크</option>
+                        <option value="4">4스트라이크</option>
+                    </select>
+                    <br><br>
+                    볼&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<select class="selectpicker btn btn-primary" data-style="btn-primary" onchange="changeDifficulty()" id="BallNum">
+                        <option value="0">0볼</option>
+                        <option value="1">1볼</option>
+                        <option value="2">2볼</option>
+                        <option value="3">3볼</option>
+                        <option value="4">4볼</option>
+                    </select>
+                    <br><br>
+                    <input type="button" class="btn btn-success" onclick="userNumIs()" value="확인">
+                </div>
+                <div id='whatIsPikachuNum' style='display:none'>
+                    내 번호는 뭘까? <input type="number" name='number' id='whatIsNum' maxlength="4">
+                    <br>
+                    <input type="button" class="btn btn-success" onclick="pikachuNumIs()" value="확인">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
