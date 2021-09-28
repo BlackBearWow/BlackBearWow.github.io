@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <title>가위바위보</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var comRPS=0; //0이면 rock 1이면 paper 2면 scissors이다.
+        var myRPS=0; //내 rock paper scissors
+        var winner=0; //0이면 컴퓨터win 1이면 유저win
+        var intervalObject; //interval할때 반환되는 변수
+
+        function gameStart() 
+        {
+            document.getElementById('titletext').innerHTML = "가위바위보";
+            document.getElementById("startGame").style.display="none";
+            document.getElementById("selectedMyRPS").style.display="none";
+            document.getElementById("selectMyRPS").style.display="block";
+            intervalObject=setInterval(shuffleRPS, 50);
+        }
+        function shuffleRPS()   //컴퓨터의 rps을 막 돌린다.
+        {
+            comRPS = Math.floor(Math.random() * 3);
+            switch(comRPS)
+            {
+                case 0:
+                document.getElementById("comRock").style.display="block";
+                document.getElementById("comPaper").style.display="none";
+                document.getElementById("comScissors").style.display="none";
+                break;
+                case 1:
+                document.getElementById("comRock").style.display="none";
+                document.getElementById("comPaper").style.display="block";
+                document.getElementById("comScissors").style.display="none";
+                break;
+                case 2:
+                document.getElementById("comRock").style.display="none";
+                document.getElementById("comPaper").style.display="none";
+                document.getElementById("comScissors").style.display="block";
+                break;
+            }
+        }
+        function selectRock()
+        {
+            myRPS=0;
+            document.getElementById("myRock").style.display="block";
+            document.getElementById("myPaper").style.display="none";
+            document.getElementById("myScissors").style.display="none";
+            gameEnd();
+        }
+        function selectPaper()
+        {
+            myRPS=1;
+            document.getElementById("myRock").style.display="none";
+            document.getElementById("myPaper").style.display="block";
+            document.getElementById("myScissors").style.display="none";
+            gameEnd();
+        }
+        function selectScissors()
+        {
+            myRPS=2;
+            document.getElementById("myRock").style.display="none";
+            document.getElementById("myPaper").style.display="none";
+            document.getElementById("myScissors").style.display="block";
+            gameEnd();
+        }
+        function gameEnd()
+        {
+            clearInterval(intervalObject);
+            document.getElementById("selectMyRPS").style.display="none";
+            whoIsWinner();
+            document.getElementById("selectedMyRPS").style.display="block";
+            document.getElementById("startGame").style.display="block";
+        }
+        function whoIsWinner()
+        {
+            var distance=comRPS-myRPS;
+            switch(distance)
+            {
+                case 0:
+                document.getElementById('titletext').innerHTML = "비겼다";
+                break;
+                //비겼을때
+                case 1:
+                case -2:
+                document.getElementById('titletext').innerHTML = "내가 졌다..";
+                break;
+                //컴퓨터가 이겼을때
+                case -1:
+                case 2:
+                document.getElementById('titletext').innerHTML = "내가 이겼다!";
+                break;
+                //내가 이겼을때
+            }
+        }
+    </script>
+</head>
+<body onload="">
+    <div class="container p-3 my-3 bg-dark text-white">
+        <div class="d-flex justify-content-center">
+            <h2 class="center" id="titletext">가위바위보</h2>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col container">
+                <div>
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/rock.png" id="comRock" style="width:100%; display:none">
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/paper.png" id="comPaper" style="width:100%; display:none">
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/scissors.png" id="comScissors" style="width:100%;">
+                </div>
+                <div class="d-flex justify-content-center"><h4 class="center">컴퓨터</h4></div>
+            </div>
+            <div class="col container">
+                <div class="col container" id="selectedMyRPS">
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/rock.png" id="myRock" style="width:100%; display:none">
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/paper.png" id="myPaper" style="width:100%; display:none">
+                    <img src="https://blackbearwow.github.io/image/rockPaperScissors/scissors.png" id="myScissors" style="width:100%; ">
+                </div>
+                <div class="col row" id="selectMyRPS" style="display:none">
+                    <div class="col-md-4" onclick="selectRock()"><img src="https://blackbearwow.github.io/image/rockPaperScissors/rock.png" style="width:100%; "></div>
+                    <div class="col-md-4" onclick="selectPaper()"><img src="https://blackbearwow.github.io/image/rockPaperScissors/paper.png" style="width:100%; "></div>
+                    <div class="col-md-4" onclick="selectScissors()"><img src="https://blackbearwow.github.io/image/rockPaperScissors/scissors.png" style="width:100%; "></div>
+                    <br>
+                </div>
+                    <div class="d-flex justify-content-center"><h4 class="center">나</h4></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div id='startGame'>
+                <input type="b0utton" class="btn btn-success center" onclick="gameStart()" value="시작하기">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
