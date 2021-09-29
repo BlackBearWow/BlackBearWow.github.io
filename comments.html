@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+	<title>What is this site??</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+	<link rel="shortcut icon" href="/favicon/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body
+		{
+			background-image: url("https://blackbearwow.github.io/image/paper.gif");
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="/" target="_self">JH</a>
+    	<ul class="navbar-nav mr-auto">
+    		<li class="nav-item">
+        		<a class="nav-link" href="GameList.html" target="_self">Games</a>
+    		</li>
+   			<li class="nav-item">
+        		<a class="nav-link" href="sites.html" target="_self">Sites</a>
+	    	</li>
+	    	<li class="nav-item">
+        		<a class="nav-link" href="problems.html" target="_self">Problems</a>
+    		</li>
+    		<li class="nav-item">
+        		<a class="nav-link" href="Stuff.html" target="_self">Stuff</a>
+    		</li>
+    		<li class="nav-item dropdown">
+    			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        			펼치기
+      			</a>
+      			<div class="dropdown-menu">
+			        <a class="dropdown-item" href="comments.html">익명댓글</a>
+			        <a class="dropdown-item" href="accessBulletinBoard.html">게시판</a>
+      			</div>
+    		</li>
+    	</ul>
+	</nav>
+	<br>
+	<br>
+	<div class="container p-3 my-3 bg-dark text-white">
+		<h4>익명댓글</h4>
+		<ul class="list-group">
+			<!--thisissplitspace-->
+		</ul>
+	</div>
+	<br><br><br><br><br>
+	<div class="container p-3 my-3 bg-primary text-white fixed-bottom">
+		<form action="/commentApply" method="POST">
+			<div class="form-group">
+        		<input type="text" autocomplete="off" class="form-control" id="comment" placeholder="댓글달기" name="comment" maxlength="30" required>
+    		</div>
+    		<button type="submit" class="btn btn-success">Submit</button>
+		</form>
+	</div>
+    </body>
+</html>
